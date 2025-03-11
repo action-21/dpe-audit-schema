@@ -1,0 +1,5 @@
+name: dpe-autit-schema
+version: 0.1.0
+formats: [json, yaml]
+pattern: "schemas/**/?*.schema.yaml"
+schema: https://schemas.dpe-audit.fr/audit

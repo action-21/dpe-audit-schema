@@ -1,0 +1,26 @@
+$id: https://schemas.dpe-audit.fr/chauffage
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Chauffage
+type: object
+properties:
+  generateurs:
+    title: Liste des générateurs de chauffage
+    type: array
+    minContains: 1
+    items:
+      $ref: /chauffage/generateur
+  emetteurs:
+    title: Liste des émetteurs de chauffage
+    type: array
+    items:
+      $ref: /chauffage/emetteur
+  installations:
+    title: Liste des installations de chauffage
+    type: array
+    minContains: 1
+    items:
+      $ref: /chauffage/installation
+required:
+  - generateurs
+  - emetteurs
+  - installations

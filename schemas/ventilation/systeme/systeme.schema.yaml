@@ -1,0 +1,48 @@
+$id: https://schemas.dpe-audit.fr/ventilation/systeme
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Système de ventilation
+type: object
+properties:
+  id:
+    title: Identifiant unique au format UUID
+    type: string
+    format: uuid
+    examples: [9aec1555-e0fa-4b31-8978-6f7d1df394b6]
+  type:
+    title: Type de système de ventilation
+    type: string
+    enum:
+      - ventilation_mecanique
+      - ventilation_naturelle_ouverture_fenetres
+      - ventilation_naturelle_entrees_air_hautes_basses
+      - ventilation_naturelle_conduit
+      - ventilation_naturelle_conduit_entrees_air_hygroreglables
+    examples: [ventilation_mecanique]
+required:
+  - id
+  - type
+oneOf:
+  - title: Système de ventilation mécanique
+    type: object
+    properties:
+      type:
+        const: ventilation_mecanique
+      generateur_id:
+        title: Identifiant du générateur de ventilation associé au système
+        type: string
+        format: uuid
+        examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
+    required:
+      - type
+      - generateur_id
+  - title: Système de ventilation naturelle
+    type: object
+    properties:
+      type:
+        enum:
+          - ventilation_naturelle_ouverture_fenetres
+          - ventilation_naturelle_entrees_air_hautes_basses
+          - ventilation_naturelle_conduit
+          - ventilation_naturelle_conduit_entrees_air_hygroreglables
+    required:
+      - type

@@ -1,0 +1,127 @@
+$id: https://schemas.dpe-audit.fr/enveloppe
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Enveloppe
+type: object
+properties:
+  exposition:
+    title: Exposition
+    type: string
+    enum:
+      - exposition_simple
+      - exposition_multiple
+    examples: [exposition_simple, exposition_multiple]
+  q4pa_conv:
+    title: Perméabilité à l'air de l'enveloppe sous 4Pa connue et justifiée en m3/(h.m²)
+    type: ["number", "null"]
+    exclusiveMinimum: 0
+    default: null
+  planchers_intermedaires:
+    title: Liste des planchers intermédiaires
+    type: array
+    items:
+      $ref: "#/$defs/plancherIntermediaire"
+  refends:
+    title: Liste des refends
+    type: array
+    items:
+      $ref: "#/$defs/refend"
+  locaux_non_chauffes:
+    title: Liste des locaux non chauffés
+    type: array
+    items:
+      $ref: /enveloppe/local_non_chauffe
+  murs:
+    title: Liste des murs
+    type: array
+    items:
+      $ref: /enveloppe/mur
+  planchers_bas:
+    title: Liste des planchers bas
+    type: array
+    items:
+      $ref: /enveloppe/plancher_bas
+  planchers_hauts:
+    title: Liste des planchers hauts
+    type: array
+    items:
+      $ref: /enveloppe/plancher_haut
+  baies:
+    title: Liste des baies
+    type: array
+    items:
+      $ref: /enveloppe/baie
+  portes:
+    title: Liste des portes
+    type: array
+    items:
+      $ref: /enveloppe/porte
+  ponts_thermiques:
+    title: Liste des ponts thermiques
+    type: array
+    items:
+      $ref: /enveloppe/pont_thermique
+required:
+  - exposition
+  - q4pa_conv
+  - planchers_intermedaires
+  - refends
+  - locaux_non_chauffes
+  - murs
+  - planchers_bas
+  - planchers_hauts
+  - baies
+  - portes
+  - ponts_thermiques
+$defs:
+  plancherIntermediaire:
+    title: Plancher intermédiaire
+    type: object
+    properties:
+      description:
+        title: Description du plancher intermédiaire au format markdown
+        type: string
+        examples: [Un plancher intermédiaire]
+      surface:
+        title: Surface du plancher intermédiaire en m²
+        type: number
+        minimumExclusive: 0
+        examples: [10]
+      inertie:
+        title: Inertie
+        type: ["string", "null"]
+        enum:
+          - lourde
+          - legere
+          - null
+        default: null
+        examples: [lourde, legere]
+    required:
+      - description
+      - surface
+      - inertie
+  refend:
+    title: Refend
+    type: object
+    properties:
+      description:
+        title: Description du refend au format markdown
+        type: string
+        examples: [Un refend]
+      surface:
+        title: Surface du refend en m²
+        type: number
+        minimumExclusive: 0
+        examples: [10]
+      inertie:
+        title: Inertie
+        type: ["string", "null"]
+        enum:
+          - lourde
+          - legere
+          - null
+        default: null
+        examples: [lourde, legere]
+    required:
+      - description
+      - surface
+      - inertie

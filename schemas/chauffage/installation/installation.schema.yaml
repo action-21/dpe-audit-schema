@@ -1,0 +1,113 @@
+$id: https://schemas.dpe-audit.fr/chauffage/installation
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Installation de chauffage
+type: object
+properties:
+  id:
+    title: Identifiant unique de l'installation de chauffage au format UUID
+    type: string
+    format: uuid
+    examples: [9d615f30-c6f8-406f-8a1f-899617c472db]
+  description:
+    title: Description de l'installation de chauffage au format markdown
+    type: string
+    examples: [Une installation de chauffage]
+  surface:
+    title: Surface couverte par l'installation de chauffage en m²
+    type: number
+    exclusiveMinimum: 0
+    examples: [100]
+  comptage_individuel:
+    title: Comptage individuel
+    type: boolean
+    examples: [true]
+  solaire_thermique:
+    title: Solaire thermique
+    type: ["object", "null"]
+    oneOf:
+      - const: null
+      - $ref: "#/$defs/solaire"
+  regulation_centrale:
+    $ref: "#/$defs/regulation"
+    title: Régulation centrale
+  regulation_terminale:
+    $ref: "#/$defs/regulation"
+    title: Régulation terminale
+  systemes:
+    title: Liste des systèmes de chauffage associés à l'installation
+    type: array
+    minContains: 1
+    items:
+      $ref: /chauffage/systeme
+required:
+  - id
+  - description
+  - surface
+  - comptage_individuel
+  - solaire_thermique
+  - regulation_centrale
+  - regulation_terminale
+  - systemes
+$defs:
+  solaire:
+    title: Solaire thermique
+    type: object
+    properties:
+      usage:
+        title: Usages couverts par le solaire thermique
+        type: string
+        enum:
+          - chauffage
+          - chauffage_ecs
+        default: chauffage
+        examples: [chauffage]
+      annee_installation:
+        title: Année d'installation
+        type: ["integer", "null"]
+        default: null
+        examples: [2000]
+      fch:
+        title: Facteur de couverture solaire connu et justifié en %
+        type: number
+        minimum: 0
+        maximum: 100
+        examples: [50]
+    required:
+      - usage
+      - annee_installation
+      - fch
+  regulation:
+    title: Régulation
+    type: object
+    properties:
+      presence_regulation:
+        title: Présence d'une régulation
+        type: boolean
+        examples: [true]
+    required:
+      - presence_regulation
+    oneOf:
+      - title: Régulation
+        type: object
+        properties:
+          presence_regulation:
+            const: true
+          minimum_temperature:
+            title: Régulation avec minimum de température
+            type: boolean
+            examples: [true]
+          detection_presence:
+            title: Détection de présence
+            type: boolean
+            examples: [true]
+        required:
+          - presence_regulation
+          - minimum_temperature
+          - detection_presence
+      - title: Pas de régulation
+        type: object
+        properties:
+          presence_regulation:
+            const: false
+        required:
+          - presence_regulation

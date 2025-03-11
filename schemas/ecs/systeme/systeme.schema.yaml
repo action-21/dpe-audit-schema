@@ -1,0 +1,74 @@
+$id: https://schemas.dpe-audit.fr/ecs/systeme
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Système d'eau chaude sanitaire
+type: object
+properties:
+  id:
+    title: Identifiant unique au format UUID
+    type: string
+    format: uuid
+    examples: [570c8e85-524f-4279-81ad-87f2014f9205]
+  generateur_id:
+    title: Identifiant du générateur d'eau chaude sanitaire associé au système
+    type: string
+    format: uuid
+    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
+  reseau:
+    $ref: "#/$defs/reseau"
+  stockage:
+    title: Stockage indépendant
+    type: ["object", "null"]
+    default: null
+    oneOf:
+      - const: null
+      - $ref: "#/$defs/stockage"
+required:
+  - id
+  - generateur_id
+  - reseau
+  - stockage
+$defs:
+  reseau:
+    title: Réseau de distribution d'eau chaude sanitaire
+    type: object
+    properties:
+      alimentation_contigues:
+        title: Alimentation contigüe
+        type: boolean
+        examples: [true]
+      niveaux_desservis:
+        title: Nombre de niveaux desservis
+        type: integer
+        minimum: 1
+        examples: [1]
+      isolation_reseau:
+        title: Isolation du réseau
+        type: ["string", "null"]
+        enum: [isole, non_isole, null]
+        default: null
+        examples: [isole]
+      type_bouclage:
+        title: Type de bouclage
+        type: ["string", "null"]
+        enum: [reseau_non_boucle, reseau_boucle, reseau_trace, null]
+    required:
+      - alimentation_contigues
+      - niveaux_desservis
+      - isolation_reseau
+      - type_bouclage
+  stockage:
+    title: Stockage
+    type: object
+    properties:
+      volume_stockage:
+        title: Volume de stockage en l
+        type: number
+        exclusiveMinimum: 0
+        examples: [200]
+      position_volume_chauffe:
+        title: Position à l'intérieur volume chauffé
+        type: boolean
+        examples: [true]
+    required:
+      - volume_stockage
+      - position_volume_chauffe

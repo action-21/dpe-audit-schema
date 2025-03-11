@@ -1,0 +1,4 @@
+- description: Un masque proche
+  type_masque: masque_proche
+  type_masque_proche: fond_balcon
+  profondeur: 2.5

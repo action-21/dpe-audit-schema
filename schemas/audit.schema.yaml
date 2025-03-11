@@ -1,0 +1,118 @@
+$id: https://schemas.dpe-audit.fr/audit
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Audit
+type: object
+properties:
+  id:
+    title: Identifiant unique de l'audit au format UUID
+    type: string
+    format: uuid
+    examples: [4634c0b5-a515-4aa7-abc2-c6d6d81af75c]
+  date_etablissement:
+    title: Date d'établissement
+    type: string
+    format: date
+    examples: ["2025-01-01"]
+  adresse:
+    $ref: "#/$defs/adresse"
+  batiment:
+    $ref: "#/$defs/batiment"
+  logements:
+    title: Liste des logements visités
+    type: array
+    items:
+      $ref: /logement
+  enveloppe:
+    $ref: /enveloppe
+  ventilation:
+    $ref: /ventilation
+  refroidissement:
+    $ref: /refroidissement
+  chauffage:
+    $ref: /chauffage
+  ecs:
+    $ref: /ecs
+  production:
+    $ref: /production
+required:
+  - id
+  - date_etablissement
+  - adresse
+  - batiment
+  - logements
+  - enveloppe
+  - ventilation
+  - chauffage
+  - ecs
+  - refroidissement
+  - production
+$defs:
+  adresse:
+    title: Adresse
+    type: object
+    properties:
+      numero:
+        title: Numéro
+        type: ["string", "null"]
+        default: null
+        examples: ["1"]
+      voie:
+        title: Voie
+        type: string
+        examples: ["rue de la Paix"]
+      code_postal:
+        title: Code postal
+        type: string
+        examples: ["75000"]
+      commune:
+        title: Commune
+        type: string
+        examples: ["Paris"]
+      ban_id:
+        title: Identifiant BAN
+        type: ["string", "null"]
+        default: null
+    required:
+      - numero
+      - voie
+      - code_postal
+      - commune
+      - ban_id
+  batiment:
+    title: Bâtiment
+    type: object
+    properties:
+      annee_construction:
+        title: Année de construction
+        type: integer
+        examples: [1975]
+      altitude:
+        title: Altitude du bâtiment en m
+        type: integer
+        examples: [500]
+      logements:
+        title: Nombre de logements
+        type: integer
+        exclusiveMinimum: 0
+        examples: [1]
+      surface_habitable:
+        title: Surface habitable en m²
+        type: number
+        exclusiveMinimum: 0
+        examples: [150]
+      hauteur_sous_plafond:
+        title: Hauteur moyenne sous plafond en m
+        type: number
+        exclusiveMinimum: 0
+        examples: [2.8]
+      rnb_id:
+        title: Identifiant RNB
+        type: ["string", "null"]
+        default: null
+    required:
+      - annee_construction
+      - altitude
+      - logements
+      - surface_habitable
+      - hauteur_sous_plafond
+      - rnb_id

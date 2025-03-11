@@ -1,0 +1,5 @@
+- description: Un masque lointain homogène
+  type_masque: masque_lointain
+  type_masque_lointain: homogene
+  hauteur: 45
+  orientation: 35

@@ -1,0 +1,369 @@
+$id: https://schemas.dpe-audit.fr/ecs/generateur
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Générateur d'eau chaude sanitaire
+type: object
+properties:
+  id:
+    title: Identifiant unique au format UUID
+    type: string
+    format: uuid
+    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
+  description:
+    title: Description au format markdown
+    type: string
+    examples: [Un générateur d'eau chaude sanitaire]
+  type:
+    title: Type de générateur d'eau chaude sanitaire
+    type: string
+    enum:
+      - accumulateur
+      - chauffe_eau_instantane
+      - chauffe_eau_vertical
+      - chauffe_eau_horizontal
+      - chaudiere
+      - chaudiere_multi_batiment
+      - cet_air_ambiant
+      - cet_air_exterieur
+      - cet_air_extrait
+      - pac_double_service
+      - pac_multi_batiment
+      - poele_bouilleur
+      - reseau_chaleur
+    examples: [accumulateur]
+  energie:
+    $ref: "#/$defs/energie"
+  volume_stockage:
+    title: Volume de stockage en l
+    type: number
+    minimum: 0
+    examples: [200]
+  generateur_collectif:
+    title: Présence d'un générateur collectif d'eau chaude sanitaire
+    type: boolean
+    examples: [false]
+  position_volume_chauffe:
+    title: Position du générateur à l'intérieur du volume chauffé
+    type: boolean
+    examples: [true]
+  annee_installation:
+    title: Année d'installation connue et justifiée
+    type: ["integer", "null"]
+    default: null
+    examples: [2000]
+required:
+  - id
+  - description
+  - type
+  - energie
+  - volume_stockage
+  - generateur_collectif
+  - position_volume_chauffe
+  - annee_installation
+oneOf:
+  - title: Accumulateur
+    type: object
+    properties:
+      type:
+        const: accumulateur
+      energie:
+        $ref: "#/$defs/energie"
+        enum: [gaz_naturel, gpl]
+      volume_stockage:
+        exclusiveMinimum: 0
+    required:
+      - type
+      - energie
+      - volume_stockage
+    allOf:
+      - $ref: "#/$defs/combustion"
+  - title: Chauffe-eau instantané
+    type: object
+    properties:
+      type:
+        const: chauffe_eau_instantane
+      energie:
+        $ref: "#/$defs/energie"
+        enum: [gaz_naturel, gpl]
+      volume_stockage:
+        const: 0
+        default: 0
+    required:
+      - type
+      - energie
+      - volume_stockage
+    allOf:
+      - $ref: "#/$defs/combustion"
+  - title: Chauffe-eau électrique
+    type: object
+    properties:
+      type:
+        enum: [chauffe_eau_vertical, chauffe_eau_horizontal]
+      energie:
+        $ref: "#/$defs/energie"
+        const: electricite
+      pn:
+        $ref: "#/$defs/pn"
+      label:
+        $ref: "#/$defs/label"
+    required:
+      - type
+      - energie
+      - pn
+      - label
+  - title: Chaudière électrique
+    type: object
+    properties:
+      type:
+        const: chaudiere
+      energie:
+        const: electricite
+      pn:
+        $ref: "#/$defs/pn"
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - pn
+      - generateur_chauffage_id
+  - title: Chaudière à combustion
+    type: object
+    properties:
+      type:
+        const: chaudiere
+      energie:
+        $ref: "#/$defs/energieCombustion"
+      type_chaudiere:
+        $ref: "#/$defs/typeChaudiere"
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - type_chaudiere
+      - generateur_chauffage_id
+    allOf:
+      - $ref: "#/$defs/combustion"
+  - title: Chaudière multi-bâtiment
+    type: object
+    properties:
+      type:
+        const: chaudiere_multi_batiment électrique
+      energie:
+        const: electricite
+      generateur_collectif:
+        const: true
+        default: true
+      pn:
+        $ref: "#/$defs/pn"
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - generateur_collectif
+      - pn
+      - generateur_chauffage_id
+  - title: Chaudière multi-bâtiment à combustion
+    type: object
+    properties:
+      type:
+        const: chaudiere_multi_batiment
+      energie:
+        $ref: "#/$defs/energieCombustion"
+      generateur_collectif:
+        const: true
+        default: true
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - generateur_collectif
+      - generateur_chauffage_id
+    allOf:
+      - $ref: "#/$defs/combustion"
+  - title: Chauffe-eau thermodynamique
+    type: object
+    properties:
+      type:
+        enum: [cet_air_ambiant, cet_air_exterieur, cet_air_extrait]
+      energie:
+        $ref: "#/$defs/energie"
+        const: electricite
+      cop:
+        $ref: "#/$defs/cop"
+      pn:
+        $ref: "#/$defs/pn"
+    required:
+      - type
+      - energie
+      - cop
+      - pn
+  - title: Pompe à chaleur
+    type: object
+    properties:
+      type:
+        enum: [pac_double_service, pac_multi_batiment]
+      energie:
+        $ref: "#/$defs/energie"
+        const: electricite
+      cop:
+        $ref: "#/$defs/cop"
+      pn:
+        $ref: "#/$defs/pn"
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - cop
+      - pn
+      - generateur_chauffage_id
+  - title: Poêle bouilleur
+    type: object
+    properties:
+      type:
+        const: poele_bouilleur
+      energie:
+        $ref: "#/$defs/energie"
+        enum: [bois_buche, bois_plaquette, bois_granule]
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - generateur_chauffage_id
+    allOf:
+      - $ref: "#/$defs/combustion"
+  - title: Réseau de chaleur
+    type: object
+    properties:
+      type:
+        const: reseau_chaleur
+      energie:
+        $ref: "#/$defs/energie"
+        const: reseau_chaleur
+      reseau_chaleur_id:
+        title: Identifiant du réseau de chaleur
+        type: ["string", "null"]
+        default: null
+        examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
+      generateur_chauffage_id:
+        $ref: "#/$defs/generateurChauffage"
+    required:
+      - type
+      - energie
+      - reseau_chaleur_id
+      - generateur_chauffage_id
+$defs:
+  generateurChauffage:
+    title: Générateur de chauffage
+    type: ["string", "null"]
+    format: uuid
+    default: null
+    examples: [6a785019-8ce1-4768-b9c3-400b7bd2f1f3]
+  energie:
+    title: Energie
+    type: string
+    enum:
+      - electricite
+      - gaz_naturel
+      - gpl
+      - fioul
+      - charbon
+      - bois_buche
+      - bois_plaquette
+      - bois_granule
+      - reseau_chaleur
+    examples: [electricite]
+  energieCombustion:
+    $ref: "#/$defs/energie"
+    enum:
+      - gaz_naturel
+      - gpl
+      - fioul
+      - charbon
+      - bois_buche
+      - bois_plaquette
+      - bois_granule
+    examples: [gaz_naturel]
+  typeChaudiere:
+    title: Type de chaudière
+    type: ["string", "null"]
+    enum:
+      - chaudiere_murale
+      - chaudiere_sol
+      - null
+    default: null
+    examples: [chaudiere_murale]
+  label:
+    title: Label du générateur
+    type: ["string", "null"]
+    enum:
+      - ne_performance_a
+      - ne_performance_b
+      - ne_performance_c
+      - null
+    default: null
+    examples: [ne_performance_a]
+  pn:
+    title: Puissance nominale en kW
+    type: ["number", "null"]
+    exclusiveMinimum: 0
+    default: null
+    examples: [10]
+  cop:
+    title: Coefficient de performance énergétique
+    type: ["number", "null"]
+    exclusiveMinimum: 0
+    maximum: 10
+    default: null
+    examples: [5]
+  combustion:
+    title: Caractéristiques des générateurs à combustion
+    type: object
+    properties:
+      mode_combustion:
+        title: Mode de combustion
+        type: ["string", "null"]
+        enum:
+          - standard
+          - basse_temperature
+          - condensation
+          - null
+        default: null
+        examples: [basse_temperature]
+      presence_ventouse:
+        title: Présence d'une ventouse
+        type: ["boolean", "null"]
+        default: null
+        examples: [true]
+      pn:
+        $ref: "#/$defs/pn"
+      pveilleuse:
+        title: Puissance de la veilleuse en W
+        type: ["number", "null"]
+        minimum: 0
+        default: null
+        examples: [100]
+      qp0:
+        title: Pertes à l'arrêt en W
+        type: ["number", "null"]
+        exclusiveMinimum: 0
+        default: null
+        examples: [100]
+      rpn:
+        title: Rendement à puissance nominale sur PCI en %
+        type: ["number", "null"]
+        exclusiveMinimum: 0
+        maximum: 150
+        default: null
+        examples: [80]
+    required:
+      - mode_combustion
+      - presence_ventouse
+      - pn
+      - pveilleuse
+      - qp0
+      - rpn

@@ -1,0 +1,19 @@
+$id: https://schemas.dpe-audit.fr/ventilation
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Ventilation
+type: object
+properties:
+  generateurs:
+    title: Liste des générateurs de ventilation
+    type: array
+    items:
+      $ref: /ventilation/generateur
+  installations:
+    title: Liste des installations de ventilation
+    type: array
+    minContains: 1
+    items:
+      $ref: /ventilation/installation
+required:
+  - generateurs
+  - installations

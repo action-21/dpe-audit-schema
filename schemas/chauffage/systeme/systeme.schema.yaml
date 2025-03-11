@@ -1,0 +1,78 @@
+$id: https://schemas.dpe-audit.fr/chauffage/systeme
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Système de chauffage
+type: object
+properties:
+  generateur_id:
+    title: Identifiant unique du générateur de chauffage au format UUID
+    type: string
+    format: uuid
+    examples: [6a785019-8ce1-4768-b9c3-400b7bd2f1f3]
+  type:
+    title: Type de système
+    type: string
+    enum: [chauffage_central, chauffage_divise]
+    examples: [chauffage_central]
+required:
+  - generateur_id
+  - type
+oneOf:
+  - title: Chauffage central
+    type: object
+    properties:
+      type:
+        const: chauffage_central
+      reseau:
+        $ref: "#/$defs/reseau"
+      emetteurs:
+        title: Liste des émetteurs associés au système de chauffage
+        type: array
+        minContains: 1
+        items:
+          title: Identifiant unique de l'émetteur de chauffage au format UUID
+          type: string
+          format: uuid
+    required:
+      - type
+      - reseau
+      - emetteurs
+  - title: Chauffage divisé
+    type: object
+    properties:
+      type:
+        const: chauffage_divise
+    required:
+      - type
+$defs:
+  reseau:
+    title: Réseau de chauffage
+    type: object
+    properties:
+      type_distribution:
+        title: Type de distribution
+        type: string
+        enum:
+          - hydraulique
+          - aeraulique
+        examples: [hydraulique]
+      presence_circulateur_externe:
+        title: Présence d'un circulateur externe
+        type: boolean
+        examples: [true]
+        default: false
+      niveaux_desservis:
+        title: Nombre de niveaux desservis par le réseau
+        type: integer
+        minimum: 1
+        examples: [2]
+      isolation:
+        title: Isolation du réseau
+        type: ["string", "null"]
+        enum: [isole, non_isole, null]
+        default: null
+        examples: [isole]
+    required:
+      - type_distribution
+      - presence_circulateur_externe
+      - niveaux_desservis
+      - isolation

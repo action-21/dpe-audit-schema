@@ -1,0 +1,187 @@
+$id: https://schemas.dpe-audit.fr/enveloppe/porte
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Porte
+type: object
+properties:
+  id:
+    title: Identifiant unique de la porte au format UUID
+    type: string
+    format: uuid
+    examples: [6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5]
+  description:
+    title: Description de la porte au format markdown
+    type: string
+    examples: [Porte d'entrée]
+  type_pose:
+    title: Type de pose
+    type: string
+    enum: [nu_exterieur, nu_interieur, tunnel]
+    examples: [nu_interieur]
+  isolation:
+    title: État d'isolation de la porte
+    type: ["string", "null"]
+    enum: [isole, non_isole, null]
+    default: null
+    examples: [isole]
+  materiau:
+    title: Matériau de la porte
+    type: ["string", "null"]
+    enum: [pvc, bois, bois_metal, metal, null]
+    default: null
+    examples: [pvc]
+  presence_sas:
+    title: Présence d'un sas devant la porte
+    type: boolean
+    examples: [false]
+  annee_installation:
+    title: Année d'installation
+    type: ["integer", "null"]
+    default: null
+    examples: [2000]
+  u:
+    title: Coefficient de transmission thermique de la porte connu et justifié en W/m²K
+    type: ["number", "null"]
+    exclusiveMinimum: 0
+    default: null
+    examples: [2.5]
+  position:
+    $ref: "#/$defs/position"
+  menuiserie:
+    $ref: "#/$defs/menuiserie"
+  vitrage:
+    $ref: "#/$defs/vitrage"
+required:
+  - id
+  - description
+  - type_pose
+  - isolation
+  - materiau
+  - presence_sas
+  - annee_installation
+  - u
+  - position
+  - vitrage
+  - menuiserie
+$defs:
+  position:
+    title: Position de la porte
+    type: object
+    properties:
+      paroi_id:
+        title: Identifiant de la paroi associée à la porte
+        type: ["string", "null"]
+        format: uuid
+        default: null
+        examples: [6e2f8aea-2215-40c5-bb17-bf1c400ec2e9]
+      surface:
+        title: Surface totale de la porte en m²
+        type: number
+        exclusiveMinimum: 0
+        examples: [3.2]
+      mitoyennete:
+        title: Mitoyenneté de la porte
+        type: string
+        enum:
+          - exterieur
+          - enterre
+          - vide_sanitaire
+          - terre_plein
+          - sous_sol_non_chauffe
+          - local_non_chauffe
+          - local_non_residentiel
+          - local_residentiel
+          - local_non_accessible
+        examples: [local_non_chauffe]
+      orientation:
+        title: Orientation de la porte en degré par rapport au nord
+        type: ["number", "null"]
+        minimum: 0
+        exclusiveMaximum: 360
+        default: null
+        examples: [90]
+    required:
+      - paroi_id
+      - surface
+      - mitoyennete
+      - orientation
+    oneOf:
+      - title: Porte donnant sur un local non chauffé
+        type: object
+        properties:
+          mitoyennete:
+            const: local_non_chauffe
+          local_non_chauffe_id:
+            title: Identifiant du local non chauffé associé à la porte
+            type: string
+            format: uuid
+            examples: [30972a71-398f-4eb9-a902-0a6665d94a4f]
+        required:
+          - local_non_chauffe_id
+          - mitoyennete
+      - title: Autres cas
+        type: object
+        properties:
+          mitoyennete:
+            not:
+              const: local_non_chauffe
+        required:
+          - mitoyennete
+  vitrage:
+    title: Vitrage
+    type: object
+    properties:
+      taux_vitrage:
+        title: Taux de vitrage en %
+        type: number
+        minimum: 0
+        maximum: 100
+        examples: [0]
+    required:
+      - taux_vitrage
+    oneOf:
+      - title: Porte sans vitrage
+        type: object
+        properties:
+          taux_vitrage:
+            const: 0
+        required:
+          - taux_vitrage
+      - title: Porte avec vitrage
+        type: object
+        properties:
+          taux_vitrage:
+            type: number
+            minimumExclusive: 0
+          type_vitrage:
+            title: Type de vitrage
+            type: ["string", "null"]
+            enum: [simple_vitrage, double_vitrage, triple_vitrage, null]
+            default: null
+            examples: [simple_vitrage]
+        required:
+          - taux_vitrage
+          - type_vitrage
+  menuiserie:
+    title: Menuiserie
+    type: object
+    properties:
+      largeur_dormant:
+        title: Largeur dormant en mm
+        type: [integer, "null"]
+        minimum: 0
+        default: null
+        examples: [60]
+      presence_joint:
+        title: Présence de joint d'étanchéité
+        type: [boolean, "null"]
+        default: null
+        examples: [true]
+      presence_retour_isolation:
+        title: Présence d'un retour d'isolation
+        type: [boolean, "null"]
+        default: null
+        examples: [true]
+    required:
+      - largeur_dormant
+      - presence_joint
+      - presence_retour_isolation

@@ -1,0 +1,27 @@
+- id: 9d615f30-c6f8-406f-8a1f-899617c472db
+  description: Une installation de chauffage
+  surface: 100
+  comptage_individuel: true
+  solaire_thermique:
+    usage: chauffage
+    annee_installation: 2010
+    fch: 45
+  regulation_centrale:
+    presence_regulation: true
+    minimum_temperature: true
+    detection_presence: true
+  regulation_terminale:
+    presence_regulation: true
+    minimum_temperature: false
+    detection_presence: false
+  systemes:
+    - generateur_id: 6a785019-8ce1-4768-b9c3-400b7bd2f1f3
+      type: chauffage_central
+      reseau:
+        type_distribution: hydraulique
+        presence_circulateur_externe: false
+        niveaux_desservis: 2
+        isolation: non_isole
+      emetteurs:
+        - 1e9098f0-5952-4c95-8608-291689103c29
+
