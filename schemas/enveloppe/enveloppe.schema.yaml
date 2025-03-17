@@ -77,6 +77,10 @@ $defs:
     title: Plancher intermédiaire
     type: object
     properties:
+      id:
+        title: Identifiant unique au format UUID
+        type: string
+        format: uuid
       description:
         title: Description du plancher intermédiaire au format markdown
         type: string
@@ -96,6 +100,7 @@ $defs:
         default: null
         examples: [lourde, legere]
     required:
+      - id
       - description
       - surface
       - inertie
@@ -103,6 +108,10 @@ $defs:
     title: Refend
     type: object
     properties:
+      id:
+        title: Identifiant unique au format UUID
+        type: string
+        format: uuid
       description:
         title: Description du refend au format markdown
         type: string
@@ -122,6 +131,7 @@ $defs:
         default: null
         examples: [lourde, legere]
     required:
+      - id
       - description
       - surface
       - inertie

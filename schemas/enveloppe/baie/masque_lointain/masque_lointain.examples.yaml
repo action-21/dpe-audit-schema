@@ -1,4 +1,5 @@
-- description: Un masque lointain homogène
+- id: 84689d75-6494-425a-8ed6-5e5a26ad9716
+  description: Un masque lointain homogène
   type_masque: masque_lointain
   type_masque_lointain: homogene
   hauteur: 45

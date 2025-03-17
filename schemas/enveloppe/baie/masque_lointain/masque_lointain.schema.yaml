@@ -3,6 +3,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Masque lointain
 type: object
 properties:
+  id:
+    title: Identifiant au format UUID
+    type: string
+    format: uuid
   description:
     title: Description du masque lointain
     type: string
@@ -30,6 +34,7 @@ properties:
     minimum: 0
     exclusiveMaximum: 360
 required:
+  - id
   - description
   - type_masque
   - type_masque_lointain

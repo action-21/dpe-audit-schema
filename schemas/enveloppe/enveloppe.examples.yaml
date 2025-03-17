@@ -1,11 +1,13 @@
 - exposition: exposition_simple
   q4pa_conv: null
   planchers_intermedaires:
-    - description: Un plancher intermédiaire
+    - id: ae85a989-feb6-4b17-a870-e55a776eca8a
+      description: Un plancher intermédiaire
       surface: 10
       inertie: lourde
   refends:
-    - description: Un refend
+    - id: 52c5c920-a078-44aa-8b66-128c35bb925d
+      description: Un refend
       surface: 10
       inertie: lourde
   locaux_non_chauffes:
@@ -15,9 +17,10 @@
       parois:
         - id: ff9008dc-f03e-4c1e-b523-5184ba1e63c6
           description: Paroi d'un local non chauffé donnant sur l'extérieur
-          mitoyennete: exterieur
-          surface: 10
           isolation: isole
+          position:
+            surface: 10
+            mitoyennete: exterieur
         - id: e5177740-3927-478a-ab69-8f673ec4d073
           description: Baie d'un local non chauffé donnant sur l'extérieur
           type_baie: fenetre_battante
@@ -139,16 +142,17 @@
           presence_retour_isolation: true
           presence_rupteur_pont_thermique: true
       masques:
-        - description: Un masque lointain homogène
+        - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
+          description: Un masque lointain homogène
           type_masque: masque_lointain
           type_masque_lointain: homogene
           hauteur: 45
           orientation: 35
-        - description: Un masque proche
+        - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
+          description: Un masque proche
           type_masque: masque_proche
           type_masque_proche: fond_balcon
           profondeur: 2.5
-
   portes:
     - id: 6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5
       description: Porte d'entrée

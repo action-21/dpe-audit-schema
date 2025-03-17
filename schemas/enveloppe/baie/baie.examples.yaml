@@ -49,12 +49,14 @@
       presence_retour_isolation: true
       presence_rupteur_pont_thermique: true
   masques:
-    - description: Un masque lointain homogène
+    - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
+      description: Un masque lointain homogène
       type_masque: masque_lointain
       type_masque_lointain: homogene
       hauteur: 45
       orientation: 35
-    - description: Un masque proche
+    - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
+      description: Un masque proche
       type_masque: masque_proche
       type_masque_proche: fond_balcon
       profondeur: 2.5

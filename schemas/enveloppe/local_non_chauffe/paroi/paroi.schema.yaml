@@ -12,33 +12,42 @@ properties:
     title: Description au format markdown
     type: string
     examples: [Paroi d'un local non chauffé donnant sur l'extérieur]
-  mitoyennete:
-    title: Mitoyenneté
-    type: string
-    enum:
-      - exterieur
-      - enterre
-      - vide_sanitaire
-      - terre_plein
-      - sous_sol_non_chauffe
-      - local_non_chauffe
-      - local_non_residentiel
-      - local_residentiel
-      - local_non_accessible
-    examples: [exterieur]
-  surface:
-    title: Surface de la paroi en m²
-    type: number
-    exclusiveMinimum: 0
-    examples: [10]
   isolation:
     title: État d'isolation de la paroi
     type: ["string", "null"]
     enum: [isole, non_isole, null]
     examples: [non_isole]
+  position:
+    $ref: "#/$defs/position"
 required:
   - id
   - description
-  - mitoyennete
-  - surface
   - isolation
+  - position
+$defs:
+  position:
+    title: Position
+    type: object
+    properties:
+      mitoyennete:
+        title: Mitoyenneté
+        type: string
+        enum:
+          - exterieur
+          - enterre
+          - vide_sanitaire
+          - terre_plein
+          - sous_sol_non_chauffe
+          - local_non_chauffe
+          - local_non_residentiel
+          - local_residentiel
+          - local_non_accessible
+        examples: [exterieur]
+      surface:
+        title: Surface de la paroi en m²
+        type: number
+        exclusiveMinimum: 0
+        examples: [10]
+    required:
+      - mitoyennete
+      - surface

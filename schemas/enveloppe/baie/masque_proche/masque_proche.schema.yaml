@@ -3,6 +3,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Masque proche
 type: object
 properties:
+  id:
+    title: Identifiant au format UUID
+    type: string
+    format: uuid
   description:
     title: Description au format mardkown
     type: string
@@ -23,6 +27,7 @@ properties:
       - paroi_laterale_avec_obstacle_au_sud
     examples: [fond_balcon]
 required:
+  - id
   - description
   - type_masque
   - type_masque_proche
