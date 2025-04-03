@@ -7,6 +7,11 @@
 - [/masque_lointain](./masque_lointain/README.md): Sous schéma de données d'un masque lointain
 - [/masque_proche](./masque_proche/README.md): Sous schéma de données d'un masque proche
 
+## TODO
+
+- Dissociation des propriétés masques_proches et masques_lointains
+- Suppression de la propriété type_masque
+
 ## Dictionnaire des données
 
 ### Général

@@ -12,6 +12,10 @@
 - [/pont_thermique](./pont_thermique/README.md): Sous schéma de données d'un pont thermique
 - [/porte](./porte/README.md): Sous schéma de données d'une porte
 
+## TODO
+
+- Ajouter une référence paroi_id à l'ensemble des parois déperditives
+
 ## Dictionnaire des données
 
 ### Général

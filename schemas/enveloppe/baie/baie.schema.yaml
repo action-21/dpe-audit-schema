@@ -464,7 +464,7 @@ $defs:
           menuiserie:
             $ref: "#/$defs/menuiserie"
         required:
-          - type
+          - type_baie
           - type_pose
           - materiau
           - presence_soubassement

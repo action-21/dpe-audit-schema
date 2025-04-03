@@ -52,16 +52,20 @@ $defs:
     type: object
     properties:
       numero:
-        title: Numéro
+        title: Numéro avec indice de répétition éventuel (bis, ter, A, B)
         type: ["string", "null"]
         default: null
         examples: ["1"]
-      voie:
-        title: Voie
+      nom:
+        title: Numéro éventuel et nom de voie ou lieu dit
         type: string
         examples: ["rue de la Paix"]
       code_postal:
-        title: Code postal
+        title: Code postal de la commune
+        type: string
+        examples: ["75000"]
+      code_commune:
+        title: Code INSEE de la commune
         type: string
         examples: ["75000"]
       commune:
@@ -74,8 +78,9 @@ $defs:
         default: null
     required:
       - numero
-      - voie
+      - nom
       - code_postal
+      - code_commune
       - commune
       - ban_id
   batiment:
@@ -105,6 +110,18 @@ $defs:
         type: number
         exclusiveMinimum: 0
         examples: [2.8]
+      exposition:
+        title: Exposition
+        type: string
+        enum:
+          - exposition_simple
+          - exposition_multiple
+        examples: [exposition_simple, exposition_multiple]
+      q4pa_conv:
+        title: Perméabilité à l'air de l'enveloppe sous 4Pa connue et justifiée en m3/(h.m²)
+        type: ["number", "null"]
+        exclusiveMinimum: 0
+        default: null
       rnb_id:
         title: Identifiant RNB
         type: ["string", "null"]
@@ -115,4 +132,6 @@ $defs:
       - logements
       - surface_habitable
       - hauteur_sous_plafond
+      - exposition
+      - q4pa_conv
       - rnb_id

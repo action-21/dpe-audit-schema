@@ -13,6 +13,12 @@ properties:
     type: array
     items:
       $ref: /refroidissement/installation
+  systemes:
+    title: Liste des systèmes de refroidissement
+    type: array
+    items:
+      $ref: /refroidissement/systeme
 required:
   - generateurs
   - installations
+  - systemes

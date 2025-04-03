@@ -17,15 +17,7 @@ properties:
     type: number
     exclusiveMinimum: 0
     examples: [100]
-  generateurs:
-    title: Liste des générateurs de refroidissement associés à l'installation
-    type: array
-    minContains: 1
-    items:
-      type: string
-      format: uuid
 required:
   - id
   - description
   - surface
-  - generateurs

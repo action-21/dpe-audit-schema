@@ -1,6 +1,4 @@
-- exposition: exposition_simple
-  q4pa_conv: null
-  planchers_intermedaires:
+- planchers_intermedaires:
     - id: ae85a989-feb6-4b17-a870-e55a776eca8a
       description: Un plancher intermédiaire
       surface: 10
