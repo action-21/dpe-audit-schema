@@ -3,9 +3,22 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Enveloppe
 type: object
 properties:
+  exposition:
+    title: Exposition
+    type: string
+    enum:
+      - exposition_simple
+      - exposition_multiple
+    examples: [exposition_simple, exposition_multiple]
+  q4pa_conv:
+    title: Perméabilité à l'air de l'enveloppe sous 4Pa connue et justifiée en m3/(h.m²)
+    type: ["number", "null"]
+    exclusiveMinimum: 0
+    default: null
   niveaux:
     title: Liste des niveaux
     type: array
+    minItems: 1
     items:
       $ref: /enveloppe/niveau
   locaux_non_chauffes:
@@ -44,6 +57,9 @@ properties:
     items:
       $ref: /enveloppe/pont_thermique
 required:
+  - exposition
+  - q4pa_conv
+  - niveaux
   - locaux_non_chauffes
   - murs
   - planchers_bas

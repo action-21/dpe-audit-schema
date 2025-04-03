@@ -110,18 +110,6 @@ $defs:
         type: number
         exclusiveMinimum: 0
         examples: [2.8]
-      exposition:
-        title: Exposition
-        type: string
-        enum:
-          - exposition_simple
-          - exposition_multiple
-        examples: [exposition_simple, exposition_multiple]
-      q4pa_conv:
-        title: Perméabilité à l'air de l'enveloppe sous 4Pa connue et justifiée en m3/(h.m²)
-        type: ["number", "null"]
-        exclusiveMinimum: 0
-        default: null
       rnb_id:
         title: Identifiant RNB
         type: ["string", "null"]
@@ -132,6 +120,4 @@ $defs:
       - logements
       - surface_habitable
       - hauteur_sous_plafond
-      - exposition
-      - q4pa_conv
       - rnb_id
