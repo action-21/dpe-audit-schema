@@ -3,16 +3,11 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: Enveloppe
 type: object
 properties:
-  planchers_intermedaires:
-    title: Liste des planchers intermédiaires
+  niveaux:
+    title: Liste des niveaux
     type: array
     items:
-      $ref: "#/$defs/plancherIntermediaire"
-  refends:
-    title: Liste des refends
-    type: array
-    items:
-      $ref: "#/$defs/refend"
+      $ref: /enveloppe/niveau
   locaux_non_chauffes:
     title: Liste des locaux non chauffés
     type: array
@@ -49,8 +44,6 @@ properties:
     items:
       $ref: /enveloppe/pont_thermique
 required:
-  - planchers_intermedaires
-  - refends
   - locaux_non_chauffes
   - murs
   - planchers_bas
@@ -59,65 +52,22 @@ required:
   - portes
   - ponts_thermiques
 $defs:
-  plancherIntermediaire:
-    title: Plancher intermédiaire
+  niveau:
+    title: Niveau
     type: object
     properties:
-      id:
-        title: Identifiant unique au format UUID
-        type: string
-        format: uuid
-      description:
-        title: Description du plancher intermédiaire au format markdown
-        type: string
-        examples: [Un plancher intermédiaire]
       surface:
-        title: Surface du plancher intermédiaire en m²
+        title: Surface en m²
         type: number
         minimumExclusive: 0
-        examples: [10]
       inertie:
         title: Inertie
-        type: ["string", "null"]
-        enum:
-          - lourde
-          - legere
-          - null
-        default: null
-        examples: [lourde, legere]
-    required:
-      - id
-      - description
-      - surface
-      - inertie
-  refend:
-    title: Refend
-    type: object
-    properties:
-      id:
-        title: Identifiant unique au format UUID
         type: string
-        format: uuid
-      description:
-        title: Description du refend au format markdown
-        type: string
-        examples: [Un refend]
-      surface:
-        title: Surface du refend en m²
-        type: number
-        minimumExclusive: 0
-        examples: [10]
-      inertie:
-        title: Inertie
-        type: ["string", "null"]
         enum:
+          - tres_lourde
           - lourde
+          - moyenne
           - legere
-          - null
-        default: null
-        examples: [lourde, legere]
     required:
-      - id
-      - description
       - surface
       - inertie

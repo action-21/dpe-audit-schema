@@ -1,13 +1,8 @@
-- planchers_intermedaires:
-    - id: ae85a989-feb6-4b17-a870-e55a776eca8a
-      description: Un plancher intermédiaire
-      surface: 10
+- niveaux:
+    - surface: 100
       inertie: lourde
-  refends:
-    - id: 52c5c920-a078-44aa-8b66-128c35bb925d
-      description: Un refend
-      surface: 10
-      inertie: lourde
+    - surface: 100
+      inertie: moyenne
   locaux_non_chauffes:
     - id: 30972a71-398f-4eb9-a902-0a6665d94a4f
       description: Un local non chauffé
