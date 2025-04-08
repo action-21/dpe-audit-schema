@@ -22,7 +22,8 @@ properties:
     type: array
     minContains: 1
     items:
-      $ref: /ventilation/systeme
+      type: string
+      format: uuid
 required:
   - id
   - description
