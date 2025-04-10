@@ -2,7 +2,7 @@
     - surface: 100
       inertie: lourde
     - surface: 100
-      inertie: moyenne
+      inertie: legere
   locaux_non_chauffes:
     - id: 30972a71-398f-4eb9-a902-0a6665d94a4f
       description: Un local non chauffé

@@ -72,9 +72,7 @@ $defs:
     title: Inertie
     type: string
     enum:
-      - tres_lourde
       - lourde
-      - moyenne
       - legere
   niveau:
     title: Niveau
