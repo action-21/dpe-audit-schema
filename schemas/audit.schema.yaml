@@ -110,6 +110,9 @@ $defs:
         type: number
         exclusiveMinimum: 0
         examples: [2.8]
+      materiaux_anciens:
+        title: Bâtiment majoritairement composé de matériaux anciens
+        type: boolean
       rnb_id:
         title: Identifiant RNB
         type: ["string", "null"]
@@ -120,4 +123,5 @@ $defs:
       - logements
       - surface_habitable
       - hauteur_sous_plafond
+      - materiaux_anciens
       - rnb_id

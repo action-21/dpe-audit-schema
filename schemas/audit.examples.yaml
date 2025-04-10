@@ -12,8 +12,7 @@
     logements: 1
     surface_habitable: 100
     hauteur_sous_plafond: 2.5
-    exposition: exposition_simple
-    q4pa_conv: null
+    materiaux_anciens: true
     rnb_id: null
   chauffage:
     generateurs:
