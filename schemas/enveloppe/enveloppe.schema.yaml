@@ -68,6 +68,14 @@ required:
   - portes
   - ponts_thermiques
 $defs:
+  inertie:
+    title: Inertie
+    type: string
+    enum:
+      - tres_lourde
+      - lourde
+      - moyenne
+      - legere
   niveau:
     title: Niveau
     type: object
@@ -76,14 +84,17 @@ $defs:
         title: Surface en m²
         type: number
         minimumExclusive: 0
-      inertie:
-        title: Inertie
-        type: string
-        enum:
-          - tres_lourde
-          - lourde
-          - moyenne
-          - legere
+      inertie_paroi_verticale:
+        title: Inertie des parois verticales
+        $ref: "#/$defs/inertie"
+      inertie_plancher_bas:
+        title: Inertie des planchers bas
+        $ref: "#/$defs/inertie"
+      inertie_plancher_haut:
+        title: Inertie des planchers hauts
+        $ref: "#/$defs/inertie"
     required:
       - surface
-      - inertie
+      - inertie_paroi_verticale
+      - inertie_plancher_bas
+      - inertie_plancher_haut
