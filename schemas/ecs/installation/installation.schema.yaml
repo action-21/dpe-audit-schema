@@ -24,18 +24,11 @@ properties:
     oneOf:
       - $ref: "#/$defs/solaire"
       - const: null
-  systemes:
-    title: Liste des systèmes d'eau chaude sanitaire associés à l'installation
-    type: array
-    minContains: 1
-    items:
-      $ref: /ecs/systeme
 required:
   - id
   - description
   - surface
   - solaire_thermique
-  - systemes
 $defs:
   solaire:
     title: Solaire thermique

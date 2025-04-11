@@ -13,6 +13,11 @@ properties:
     type: string
     format: uuid
     examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
+  installation_id:
+    title: Identifiant de l'installation d'eau chaude sanitaire associée au système
+    type: string
+    format: uuid
+    examples: [9aec1555-e0fa-4b31-8978-6f7d1df394b6]
   reseau:
     $ref: "#/$defs/reseau"
   stockage:
@@ -25,6 +30,7 @@ properties:
 required:
   - id
   - generateur_id
+  - installation_id
   - reseau
   - stockage
 $defs:

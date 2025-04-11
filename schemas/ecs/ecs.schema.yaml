@@ -15,6 +15,13 @@ properties:
     minContains: 1
     items:
       $ref: /ecs/installation
+  systemes:
+    title: Liste des systèmes d'eau chaude sanitaire
+    type: array
+    minContains: 1
+    items:
+      $ref: /ecs/systeme
 required:
   - generateurs
   - installations
+  - systemes
