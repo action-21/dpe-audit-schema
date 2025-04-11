@@ -38,7 +38,7 @@ $defs:
     title: Réseau de distribution d'eau chaude sanitaire
     type: object
     properties:
-      alimentation_contigues:
+      alimentation_contigue:
         title: Alimentation contigüe
         type: boolean
         examples: [true]
@@ -58,7 +58,7 @@ $defs:
         type: ["string", "null"]
         enum: [reseau_non_boucle, reseau_boucle, reseau_trace, null]
     required:
-      - alimentation_contigues
+      - alimentation_contigue
       - niveaux_desservis
       - isolation_reseau
       - type_bouclage

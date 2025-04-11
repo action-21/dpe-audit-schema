@@ -2,7 +2,7 @@
   generateur_id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
   installation_id: 9aec1555-e0fa-4b31-8978-6f7d1df394b6
   reseau:
-    alimentation_contigues: true
+    alimentation_contigue: true
     niveaux_desservis: 1
     isolation_reseau: isole
     type_bouclage: reseau_non_boucle
