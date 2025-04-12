@@ -11,11 +11,6 @@ properties:
     title: Description du masque lointain
     type: string
     examples: [Masque lointain homogène]
-  type_masque:
-    title: Type de masque
-    type: string
-    const: masque_lointain
-    default: masque_lointain
   type_masque_lointain:
     title: Type de masque lointain
     type: string
@@ -36,7 +31,6 @@ properties:
 required:
   - id
   - description
-  - type_masque
   - type_masque_lointain
   - hauteur
   - orientation

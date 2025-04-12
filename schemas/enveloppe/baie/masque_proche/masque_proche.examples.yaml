@@ -1,5 +1,4 @@
 - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
   description: Un masque proche
-  type_masque: masque_proche
   type_masque_proche: fond_balcon
   profondeur: 2.5

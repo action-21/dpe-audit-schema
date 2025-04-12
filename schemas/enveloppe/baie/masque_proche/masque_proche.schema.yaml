@@ -11,11 +11,6 @@ properties:
     title: Description au format mardkown
     type: string
     examples: [Un masque proche]
-  type_masque:
-    title: Type de masque
-    type: string
-    const: masque_proche
-    default: masque_proche
   type_masque_proche:
     title: Type de masque proche
     type: string
@@ -29,7 +24,6 @@ properties:
 required:
   - id
   - description
-  - type_masque
   - type_masque_proche
 oneOf:
   - title: Paroi latérale
