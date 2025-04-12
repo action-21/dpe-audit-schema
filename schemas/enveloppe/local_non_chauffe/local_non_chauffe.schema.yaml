@@ -30,16 +30,21 @@ properties:
       - garage_collectif
       - autres
     examples: [espace_tampon_solarise]
-  parois:
-    title: Liste des parois
+  parois_opaques:
+    title: Liste des parois opaques
     type: array
     minContains: 1
     items:
-      oneOf:
-        - $ref: /enveloppe/local_non_chauffe/paroi
-        - $ref: /enveloppe/local_non_chauffe/baie
+      $ref: /enveloppe/local_non_chauffe/paroi
+  baies:
+    title: Liste des baies
+    type: array
+    minContains: 1
+    items:
+      $ref: /enveloppe/local_non_chauffe/baie
 required:
   - id
   - description
   - type
-  - parois
+  - parois_opaques
+  - baies
