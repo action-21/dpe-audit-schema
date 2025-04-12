@@ -11,7 +11,7 @@ properties:
     title: Description du masque lointain
     type: string
     examples: [Masque lointain homogène]
-  type_masque_lointain:
+  type_masque:
     title: Type de masque lointain
     type: string
     enum:
@@ -31,6 +31,6 @@ properties:
 required:
   - id
   - description
-  - type_masque_lointain
+  - type_masque
   - hauteur
   - orientation
