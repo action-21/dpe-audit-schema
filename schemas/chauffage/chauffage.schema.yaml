@@ -20,7 +20,14 @@ properties:
     minContains: 1
     items:
       $ref: /chauffage/installation
+  systemes:
+    title: Liste des systèmes de chauffage
+    type: array
+    minContains: 1
+    items:
+      $ref: /chauffage/systeme
 required:
   - generateurs
   - emetteurs
   - installations
+  - systemes

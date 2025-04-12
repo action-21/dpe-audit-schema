@@ -33,12 +33,6 @@ properties:
   regulation_terminale:
     $ref: "#/$defs/regulation"
     title: Régulation terminale
-  systemes:
-    title: Liste des systèmes de chauffage associés à l'installation
-    type: array
-    minContains: 1
-    items:
-      $ref: /chauffage/systeme
 required:
   - id
   - description
@@ -47,7 +41,6 @@ required:
   - solaire_thermique
   - regulation_centrale
   - regulation_terminale
-  - systemes
 $defs:
   solaire:
     title: Solaire thermique
