@@ -168,7 +168,7 @@ $defs:
     properties:
       largeur_dormant:
         title: Largeur dormant en mm
-        type: [integer, "null"]
+        type: [number, "null"]
         minimum: 0
         default: null
         examples: [60]

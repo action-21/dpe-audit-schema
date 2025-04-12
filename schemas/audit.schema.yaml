@@ -93,7 +93,7 @@ $defs:
         examples: [1975]
       altitude:
         title: Altitude du bâtiment en m
-        type: integer
+        type: number
         examples: [500]
       logements:
         title: Nombre de logements
