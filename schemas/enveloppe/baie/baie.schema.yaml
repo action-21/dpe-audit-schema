@@ -59,13 +59,16 @@ properties:
     oneOf:
       - $ref: "#/$defs/doubleFenetre"
       - const: null
-  masques:
-    title: Liste des masques
+  masques_lointains:
+    title: Liste des masques lointains
     type: array
     items:
-      oneOf:
-        - $ref: /enveloppe/baie/masque_lointain
-        - $ref: /enveloppe/baie/masque_proche
+      $ref: /enveloppe/baie/masque_lointain
+  masques_proches:
+    title: Liste des masques proches
+    type: array
+    items:
+      $ref: /enveloppe/baie/masque_proche
 required:
   - id
   - description
@@ -79,7 +82,8 @@ required:
   - sw
   - position
   - double_fenetre
-  - masques
+  - masques_lointains
+  - masques_proches
 oneOf:
   - title: Paroi vitrée
     type: object
