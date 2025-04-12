@@ -17,7 +17,6 @@ properties:
     type: string
     enum:
       - chaudiere
-      - chaudiere_multi_batiment
       - convecteur_bi_jonction
       - convecteur_electrique
       - cuisiniere
@@ -33,7 +32,6 @@ properties:
       - pac_hybride_eau_eau
       - pac_hybride_eau_glycolee_eau
       - pac_hybride_geothermique
-      - pac_multi_batiment
       - panneau_rayonnant_electrique
       - plafond_rayonnant_electrique
       - plancher_rayonnant_electrique
@@ -63,6 +61,10 @@ properties:
     title: Présence d'un générateur collectif de chauffage
     type: boolean
     examples: [false]
+  generateur_multi_batiment:
+    title: Présence d'un générateur multi bâtiment
+    type: boolean
+    examples: [false]
   position_volume_chauffe:
     title: Position du générateur à l'intérieur du volume chauffé
     type: boolean
@@ -78,6 +80,7 @@ required:
   - type
   - energie
   - generateur_collectif
+  - generateur_multi_batiment
   - position_volume_chauffe
   - annee_installation
 oneOf:
@@ -101,33 +104,13 @@ oneOf:
       - type_chaudiere
       - pn
     allOf:
-      - $ref: "#/$defs/combustion"
-  - title: Chaudière à combustion multi bâtiment
-    type: object
-    properties:
-      type:
-        const: chaudiere_multi_batiment
-      energie:
-        $ref: "#/$defs/energieCombustion"
-      generateur_ecs_id:
-        $ref: "#/$defs/generateurEcs"
-      type_chaudiere:
-        $ref: "#/$defs/typeChaudiere"
-      pn:
-        $ref: "#/$defs/pn"
-    required:
-      - type
-      - energie
-      - generateur_ecs_id
-      - type_chaudiere
-      - pn
-    allOf:
+      - $ref: "#/$defs/chaudiere"
       - $ref: "#/$defs/combustion"
   - title: Chaudière électrique
     type: object
     properties:
       type:
-        const: chaudiere
+        enum: chaudiere
       energie:
         const: electricite
       generateur_ecs_id:
@@ -141,33 +124,6 @@ oneOf:
       - energie
       - generateur_ecs_id
       - type_chaudiere
-      - pn
-  - title: Chaudière électrique multi bâtiment
-    type: object
-    properties:
-      type:
-        const: chaudiere_multi_batiment
-      energie:
-        const: electricite
-      generateur_ecs_id:
-        $ref: "#/$defs/generateurEcs"
-      type_chaudiere:
-        $ref: "#/$defs/typeChaudiere"
-      generateur_collectif:
-        const: true
-        default: true
-      position_volume_chauffe:
-        const: false
-        default: false
-      pn:
-        $ref: "#/$defs/pn"
-    required:
-      - type
-      - energie
-      - generateur_ecs_id
-      - type_chaudiere
-      - generateur_collectif
-      - position_volume_chauffe
       - pn
   - title: Pompe à chaleur
     properties:
@@ -190,37 +146,6 @@ oneOf:
       - type
       - energie
       - generateur_ecs_id
-      - pn
-      - scop
-  - title: Pompe à chaleur multi bâtiment
-    properties:
-      type:
-        enum:
-          - pac_air_air
-          - pac_air_eau
-          - pac_eau_eau
-          - pac_eau_glycolee_eau
-          - pac_geothermique
-      energie:
-        const: electricite
-      generateur_ecs_id:
-        $ref: "#/$defs/generateurEcs"
-      generateur_collectif:
-        const: true
-        default: true
-      position_volume_chauffe:
-        const: false
-        default: false
-      pn:
-        $ref: "#/$defs/pn"
-      scop:
-        $ref: "#/$defs/scop"
-    required:
-      - type
-      - energie
-      - generateur_ecs_id
-      - generateur_collectif
-      - position_volume_chauffe
       - pn
       - scop
   - title: Pompe à chaleur hybride
@@ -302,6 +227,9 @@ oneOf:
       generateur_collectif:
         const: false
         default: false
+      generateur_multi_batiment:
+        const: false
+        default: false
       label:
         $ref: "#/$defs/label"
         enum: [flamme_verte, null]
@@ -311,6 +239,7 @@ oneOf:
       - type
       - energie
       - generateur_collectif
+      - generateur_multi_batiment
       - label
       - pn
   - title: Radiateur gaz
@@ -323,6 +252,9 @@ oneOf:
       generateur_collectif:
         const: false
         default: false
+      generateur_multi_batiment:
+        const: false
+        default: false
       label:
         $ref: "#/$defs/label"
         enum: [flamme_verte, null]
@@ -330,6 +262,7 @@ oneOf:
       - type
       - energie
       - generateur_collectif
+      - generateur_multi_batiment
       - label
       - pn
     allOf:
@@ -352,6 +285,9 @@ oneOf:
       generateur_collectif:
         const: false
         default: false
+      generateur_multi_batiment:
+        const: false
+        default: false
       pn:
         $ref: "#/$defs/pn"
       label:
@@ -361,6 +297,7 @@ oneOf:
       - type
       - energie
       - generateur_collectif
+      - generateur_multi_batiment
       - pn
       - label
   - title: Réseau de chaleur
@@ -380,6 +317,9 @@ oneOf:
       generateur_collectif:
         const: true
         default: true
+      generateur_multi_batiment:
+        const: true
+        default: true
       position_volume_chauffe:
         const: false
         default: false
@@ -389,6 +329,7 @@ oneOf:
       - reseau_chaleur_id
       - generateur_ecs_id
       - generateur_collectif
+      - generateur_multi_batiment
       - position_volume_chauffe
 $defs:
   generateurEcs:
