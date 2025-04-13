@@ -184,7 +184,7 @@ $defs:
     title: Proportion d'énergie solaire transmise par la baie en %
     type: ["number", "null"]
     minimum: 0
-    maximum: 100
+    maximum: 1
     default: null
     examples: [80]
   position:

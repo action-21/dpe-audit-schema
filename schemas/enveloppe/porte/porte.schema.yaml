@@ -135,7 +135,7 @@ $defs:
         description: Une porte avec un taux de vitrage supérieur à 60% est à considérer comme une porte-fenêtre avec soubassement
         type: number
         minimum: 0
-        maximum: 60
+        maximum: 0.6
         examples: [0]
     required:
       - taux_vitrage
