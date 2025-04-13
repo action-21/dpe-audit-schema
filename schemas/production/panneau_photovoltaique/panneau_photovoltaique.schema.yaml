@@ -29,7 +29,7 @@ properties:
     type: integer
     minimum: 1
     examples: [6]
-  surface_capteurs:
+  surface:
     title: Surface totale des capteurs en m²
     type: ["number", "null"]
     exclusiveMinimum: 0
@@ -41,4 +41,4 @@ required:
   - orientation
   - inclinaison
   - modules
-  - surface_capteurs
+  - surface
