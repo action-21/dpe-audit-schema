@@ -32,7 +32,7 @@
         rpint: 85
         tfonc30: 70
         tfonc100: 100
-        generateur_ecs_id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
+        generateur_mixte_id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
         position_volume_chauffe: false
         generateur_collectif: true
         annee_installation: 2000
@@ -45,7 +45,7 @@
         position_volume_chauffe: false
         generateur_collectif: true
         annee_installation: 2000
-        generateur_ecs_id: null
+        generateur_mixte_id: null
     emetteurs:
       - id: 1e9098f0-5952-4c95-8608-291689103c29
         description: Un émetteur de chaleur

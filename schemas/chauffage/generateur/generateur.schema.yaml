@@ -91,7 +91,7 @@ oneOf:
         const: chaudiere
       energie:
         $ref: "#/$defs/energieCombustion"
-      generateur_ecs_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
       type_chaudiere:
         $ref: "#/$defs/typeChaudiere"
@@ -100,7 +100,7 @@ oneOf:
     required:
       - type
       - energie
-      - generateur_ecs_id
+      - generateur_mixte_id
       - type_chaudiere
       - pn
     allOf:
@@ -113,7 +113,7 @@ oneOf:
         enum: chaudiere
       energie:
         const: electricite
-      generateur_ecs_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
       type_chaudiere:
         $ref: "#/$defs/typeChaudiere"
@@ -122,7 +122,7 @@ oneOf:
     required:
       - type
       - energie
-      - generateur_ecs_id
+      - generateur_mixte_id
       - type_chaudiere
       - pn
   - title: Pompe à chaleur
@@ -136,7 +136,7 @@ oneOf:
           - pac_geothermique
       energie:
         const: electricite
-      generateur_ecs_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
       pn:
         $ref: "#/$defs/pn"
@@ -145,7 +145,7 @@ oneOf:
     required:
       - type
       - energie
-      - generateur_ecs_id
+      - generateur_mixte_id
       - pn
       - scop
   - title: Pompe à chaleur hybride
@@ -161,7 +161,7 @@ oneOf:
         const: electricite
       energie_partie_chaudiere:
         $ref: "#/$defs/energieCombustion"
-      generateur_ecs_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
       scop:
         $ref: "#/$defs/scop"
@@ -169,7 +169,7 @@ oneOf:
       - type
       - energie
       - energie_partie_chaudiere
-      - generateur_ecs_id
+      - generateur_mixte_id
       - scop
     allOf:
       - $ref: "#/$defs/chaudiere"
@@ -205,12 +205,12 @@ oneOf:
         enum: [poele_bouilleur]
       energie:
         enum: [bois_buche, bois_plaquette, bois_granule]
-      generateur_ecs_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
     required:
       - type
       - energie
-      - generateur_ecs_id
+      - generateur_mixte_id
     allOf:
       - $ref: "#/$defs/combustion"
   - title: Poêle et insert
@@ -312,7 +312,7 @@ oneOf:
         type: ["string", "null"]
         default: null
         examples: [reseau-chaleur]
-      generateur_ecs_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
       generateur_collectif:
         const: true
@@ -327,7 +327,7 @@ oneOf:
       - type
       - energie
       - reseau_chaleur_id
-      - generateur_ecs_id
+      - generateur_mixte_id
       - generateur_collectif
       
       - position_volume_chauffe
