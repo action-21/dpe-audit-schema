@@ -119,13 +119,13 @@ oneOf:
         const: electricite
       pn:
         $ref: "#/$defs/pn"
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
       - pn
-      - generateur_chauffage_id
+      - generateur_mixte_id
   - title: Chaudière à combustion
     type: object
     properties:
@@ -135,13 +135,13 @@ oneOf:
         $ref: "#/$defs/energieCombustion"
       type_chaudiere:
         $ref: "#/$defs/typeChaudiere"
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
       - type_chaudiere
-      - generateur_chauffage_id
+      - generateur_mixte_id
     allOf:
       - $ref: "#/$defs/combustion"
   - title: Chaudière multi-bâtiment
@@ -156,14 +156,14 @@ oneOf:
         default: true
       pn:
         $ref: "#/$defs/pn"
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
       - generateur_collectif
       - pn
-      - generateur_chauffage_id
+      - generateur_mixte_id
   - title: Chaudière multi-bâtiment à combustion
     type: object
     properties:
@@ -174,13 +174,13 @@ oneOf:
       generateur_collectif:
         const: true
         default: true
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
       - generateur_collectif
-      - generateur_chauffage_id
+      - generateur_mixte_id
     allOf:
       - $ref: "#/$defs/combustion"
   - title: Chauffe-eau thermodynamique
@@ -212,14 +212,14 @@ oneOf:
         $ref: "#/$defs/cop"
       pn:
         $ref: "#/$defs/pn"
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
       - cop
       - pn
-      - generateur_chauffage_id
+      - generateur_mixte_id
   - title: Poêle bouilleur
     type: object
     properties:
@@ -228,12 +228,12 @@ oneOf:
       energie:
         $ref: "#/$defs/energie"
         enum: [bois_buche, bois_plaquette, bois_granule]
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
-      - generateur_chauffage_id
+      - generateur_mixte_id
     allOf:
       - $ref: "#/$defs/combustion"
   - title: Réseau de chaleur
@@ -249,13 +249,13 @@ oneOf:
         type: ["string", "null"]
         default: null
         examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
-      generateur_chauffage_id:
+      generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
       - type
       - energie
       - reseau_chaleur_id
-      - generateur_chauffage_id
+      - generateur_mixte_id
 $defs:
   generateurChauffage:
     title: Générateur de chauffage
