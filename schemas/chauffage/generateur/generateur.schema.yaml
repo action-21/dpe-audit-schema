@@ -329,7 +329,7 @@ oneOf:
       - reseau_chaleur_id
       - generateur_ecs_id
       - generateur_collectif
-      - generateur_multi_batiment
+      
       - position_volume_chauffe
 $defs:
   generateurEcs:
@@ -427,28 +427,28 @@ $defs:
     title: Rendement à puissance nominale sur PCI en %
     type: ["number", "null"]
     exclusiveMinimum: 0
-    maximum: 1.5
+    maximum: 150
     default: null
     examples: [80]
   rpint:
     title: Rendement à puissance intermédiaire sur PCI en %
     type: ["number", "null"]
     exclusiveMinimum: 0
-    maximum: 1.5
+    maximum: 150
     default: null
     examples: [80]
   tfonc30:
     title: Température de fonctionnement à 30% de la puissance nominale en °C
     type: ["number", "null"]
     minimumExlusive: 0
-    maximum: 1.5
+    maximum: 150
     default: null
     examples: [70]
   tfonc100:
     title: Température de fonctionnement à 100% de la puissance nominale en °C
     type: ["number", "null"]
     minimumExlusive: 0
-    maximum: 1.5
+    maximum: 150
     default: null
     examples: [70]
   combustion:

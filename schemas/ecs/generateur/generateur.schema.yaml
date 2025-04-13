@@ -357,7 +357,7 @@ $defs:
         title: Rendement à puissance nominale sur PCI en %
         type: ["number", "null"]
         exclusiveMinimum: 0
-        maximum: 1.5
+        maximum: 150
         default: null
         examples: [80]
     required:

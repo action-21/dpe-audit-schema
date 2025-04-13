@@ -50,7 +50,7 @@ $defs:
         title: Facteur de couverture solaire connue et justifié en %
         type: ["number", "null"]
         minimum: 0
-        maximum: 1
+        maximum: 100
         default: null
         examples: [20]
     required:
