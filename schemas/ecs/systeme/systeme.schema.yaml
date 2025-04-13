@@ -47,26 +47,26 @@ $defs:
         type: integer
         minimum: 1
         examples: [1]
-      isolation_reseau:
+      isolation:
         title: Isolation du réseau
         type: ["string", "null"]
         enum: [isole, non_isole, null]
         default: null
         examples: [isole]
-      type_bouclage:
+      bouclage:
         title: Type de bouclage
         type: ["string", "null"]
         enum: [reseau_non_boucle, reseau_boucle, reseau_trace, null]
     required:
       - alimentation_contigue
       - niveaux_desservis
-      - isolation_reseau
-      - type_bouclage
+      - isolation
+      - bouclage
   stockage:
     title: Stockage
     type: object
     properties:
-      volume_stockage:
+      volume:
         title: Volume de stockage en l
         type: number
         exclusiveMinimum: 0
@@ -76,5 +76,5 @@ $defs:
         type: boolean
         examples: [true]
     required:
-      - volume_stockage
+      - volume
       - position_volume_chauffe

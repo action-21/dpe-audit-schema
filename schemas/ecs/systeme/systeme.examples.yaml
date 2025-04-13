@@ -4,8 +4,8 @@
   reseau:
     alimentation_contigue: true
     niveaux_desservis: 1
-    isolation_reseau: isole
-    type_bouclage: reseau_non_boucle
+    isolation: isole
+    bouclage: reseau_non_boucle
   stockage:
-    volume_stockage: 200
+    volume: 200
     position_volume_chauffe: true
