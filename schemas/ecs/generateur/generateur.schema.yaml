@@ -21,12 +21,10 @@ properties:
       - chauffe_eau_vertical
       - chauffe_eau_horizontal
       - chaudiere
-      - chaudiere_multi_batiment
       - cet_air_ambiant
       - cet_air_exterieur
       - cet_air_extrait
       - pac_double_service
-      - pac_multi_batiment
       - poele_bouilleur
       - reseau_chaleur
     examples: [accumulateur]
@@ -39,6 +37,10 @@ properties:
     examples: [200]
   generateur_collectif:
     title: Présence d'un générateur collectif d'eau chaude sanitaire
+    type: boolean
+    examples: [false]
+  generateur_multi_batiment:
+    title: Présence d'un générateur multi bâtiment
     type: boolean
     examples: [false]
   position_volume_chauffe:
@@ -57,6 +59,7 @@ required:
   - energie
   - volume_stockage
   - generateur_collectif
+  - generateur_multi_batiment
   - position_volume_chauffe
   - annee_installation
 oneOf:
@@ -105,11 +108,15 @@ oneOf:
         $ref: "#/$defs/pn"
       label:
         $ref: "#/$defs/label"
+      generateur_multi_batiment:
+        const: false
+        default: false
     required:
       - type
       - energie
       - pn
       - label
+      - generateur_multi_batiment
   - title: Chaudière électrique
     type: object
     properties:
@@ -144,45 +151,6 @@ oneOf:
       - generateur_mixte_id
     allOf:
       - $ref: "#/$defs/combustion"
-  - title: Chaudière multi-bâtiment
-    type: object
-    properties:
-      type:
-        const: chaudiere_multi_batiment électrique
-      energie:
-        const: electricite
-      generateur_collectif:
-        const: true
-        default: true
-      pn:
-        $ref: "#/$defs/pn"
-      generateur_mixte_id:
-        $ref: "#/$defs/generateurChauffage"
-    required:
-      - type
-      - energie
-      - generateur_collectif
-      - pn
-      - generateur_mixte_id
-  - title: Chaudière multi-bâtiment à combustion
-    type: object
-    properties:
-      type:
-        const: chaudiere_multi_batiment
-      energie:
-        $ref: "#/$defs/energieCombustion"
-      generateur_collectif:
-        const: true
-        default: true
-      generateur_mixte_id:
-        $ref: "#/$defs/generateurChauffage"
-    required:
-      - type
-      - energie
-      - generateur_collectif
-      - generateur_mixte_id
-    allOf:
-      - $ref: "#/$defs/combustion"
   - title: Chauffe-eau thermodynamique
     type: object
     properties:
@@ -204,7 +172,7 @@ oneOf:
     type: object
     properties:
       type:
-        enum: [pac_double_service, pac_multi_batiment]
+        const: pac_double_service
       energie:
         $ref: "#/$defs/energie"
         const: electricite
