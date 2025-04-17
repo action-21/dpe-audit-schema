@@ -60,6 +60,7 @@ $defs:
         enum:
           - hydraulique
           - aeraulique
+          - fluide_frigorigene
         examples: [hydraulique]
       presence_circulateur_externe:
         title: Présence d'un circulateur externe
