@@ -15,6 +15,10 @@ properties:
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
+  presence_brasseurs_air:
+    title: Présence de brasseurs d'air
+    type: boolean
+    default: false
   niveaux:
     title: Liste des niveaux
     type: array
@@ -59,6 +63,7 @@ properties:
 required:
   - exposition
   - q4pa_conv
+  - presence_brasseurs_air
   - niveaux
   - locaux_non_chauffes
   - murs

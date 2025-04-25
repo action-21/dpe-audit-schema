@@ -1,4 +1,7 @@
-- niveaux:
+- exposition: exposition_simple
+  q4pa_conv: null
+  presence_brasseurs_air: false
+  niveaux:
     - surface: 100
       inertie: lourde
     - surface: 100
