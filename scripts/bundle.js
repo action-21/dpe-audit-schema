@@ -29,12 +29,13 @@ for (const schema of schemas) {
 
 const schema = config.schema
 const bundledSchema = await bundle(schema)
+const outDir = config.outDir ?? './dist'
 
 if (config.formats.includes('json')) {
   const JSONOutput = JSON.stringify(bundledSchema, null, 2)
-  writeFileSync('./schema.json', JSONOutput, { encoding: 'utf-8' })
+  writeFileSync(`${outDir}/schema.json`, JSONOutput, { encoding: 'utf-8' })
 }
 if (config.formats.includes('yaml')) {
   const YAMLOutput = yaml.dump(bundledSchema)
-  writeFileSync('./schema.yaml', YAMLOutput, { encoding: 'utf-8' })
+  writeFileSync(`${outDir}/schema.yaml`, YAMLOutput, { encoding: 'utf-8' })
 }

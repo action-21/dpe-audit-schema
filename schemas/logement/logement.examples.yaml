@@ -2,4 +2,5 @@
   description: Un logement
   surface_habitable: 100
   hauteur_sous_plafond: 2.5
+  position: rdc
   typologoie: t3

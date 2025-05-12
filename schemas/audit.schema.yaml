@@ -46,6 +46,38 @@ required:
   - ecs
   - refroidissement
   - production
+allOf:
+  - oneOf:
+      - title: Maison individuelle
+        type: object
+        properties:
+          batiment:
+            properties:
+              type:
+                const: maison
+            required:
+              - type
+          logements:
+            type: array
+            maxContains: 2
+        required:
+          - batiment
+          - logements
+      - title: Immeuble collectif
+        type: object
+        properties:
+          batiment:
+            properties:
+              type:
+                const: immeuble
+            required:
+              - type
+          logements:
+            type: array
+            minContains: 3
+        required:
+          - batiment
+          - logements
 $defs:
   adresse:
     title: Adresse
@@ -87,6 +119,13 @@ $defs:
     title: Bâtiment
     type: object
     properties:
+      type:
+        title: Type de bâtiment
+        type: string
+        enum:
+          - maison
+          - immeuble
+        examples: [maison]
       annee_construction:
         title: Année de construction
         type: integer
@@ -118,6 +157,7 @@ $defs:
         type: ["string", "null"]
         default: null
     required:
+      - type
       - annee_construction
       - altitude
       - logements

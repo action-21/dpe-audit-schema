@@ -20,6 +20,14 @@ properties:
     title: Hauteur sous plafond moyenne en m
     type: number
     examples: [2.5]
+  position:
+    title: Position du logement
+    type: string
+    enum:
+      - rdc
+      - etage_intermediaire
+      - dernier_etage
+    examples: [rdc]
   typologoie:
     title: Typologie du logement
     type: string
@@ -37,4 +45,5 @@ required:
   - description
   - surface_habitable
   - hauteur_sous_plafond
+  - position
   - typologoie
