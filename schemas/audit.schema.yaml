@@ -21,7 +21,7 @@ properties:
     title: Liste des logements visités
     type: array
     items:
-      $ref: /logement
+      $ref: "#/$defs/logement"
   enveloppe:
     $ref: /enveloppe
   ventilation:
@@ -165,3 +165,51 @@ $defs:
       - hauteur_sous_plafond
       - materiaux_anciens
       - rnb_id
+  logement:
+    title: Logement
+    type: object
+    properties:
+      id:
+        title: Identifiant unique au format UUID
+        type: string
+        format: uuid
+        examples: [fe60b38b-674f-4e1d-9cc6-4123b7475353]
+      description:
+        title: Description au format markdown
+        type: string
+        examples: [Un logement]
+      surface_habitable:
+        title: Surface habitable en m²
+        type: number
+        examples: [100]
+      hauteur_sous_plafond:
+        title: Hauteur sous plafond moyenne en m
+        type: number
+        examples: [2.5]
+      position:
+        title: Position du logement
+        type: string
+        enum:
+          - rdc
+          - etage_intermediaire
+          - dernier_etage
+        examples: [rdc]
+      typologoie:
+        title: Typologie du logement
+        type: string
+        enum:
+          - t1
+          - t2
+          - t3
+          - t4
+          - t5
+          - t6
+          - t7
+        examples: [t3]
+    required:
+      - id
+      - description
+      - surface_habitable
+      - hauteur_sous_plafond
+      - position
+      - typologoie
