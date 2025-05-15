@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dpe_audit.porte;
+DROP TABLE IF EXISTS dpe_audit.enveloppe_porte;
 
 CREATE TYPE type_pose as ENUM('nu_exterieur', 'nu_interieur', 'tunnel');
 
@@ -20,9 +20,9 @@ CREATE TYPE mitoyennete as ENUM(
 
 CREATE TYPE type_vitrage as ENUM('simple_vitrage', 'double_vitrage', 'triple_vitrage');
 
-CREATE TABLE dpe_audit.porte (
+CREATE TABLE dpe_audit.enveloppe_porte (
     id UUID PRIMARY KEY,
-    dpe_audit_id UUID NOT NULL,
+    enveloppe_id UUID NOT NULL,
     description VARCHAR(255) NOT NULL,
     type_pose type_pose NOT NULL,
     isolation etat_isolation,
@@ -44,5 +44,5 @@ CREATE TABLE dpe_audit.porte (
     taux_vitrage FLOAT NOT NULL,
     type_vitrage type_vitrage,
     -- Reference
-    --FOREIGN KEY (dpe_audit_id) REFERENCES dpe_audit.audit(id)
+    --FOREIGN KEY (enveloppe_id) REFERENCES dpe_audit.enveloppe(id)
 );
