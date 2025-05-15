@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
   description:
     title: Description au format markdown
     type: string
-    examples: [Un générateur d'eau chaude sanitaire]
   type:
     title: Type de générateur d'eau chaude sanitaire
     type: string
@@ -27,31 +25,25 @@ properties:
       - pac_double_service
       - poele_bouilleur
       - reseau_chaleur
-    examples: [accumulateur]
   energie:
     $ref: "#/$defs/energie"
   volume_stockage:
     title: Volume de stockage en l
     type: number
     minimum: 0
-    examples: [200]
   generateur_collectif:
     title: Présence d'un générateur collectif d'eau chaude sanitaire
     type: boolean
-    examples: [false]
   generateur_multi_batiment:
     title: Présence d'un générateur multi bâtiment
     type: boolean
-    examples: [false]
   position_volume_chauffe:
     title: Position du générateur à l'intérieur du volume chauffé
     type: boolean
-    examples: [true]
   annee_installation:
     title: Année d'installation connue et justifiée
     type: ["integer", "null"]
     default: null
-    examples: [2000]
 required:
   - id
   - description
@@ -216,7 +208,6 @@ oneOf:
         title: Identifiant du réseau de chaleur
         type: ["string", "null"]
         default: null
-        examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
       generateur_mixte_id:
         $ref: "#/$defs/generateurChauffage"
     required:
@@ -230,7 +221,6 @@ $defs:
     type: ["string", "null"]
     format: uuid
     default: null
-    examples: [6a785019-8ce1-4768-b9c3-400b7bd2f1f3]
   energie:
     title: Energie
     type: string
@@ -244,7 +234,6 @@ $defs:
       - bois_plaquette
       - bois_granule
       - reseau_chaleur
-    examples: [electricite]
   energieCombustion:
     $ref: "#/$defs/energie"
     enum:
@@ -255,7 +244,6 @@ $defs:
       - bois_buche
       - bois_plaquette
       - bois_granule
-    examples: [gaz_naturel]
   typeChaudiere:
     title: Type de chaudière
     type: ["string", "null"]
@@ -264,7 +252,6 @@ $defs:
       - chaudiere_sol
       - null
     default: null
-    examples: [chaudiere_murale]
   label:
     title: Label du générateur
     type: ["string", "null"]
@@ -274,20 +261,17 @@ $defs:
       - ne_performance_c
       - null
     default: null
-    examples: [ne_performance_a]
   pn:
     title: Puissance nominale en kW
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [10]
   cop:
     title: Coefficient de performance énergétique
     type: ["number", "null"]
     exclusiveMinimum: 0
     maximum: 10
     default: null
-    examples: [5]
   combustion:
     title: Caractéristiques des générateurs à combustion
     type: object
@@ -301,12 +285,10 @@ $defs:
           - condensation
           - null
         default: null
-        examples: [basse_temperature]
       presence_ventouse:
         title: Présence d'une ventouse
         type: ["boolean", "null"]
         default: null
-        examples: [true]
       pn:
         $ref: "#/$defs/pn"
       pveilleuse:
@@ -314,20 +296,17 @@ $defs:
         type: ["number", "null"]
         minimum: 0
         default: null
-        examples: [100]
       qp0:
         title: Pertes à l'arrêt en W
         type: ["number", "null"]
         exclusiveMinimum: 0
         default: null
-        examples: [100]
       rpn:
         title: Rendement à puissance nominale sur PCI en %
         type: ["number", "null"]
         exclusiveMinimum: 0
         maximum: 150
         default: null
-        examples: [80]
     required:
       - mode_combustion
       - presence_ventouse

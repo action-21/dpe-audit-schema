@@ -7,17 +7,14 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [570c8e85-524f-4279-81ad-87f2014f9205]
   generateur_id:
     title: Identifiant du générateur d'eau chaude sanitaire associé au système
     type: string
     format: uuid
-    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
   installation_id:
     title: Identifiant de l'installation d'eau chaude sanitaire associée au système
     type: string
     format: uuid
-    examples: [9aec1555-e0fa-4b31-8978-6f7d1df394b6]
   reseau:
     $ref: "#/$defs/reseau"
   stockage:
@@ -41,22 +38,19 @@ $defs:
       alimentation_contigue:
         title: Alimentation contigüe
         type: boolean
-        examples: [true]
       niveaux_desservis:
         title: Nombre de niveaux desservis
         type: integer
         minimum: 1
-        examples: [1]
       isolation:
         title: Isolation du réseau
         type: ["string", "null"]
         enum: [isole, non_isole, null]
         default: null
-        examples: [isole]
       bouclage:
         title: Type de bouclage
         type: ["string", "null"]
-        enum: [reseau_non_boucle, reseau_boucle, reseau_trace, null]
+        enum: [non_boucle, boucle, trace, null]
     required:
       - alimentation_contigue
       - niveaux_desservis
@@ -70,11 +64,9 @@ $defs:
         title: Volume de stockage en l
         type: number
         exclusiveMinimum: 0
-        examples: [200]
       position_volume_chauffe:
         title: Position à l'intérieur volume chauffé
         type: boolean
-        examples: [true]
     required:
       - volume
       - position_volume_chauffe
