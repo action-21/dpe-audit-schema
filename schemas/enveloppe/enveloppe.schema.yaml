@@ -9,7 +9,6 @@ properties:
     enum:
       - exposition_simple
       - exposition_multiple
-    examples: [exposition_simple, exposition_multiple]
   q4pa_conv:
     title: Perméabilité à l'air de l'enveloppe sous 4Pa connue et justifiée en m3/(h.m²)
     type: ["number", "null"]
