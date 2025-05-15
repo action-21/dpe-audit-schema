@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [ecd4cd8f-7f2b-4427-9d94-b1ed5da33711]
   description:
     title: Description au format markdown
     type: string
-    examples: [Un plancher haut]
   configuration:
     title: Configuration
     type: ["string", "null"]
@@ -21,7 +19,6 @@ properties:
       - terrasse
       - null
     default: null
-    examples: [combles_perdus]
   type_structure:
     title: Type de plancher haut
     type: ["string", "null"]
@@ -42,35 +39,29 @@ properties:
       - bac_acier
       - null
     default: null
-    examples: [dalle_beton]
   inertie:
     title: État d'inertie
     type: ["string", "null"]
     enum: [lourde, legere, null]
     default: null
-    examples: [lourde]
   annee_construction:
     title: Année de construction
     type: ["integer", "null"]
     default: null
-    examples: [2000]
   annee_renovation:
     title: Année de dernière rénovation connue et justifiée
     type: ["integer", "null"]
     default: null
-    examples: [2010]
   u0:
     title: Coefficient de transmission thermique connu et justifié du plancher haut non isolé en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [3.8]
   u:
     title: Coefficient de transmission thermique connu et justifié en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [1.4]
   position:
     $ref: "#/$defs/position"
   isolation:
@@ -96,7 +87,6 @@ $defs:
         title: Surface totale exprimée en m²
         type: number
         exclusiveMinimum: 0
-        examples: [100]
       mitoyennete:
         title: Mitoyenneté
         type: string
@@ -110,14 +100,12 @@ $defs:
           - local_non_residentiel
           - local_residentiel
           - local_non_accessible
-        examples: [local_non_chauffe]
       orientation:
         title: Orientation en degré par rapport au nord
         type: ["number", "null"]
         minimum: 0
         exclusiveMaximum: 360
         default: null
-        examples: [90]
     required:
       - surface
       - mitoyennete
@@ -132,7 +120,6 @@ $defs:
             title: Identifiant du local non chauffé associé au plancher haut
             type: string
             format: uuid
-            examples: [30972a71-398f-4eb9-a902-0a6665d94a4f]
         required:
           - local_non_chauffe_id
           - mitoyennete
@@ -152,7 +139,6 @@ $defs:
         title: Etat d'isolation
         type: ["string", "null"]
         enum: [isole, non_isole, null]
-        examples: [isole]
     required:
       - etat_isolation
     oneOf:
@@ -174,24 +160,20 @@ $defs:
               - itr_iti_ite
               - null
             default: null
-            examples: [iti]
           annee_isolation:
             title: Année d'isolation
             type: ["integer", "null"]
             default: null
-            examples: [2000]
           epaisseur_isolation:
             title: Epaisseur de l'isolation en mm
             type: ["number", "null"]
             exclusiveMinimum: 0
             default: null
-            examples: [200]
           resistance_thermique_isolation:
             title: Résistance thermique de l'isolation en m².K/W
             type: ["number", "null"]
             exclusiveMinimum: 0
             default: null
-            examples: [5.5]
         required:
           - etat_isolation
           - type_isolation
