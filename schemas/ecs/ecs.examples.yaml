@@ -9,6 +9,7 @@
       volume_stockage: 200
       pn: 10
       cop: 3
+
   installations:
     - id: 9aec1555-e0fa-4b31-8978-6f7d1df394b6
       description: Une installation d'eau chaude sanitaire
@@ -17,15 +18,16 @@
         usage: ecs
         annee_installation: 2000
         fecs: 0.5
+
   systemes:
     - id: 570c8e85-524f-4279-81ad-87f2014f9205
       generateur_id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
       installation_id: 9aec1555-e0fa-4b31-8978-6f7d1df394b6
       reseau:
-        alimentation_contigues: true
+        alimentation_contigue: true
         niveaux_desservis: 1
-        isolation_reseau: isole
-        type_bouclage: reseau_non_boucle
+        isolation: isole
+        bouclage: reseau_non_boucle
       stockage:
-        volume_stockage: 200
+        volume: 200
         position_volume_chauffe: true
