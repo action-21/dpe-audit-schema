@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/ventilation/systeme
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Système de ventilation
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID
@@ -24,7 +25,7 @@ required:
   - id
   - installation_id
   - type
-oneOf:
+anyOf:
   - title: Système de ventilation mécanique
     type: object
     properties:

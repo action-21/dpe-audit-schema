@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/enveloppe/plancher_bas
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Plancher bas
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID

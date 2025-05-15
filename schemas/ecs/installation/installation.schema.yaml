@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/ecs/installation
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Installation d'eau chaude sanitaire
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique sanitaire au format UUID

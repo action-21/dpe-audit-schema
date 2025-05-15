@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/refroidissement
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Refroidissement
 type: object
+unevaluatedProperties: false
 properties:
   generateurs:
     title: Liste des générateurs de refroidissement

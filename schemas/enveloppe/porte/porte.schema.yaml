@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/enveloppe/porte
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Porte
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique de la porte au format UUID

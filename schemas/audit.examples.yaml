@@ -2,11 +2,13 @@
   date_etablissement: "2025-01-01"
   adresse:
     numero: "1"
-    voie: rue de la Paix
+    nom: rue de la Paix
     code_postal: "75000"
+    code_commune: "75000"
     commune: Paris
     ban_id: null
   batiment:
+    type: maison
     annee_construction: 2000
     altitude: 0
     logements: 1
@@ -43,6 +45,7 @@
         generateur_mixte_id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
         position_volume_chauffe: false
         generateur_collectif: true
+        generateur_multi_batiment: false
         annee_installation: 2000
         scop: 4.5
       - id: 6a785019-8ce1-4768-b9c3-400b7bd2f1f3
@@ -52,6 +55,7 @@
         reseau_chaleur_id: reseau-chaleur
         position_volume_chauffe: false
         generateur_collectif: true
+        generateur_multi_batiment: true
         annee_installation: 2000
         generateur_mixte_id: null
 
@@ -82,7 +86,8 @@
           detection_presence: false
 
     systemes:
-      - installation_id: 9d615f30-c6f8-406f-8a1f-899617c472db
+      - id: c7b1ea85-701b-4d01-b3b1-02aeb15964a4
+        installation_id: 9d615f30-c6f8-406f-8a1f-899617c472db
         generateur_id: 6a785019-8ce1-4768-b9c3-400b7bd2f1f3
         type: chauffage_central
         reseau:
@@ -98,6 +103,7 @@
       - id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
         description: Un générateur d'eau chaude sanitaire
         generateur_collectif: false
+        generateur_multi_batiment: false
         position_volume_chauffe: true
         annee_installation: 2000
         type: cet_air_ambiant
@@ -153,6 +159,7 @@
             position:
               surface: 10
               mitoyennete: exterieur
+        baies:
           - id: e5177740-3927-478a-ab69-8f673ec4d073
             description: Baie d'un local non chauffé donnant sur l'extérieur
             type_baie: fenetre_battante
@@ -277,17 +284,16 @@
             presence_joint: true
             presence_retour_isolation: true
             presence_rupteur_pont_thermique: true
-        masques:
+        masques_lointains:
           - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
             description: Un masque lointain homogène
-            type_masque: masque_lointain
-            type_masque_lointain: homogene
+            type_masque: homogene
             hauteur: 45
             orientation: 35
+        masques_proches:
           - id: 84689d75-6494-425a-8ed6-5e5a26ad9716
             description: Un masque proche
-            type_masque: masque_proche
-            type_masque_proche: fond_balcon
+            type_masque: fond_balcon
             profondeur: 2.5
 
     portes:
@@ -337,7 +343,6 @@
       - id: a7396354-ba21-40d9-b50f-d35da67a70c1
         description: Un générateur de refroidissement
         annee_installation: 2000
-        reseau_froid_id: null
         type: pac_air_air
         energie: electricite
         seer: null

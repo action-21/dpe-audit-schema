@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/ventilation
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Ventilation
 type: object
+unevaluatedProperties: false
 properties:
   generateurs:
     title: Liste des générateurs de ventilation

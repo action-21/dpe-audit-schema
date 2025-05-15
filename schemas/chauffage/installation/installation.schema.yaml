@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/chauffage/installation
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Installation de chauffage
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique de l'installation de chauffage au format UUID

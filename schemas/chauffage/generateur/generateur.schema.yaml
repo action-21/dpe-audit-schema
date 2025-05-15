@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/chauffage/generateur
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Générateur de chauffage
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID
@@ -101,7 +102,7 @@ oneOf:
     type: object
     properties:
       type:
-        enum: chaudiere
+        const: chaudiere
       energie:
         const: electricite
       generateur_mixte_id:

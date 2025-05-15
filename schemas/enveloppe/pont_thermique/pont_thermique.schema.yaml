@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/enveloppe/pont_thermique
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Pont thermique
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID
@@ -48,7 +49,7 @@ $defs:
     required:
       - type_liaison
       - mur_id
-    oneOf:
+    anyOf:
       - title: Pont thermique mur / plancher
         type: object
         properties:

@@ -17,6 +17,7 @@
   generateur_mixte_id: fbc4f0ac-7d7c-4464-adb3-5617b81896c2
   position_volume_chauffe: false
   generateur_collectif: true
+  generateur_multi_batiment: false
   annee_installation: 2000
   scop: 4.5
 - id: 6a785019-8ce1-4768-b9c3-400b7bd2f1f3
@@ -26,5 +27,6 @@
   reseau_chaleur_id: reseau-chaleur
   position_volume_chauffe: false
   generateur_collectif: true
+  generateur_multi_batiment: true
   annee_installation: 2000
   generateur_mixte_id: null

@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/enveloppe/local_non_chauffe
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Local non chauffé
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID
@@ -27,7 +28,7 @@ properties:
       - hall_entree_sans_fermeture_automatique
       - garage_collectif
       - autres
-  parois_opaques:
+  parois:
     title: Liste des parois opaques
     type: array
     minContains: 1
@@ -43,5 +44,5 @@ required:
   - id
   - description
   - type
-  - parois_opaques
+  - parois
   - baies

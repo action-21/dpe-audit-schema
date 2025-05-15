@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/refroidissement/systeme
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Système de refroidissement
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID

@@ -3,6 +3,7 @@
   "$id": "https://schemas.dpe-audit.fr/audit",
   "title": "Audit",
   "type": "object",
+  "unevaluatedProperties": false,
   "properties": {
     "id": {
       "title": "Identifiant unique de l'audit au format UUID",
@@ -538,6 +539,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/local_non_chauffe",
       "title": "Local non chauffé",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -567,7 +569,7 @@
             "autres"
           ]
         },
-        "parois_opaques": {
+        "parois": {
           "title": "Liste des parois opaques",
           "type": "array",
           "minContains": 1,
@@ -588,7 +590,7 @@
         "id",
         "description",
         "type",
-        "parois_opaques",
+        "parois",
         "baies"
       ]
     },
@@ -596,6 +598,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/mur",
       "title": "Mur",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -927,6 +930,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/plancher_bas",
       "title": "Plancher bas",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -1200,6 +1204,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/plancher_haut",
       "title": "Plancher haut",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -1610,6 +1615,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/baie",
       "title": "Baie",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -2344,6 +2350,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/porte",
       "title": "Porte",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique de la porte au format UUID",
@@ -2621,6 +2628,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe/pont_thermique",
       "title": "Pont thermique",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -2682,7 +2690,7 @@
             "type_liaison",
             "mur_id"
           ],
-          "oneOf": [
+          "anyOf": [
             {
               "title": "Pont thermique mur / plancher",
               "type": "object",
@@ -2750,6 +2758,7 @@
       "$id": "https://schemas.dpe-audit.fr/enveloppe",
       "title": "Enveloppe",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "exposition": {
           "title": "Exposition",
@@ -2888,6 +2897,7 @@
       "$id": "https://schemas.dpe-audit.fr/ventilation/generateur",
       "title": "Générateur de ventilation",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique du générateur de ventilation au format UUID",
@@ -2999,6 +3009,7 @@
       "$id": "https://schemas.dpe-audit.fr/ventilation/installation",
       "title": "Installation de ventilation",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -3025,6 +3036,7 @@
       "$id": "https://schemas.dpe-audit.fr/ventilation/systeme",
       "title": "Système de ventilation",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -3053,7 +3065,7 @@
         "installation_id",
         "type"
       ],
-      "oneOf": [
+      "anyOf": [
         {
           "title": "Système de ventilation mécanique",
           "type": "object",
@@ -3095,6 +3107,7 @@
       "$id": "https://schemas.dpe-audit.fr/ventilation",
       "title": "Ventilation",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "generateurs": {
           "title": "Liste des générateurs de ventilation",
@@ -3130,6 +3143,7 @@
       "$id": "https://schemas.dpe-audit.fr/refroidissement/generateur",
       "title": "Générateur de refroidissement",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -3269,6 +3283,7 @@
       "$id": "https://schemas.dpe-audit.fr/refroidissement/installation",
       "title": "Installation de refroidissement",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -3295,6 +3310,7 @@
       "$id": "https://schemas.dpe-audit.fr/refroidissement/systeme",
       "title": "Système de refroidissement",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -3322,6 +3338,7 @@
       "$id": "https://schemas.dpe-audit.fr/refroidissement",
       "title": "Refroidissement",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "generateurs": {
           "title": "Liste des générateurs de refroidissement",
@@ -3355,6 +3372,7 @@
       "$id": "https://schemas.dpe-audit.fr/chauffage/generateur",
       "title": "Générateur de chauffage",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -3484,7 +3502,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "enum": "chaudiere"
+              "const": "chaudiere"
             },
             "energie": {
               "const": "electricite"
@@ -4067,6 +4085,7 @@
       "$id": "https://schemas.dpe-audit.fr/chauffage/emetteur",
       "title": "Émetteur de chaleur",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique de l'émetteur de chauffage au format UUID",
@@ -4123,6 +4142,7 @@
       "$id": "https://schemas.dpe-audit.fr/chauffage/installation",
       "title": "Installation de chauffage",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique de l'installation de chauffage au format UUID",
@@ -4265,13 +4285,14 @@
       "$id": "https://schemas.dpe-audit.fr/chauffage/systeme",
       "title": "Système de chauffage",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
           "format": "uuid"
         },
-        "installations_id": {
+        "installation_id": {
           "title": "Identifiant unique de l'installation de chauffage au format UUID",
           "type": "string",
           "format": "uuid"
@@ -4292,11 +4313,11 @@
       },
       "required": [
         "id",
-        "installations_id",
+        "installation_id",
         "generateur_id",
         "type"
       ],
-      "oneOf": [
+      "anyOf": [
         {
           "title": "Chauffage central",
           "type": "object",
@@ -4388,6 +4409,7 @@
       "$id": "https://schemas.dpe-audit.fr/chauffage",
       "title": "Chauffage",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "generateurs": {
           "title": "Liste des générateurs de chauffage",
@@ -4432,6 +4454,7 @@
       "$id": "https://schemas.dpe-audit.fr/ecs/generateur",
       "title": "Générateur d'eau chaude sanitaire",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -4920,6 +4943,7 @@
       "$id": "https://schemas.dpe-audit.fr/ecs/installation",
       "title": "Installation d'eau chaude sanitaire",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique sanitaire au format UUID",
@@ -5002,6 +5026,7 @@
       "$id": "https://schemas.dpe-audit.fr/ecs/systeme",
       "title": "Système d'eau chaude sanitaire",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -5118,6 +5143,7 @@
       "$id": "https://schemas.dpe-audit.fr/ecs",
       "title": "Eau chaude sanitaire",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "generateurs": {
           "title": "Liste des générateurs d'eau chaude sanitaire",
@@ -5154,6 +5180,7 @@
       "$id": "https://schemas.dpe-audit.fr/production/panneau_photovoltaique",
       "title": "Panneau photovoltaïque",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
@@ -5204,6 +5231,7 @@
       "$id": "https://schemas.dpe-audit.fr/production",
       "title": "Production renouvelable",
       "type": "object",
+      "unevaluatedProperties": false,
       "properties": {
         "panneaux_photovoltaiques": {
           "title": "Liste des panneaux photovoltaïques",

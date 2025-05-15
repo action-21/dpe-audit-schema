@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/chauffage/emetteur
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Émetteur de chaleur
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique de l'émetteur de chauffage au format UUID

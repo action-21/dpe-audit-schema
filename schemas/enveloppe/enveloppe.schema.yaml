@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/enveloppe
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Enveloppe
 type: object
+unevaluatedProperties: false
 properties:
   exposition:
     title: Exposition

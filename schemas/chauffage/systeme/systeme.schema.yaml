@@ -2,6 +2,7 @@ $id: https://schemas.dpe-audit.fr/chauffage/systeme
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Système de chauffage
 type: object
+unevaluatedProperties: false
 properties:
   id:
     title: Identifiant unique au format UUID
@@ -21,10 +22,10 @@ properties:
     enum: [chauffage_central, chauffage_divise]
 required:
   - id
-  - installations_id
+  - installation_id
   - generateur_id
   - type
-oneOf:
+anyOf:
   - title: Chauffage central
     type: object
     properties:
