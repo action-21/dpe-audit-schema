@@ -7,12 +7,10 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [570c8e85-524f-4279-81ad-87f2014f9205]
   installation_id:
     title: Identifiant unique de l'installation associée au système
     type: string
     format: uuid
-    examples: [9aec1555-e0fa-4b31-8978-6f7d1df394b6]
   type:
     title: Type de système de ventilation
     type: string
@@ -22,7 +20,6 @@ properties:
       - ventilation_naturelle_entrees_air_hautes_basses
       - ventilation_naturelle_conduit
       - ventilation_naturelle_conduit_entrees_air_hygroreglables
-    examples: [ventilation_mecanique]
 required:
   - id
   - installation_id
@@ -37,7 +34,6 @@ oneOf:
         title: Identifiant du générateur de ventilation associé au système
         type: string
         format: uuid
-        examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
     required:
       - type
       - generateur_id

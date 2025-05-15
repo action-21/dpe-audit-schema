@@ -7,16 +7,13 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [9aec1555-e0fa-4b31-8978-6f7d1df394b6]
   description:
     title: Description au format markdown
     type: string
-    examples: [Une installation de ventilation]
   surface:
     title: Surface couverte par l'installation en m²
     type: number
     exclusiveMinimum: 0
-    examples: [100]
 required:
   - id
   - description

@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique du générateur de ventilation au format UUID
     type: string
     format: uuid
-    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
   description:
     title: Description du générateur de ventilation au format markdown
     type: string
-    examples: [Un générateur de ventilation]
   type:
     title: Type de générateur
     type: string
@@ -25,21 +23,17 @@ properties:
       - puit_climatique
       - vmi
       - vmr
-    examples: [vmc_simple_flux]
   generateur_collectif:
     title: Générateur collectif de ventilation
     type: boolean
-    examples: [false]
   presence_echangeur_thermique:
     title: Présence d'un échangeur thermique
     type: ["boolean", "null"]
     default: null
-    examples: [true]
   annee_installation:
     title: Année d'installation du générateur de ventilation
     type: ["integer", "null"]
     default: null
-    examples: [2000]
 required:
   - id
   - description
@@ -67,7 +61,6 @@ oneOf:
           - hygroreglable_type_b
           - null
         default: null
-        examples: [autoreglable]
     required:
       - type
       - type_vmc
