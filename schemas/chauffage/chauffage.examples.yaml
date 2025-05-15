@@ -29,6 +29,7 @@
       generateur_collectif: true
       annee_installation: 2000
       generateur_mixte_id: null
+
   emetteurs:
     - id: 1e9098f0-5952-4c95-8608-291689103c29
       description: Un émetteur de chaleur
@@ -36,6 +37,7 @@
       temperature_distribution: moyenne
       presence_robinet_thermostatique: true
       annee_installation: 2000
+
   installations:
     - id: 9d615f30-c6f8-406f-8a1f-899617c472db
       description: Une installation de chauffage
@@ -53,6 +55,7 @@
         presence_regulation: true
         minimum_temperature: false
         detection_presence: false
+
   systemes:
     - installation_id: 9d615f30-c6f8-406f-8a1f-899617c472db
       generateur_id: 6a785019-8ce1-4768-b9c3-400b7bd2f1f3
