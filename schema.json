@@ -7,18 +7,12 @@
     "id": {
       "title": "Identifiant unique de l'audit au format UUID",
       "type": "string",
-      "format": "uuid",
-      "examples": [
-        "4634c0b5-a515-4aa7-abc2-c6d6d81af75c"
-      ]
+      "format": "uuid"
     },
     "date_etablissement": {
       "title": "Date d'établissement",
       "type": "string",
-      "format": "date",
-      "examples": [
-        "2025-01-01"
-      ]
+      "format": "date"
     },
     "adresse": {
       "$ref": "#/$defs/adresse"
@@ -30,7 +24,7 @@
       "title": "Liste des logements visités",
       "type": "array",
       "items": {
-        "$ref": "/logement"
+        "$ref": "#/$defs/logement"
       }
     },
     "enveloppe": {
@@ -65,42 +59,88 @@
     "refroidissement",
     "production"
   ],
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "title": "Maison individuelle",
+          "type": "object",
+          "properties": {
+            "batiment": {
+              "properties": {
+                "type": {
+                  "const": "maison"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "logements": {
+              "type": "array",
+              "maxContains": 2
+            }
+          },
+          "required": [
+            "batiment",
+            "logements"
+          ]
+        },
+        {
+          "title": "Immeuble collectif",
+          "type": "object",
+          "properties": {
+            "batiment": {
+              "properties": {
+                "type": {
+                  "const": "immeuble"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "logements": {
+              "type": "array",
+              "minContains": 3
+            }
+          },
+          "required": [
+            "batiment",
+            "logements"
+          ]
+        }
+      ]
+    }
+  ],
   "$defs": {
     "adresse": {
       "title": "Adresse",
       "type": "object",
       "properties": {
         "numero": {
-          "title": "Numéro",
+          "title": "Numéro avec indice de répétition éventuel (bis, ter, A, B)",
           "type": [
             "string",
             "null"
           ],
-          "default": null,
-          "examples": [
-            "1"
-          ]
+          "default": null
         },
-        "voie": {
-          "title": "Voie",
-          "type": "string",
-          "examples": [
-            "rue de la Paix"
-          ]
+        "nom": {
+          "title": "Numéro éventuel et nom de voie ou lieu dit",
+          "type": "string"
         },
         "code_postal": {
-          "title": "Code postal",
-          "type": "string",
-          "examples": [
-            "75000"
-          ]
+          "title": "Code postal de la commune",
+          "type": "string"
+        },
+        "code_commune": {
+          "title": "Code INSEE de la commune",
+          "type": "string"
         },
         "commune": {
           "title": "Commune",
-          "type": "string",
-          "examples": [
-            "Paris"
-          ]
+          "type": "string"
         },
         "ban_id": {
           "title": "Identifiant BAN",
@@ -113,8 +153,9 @@
       },
       "required": [
         "numero",
-        "voie",
+        "nom",
         "code_postal",
+        "code_commune",
         "commune",
         "ban_id"
       ]
@@ -123,43 +164,40 @@
       "title": "Bâtiment",
       "type": "object",
       "properties": {
+        "type": {
+          "title": "Type de bâtiment",
+          "type": "string",
+          "enum": [
+            "maison",
+            "immeuble"
+          ]
+        },
         "annee_construction": {
           "title": "Année de construction",
-          "type": "integer",
-          "examples": [
-            1975
-          ]
+          "type": "integer"
         },
         "altitude": {
           "title": "Altitude du bâtiment en m",
-          "type": "integer",
-          "examples": [
-            500
-          ]
+          "type": "number"
         },
         "logements": {
           "title": "Nombre de logements",
           "type": "integer",
-          "exclusiveMinimum": 0,
-          "examples": [
-            1
-          ]
+          "exclusiveMinimum": 0
         },
         "surface_habitable": {
           "title": "Surface habitable en m²",
           "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            150
-          ]
+          "exclusiveMinimum": 0
         },
         "hauteur_sous_plafond": {
           "title": "Hauteur moyenne sous plafond en m",
           "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            2.8
-          ]
+          "exclusiveMinimum": 0
+        },
+        "materiaux_anciens": {
+          "title": "Bâtiment majoritairement composé de matériaux anciens",
+          "type": "boolean"
         },
         "rnb_id": {
           "title": "Identifiant RNB",
@@ -171,62 +209,57 @@
         }
       },
       "required": [
+        "type",
         "annee_construction",
         "altitude",
         "logements",
         "surface_habitable",
         "hauteur_sous_plafond",
+        "materiaux_anciens",
         "rnb_id"
       ]
     },
-    "https://schemas.dpe-audit.fr/logement": {
-      "$id": "https://schemas.dpe-audit.fr/logement",
+    "logement": {
       "title": "Logement",
       "type": "object",
       "properties": {
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "fe60b38b-674f-4e1d-9cc6-4123b7475353"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un logement"
-          ]
+          "type": "string"
         },
         "surface_habitable": {
           "title": "Surface habitable en m²",
-          "type": "number",
-          "examples": [
-            100
-          ]
+          "type": "number"
         },
         "hauteur_sous_plafond": {
           "title": "Hauteur sous plafond moyenne en m",
-          "type": "number",
-          "examples": [
-            2.5
+          "type": "number"
+        },
+        "position": {
+          "title": "Position du logement",
+          "type": "string",
+          "enum": [
+            "rdc",
+            "etage_intermediaire",
+            "dernier_etage"
           ]
         },
         "typologoie": {
           "title": "Typologie du logement",
           "type": "string",
           "enum": [
-            "t1",
-            "t2",
-            "t3",
-            "t4",
-            "t5",
-            "t6",
-            "t7"
-          ],
-          "examples": [
-            "t3"
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7"
           ]
         }
       },
@@ -235,6 +268,7 @@
         "description",
         "surface_habitable",
         "hauteur_sous_plafond",
+        "position",
         "typologoie"
       ]
     },
@@ -246,43 +280,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "ff9008dc-f03e-4c1e-b523-5184ba1e63c6"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Paroi d'un local non chauffé donnant sur l'extérieur"
-          ]
-        },
-        "mitoyennete": {
-          "title": "Mitoyenneté",
-          "type": "string",
-          "enum": [
-            "exterieur",
-            "enterre",
-            "vide_sanitaire",
-            "terre_plein",
-            "sous_sol_non_chauffe",
-            "local_non_chauffe",
-            "local_non_residentiel",
-            "local_residentiel",
-            "local_non_accessible"
-          ],
-          "examples": [
-            "exterieur"
-          ]
-        },
-        "surface": {
-          "title": "Surface de la paroi en m²",
-          "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            10
-          ]
+          "type": "string"
         },
         "isolation": {
           "title": "État d'isolation de la paroi",
@@ -294,19 +296,50 @@
             "isole",
             "non_isole",
             null
-          ],
-          "examples": [
-            "non_isole"
           ]
+        },
+        "position": {
+          "$ref": "#/$defs/position"
         }
       },
       "required": [
         "id",
         "description",
-        "mitoyennete",
-        "surface",
-        "isolation"
-      ]
+        "isolation",
+        "position"
+      ],
+      "$defs": {
+        "position": {
+          "title": "Position",
+          "type": "object",
+          "properties": {
+            "mitoyennete": {
+              "title": "Mitoyenneté",
+              "type": "string",
+              "enum": [
+                "exterieur",
+                "enterre",
+                "vide_sanitaire",
+                "terre_plein",
+                "sous_sol_non_chauffe",
+                "local_non_chauffe",
+                "local_non_residentiel",
+                "local_residentiel",
+                "local_non_accessible"
+              ]
+            },
+            "surface": {
+              "title": "Surface de la paroi en m²",
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "mitoyennete",
+            "surface"
+          ]
+        }
+      }
     },
     "https://schemas.dpe-audit.fr/enveloppe/local_non_chauffe/baie": {
       "$id": "https://schemas.dpe-audit.fr/enveloppe/local_non_chauffe/baie",
@@ -316,17 +349,11 @@
         "id": {
           "title": "Identifiant unique format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "e5177740-3927-478a-ab69-8f673ec4d073"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Baie d'un local non chauffé donnant sur l'extérieur"
-          ]
+          "type": "string"
         },
         "type_baie": {
           "title": "Type de baie",
@@ -384,10 +411,7 @@
                 "metal",
                 null
               ],
-              "default": null,
-              "examples": [
-                "pvc"
-              ]
+              "default": null
             },
             "type_vitrage": {
               "title": "Type de vitrage",
@@ -403,10 +427,7 @@
                 "triple_vitrage_fe",
                 null
               ],
-              "default": null,
-              "examples": [
-                "simple_vitrage"
-              ]
+              "default": null
             },
             "presence_rupteur_pont_thermique": {
               "title": "Présence d'un rupteur de pont thermique",
@@ -414,10 +435,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                false
-              ]
+              "default": null
             }
           },
           "required": [
@@ -440,18 +458,12 @@
                 "null"
               ],
               "format": "uuid",
-              "default": null,
-              "examples": [
-                "ff9008dc-f03e-4c1e-b523-5184ba1e63c6"
-              ]
+              "default": null
             },
             "surface": {
               "title": "Surface totale en m²",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                10
-              ]
+              "exclusiveMinimum": 0
             },
             "mitoyennete": {
               "title": "Mitoyenneté",
@@ -466,19 +478,13 @@
                 "local_non_residentiel",
                 "local_residentiel",
                 "local_non_accessible"
-              ],
-              "examples": [
-                "exterieur"
               ]
             },
             "inclinaison": {
               "title": "Inclinaison par rapport à l'horizontal en °",
               "type": "number",
               "minimum": 0,
-              "maximum": 90,
-              "examples": [
-                90
-              ]
+              "maximum": 90
             }
           },
           "required": [
@@ -516,10 +522,7 @@
                   "title": "Orientation par rapport au nord en °",
                   "type": "number",
                   "minimum": 0,
-                  "exclusiveMaximum": 360,
-                  "examples": [
-                    0
-                  ]
+                  "exclusiveMaximum": 360
                 }
               },
               "required": [
@@ -539,17 +542,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "30972a71-398f-4eb9-a902-0a6665d94a4f"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un local non chauffé"
-          ]
+          "type": "string"
         },
         "type": {
           "title": "Type",
@@ -568,24 +565,22 @@
             "hall_entree_sans_fermeture_automatique",
             "garage_collectif",
             "autres"
-          ],
-          "examples": [
-            "espace_tampon_solarise"
           ]
         },
-        "parois": {
-          "title": "Liste des parois",
+        "parois_opaques": {
+          "title": "Liste des parois opaques",
           "type": "array",
           "minContains": 1,
           "items": {
-            "oneOf": [
-              {
-                "$ref": "/enveloppe/local_non_chauffe/paroi"
-              },
-              {
-                "$ref": "/enveloppe/local_non_chauffe/baie"
-              }
-            ]
+            "$ref": "/enveloppe/local_non_chauffe/paroi"
+          }
+        },
+        "baies": {
+          "title": "Liste des baies",
+          "type": "array",
+          "minContains": 1,
+          "items": {
+            "$ref": "/enveloppe/local_non_chauffe/baie"
           }
         }
       },
@@ -593,7 +588,8 @@
         "id",
         "description",
         "type",
-        "parois"
+        "parois_opaques",
+        "baies"
       ]
     },
     "https://schemas.dpe-audit.fr/enveloppe/mur": {
@@ -604,17 +600,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un mur"
-          ]
+          "type": "string"
         },
         "type_structure": {
           "title": "Type de mur",
@@ -644,10 +634,7 @@
             "ossature_bois_avec_remplissage_isolant",
             null
           ],
-          "default": null,
-          "examples": [
-            "brique_pleine_simple"
-          ]
+          "default": null
         },
         "epaisseur_structure": {
           "title": "Epaisseur du mur non isolé en mm",
@@ -656,10 +643,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            200
-          ]
+          "default": null
         },
         "type_doublage": {
           "title": "Type de doublage",
@@ -675,10 +659,7 @@
             "materiaux_connu",
             null
           ],
-          "default": null,
-          "examples": [
-            "indetermine"
-          ]
+          "default": null
         },
         "presence_enduit_isolant": {
           "title": "Présence d'un enduit isolant",
@@ -686,10 +667,7 @@
             "boolean",
             "null"
           ],
-          "default": null,
-          "examples": [
-            false
-          ]
+          "default": null
         },
         "paroi_ancienne": {
           "title": "Mur constitué de matériaux anciens",
@@ -697,10 +675,7 @@
             "boolean",
             "null"
           ],
-          "default": null,
-          "examples": [
-            false
-          ]
+          "default": null
         },
         "inertie": {
           "title": "État d'inertie",
@@ -713,10 +688,7 @@
             "legere",
             null
           ],
-          "default": null,
-          "examples": [
-            "lourde"
-          ]
+          "default": null
         },
         "annee_construction": {
           "title": "Année de construction",
@@ -724,10 +696,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         },
         "annee_renovation": {
           "title": "Année de dernière rénovation connue et justifiée",
@@ -735,10 +704,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2010
-          ]
+          "default": null
         },
         "u0": {
           "title": "Coefficient de transmission thermique connu et justifié du mur non isolé en W/m²K",
@@ -747,10 +713,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            3.8
-          ]
+          "default": null
         },
         "u": {
           "title": "Coefficient de transmission thermique connu et justifié en W/m²K",
@@ -759,10 +722,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            1.4
-          ]
+          "default": null
         },
         "position": {
           "$ref": "#/$defs/position"
@@ -795,10 +755,7 @@
             "surface": {
               "title": "Surface totale en m²",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                100
-              ]
+              "exclusiveMinimum": 0
             },
             "mitoyennete": {
               "title": "Mitoyenneté",
@@ -813,9 +770,6 @@
                 "local_non_residentiel",
                 "local_residentiel",
                 "local_non_accessible"
-              ],
-              "examples": [
-                "local_non_chauffe"
               ]
             },
             "orientation": {
@@ -826,10 +780,7 @@
               ],
               "minimum": 0,
               "exclusiveMaximum": 360,
-              "default": null,
-              "examples": [
-                90
-              ]
+              "default": null
             }
           },
           "required": [
@@ -848,10 +799,7 @@
                 "local_non_chauffe_id": {
                   "title": "Identifiant du local non chauffé associé au mur",
                   "type": "string",
-                  "format": "uuid",
-                  "examples": [
-                    "30972a71-398f-4eb9-a902-0a6665d94a4f"
-                  ]
+                  "format": "uuid"
                 }
               },
               "required": [
@@ -889,9 +837,6 @@
                 "isole",
                 "non_isole",
                 null
-              ],
-              "examples": [
-                "isole"
               ]
             }
           },
@@ -922,10 +867,7 @@
                     "itr_iti_ite",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "iti"
-                  ]
+                  "default": null
                 },
                 "annee_isolation": {
                   "title": "Année d'isolation",
@@ -933,10 +875,7 @@
                     "integer",
                     "null"
                   ],
-                  "default": null,
-                  "examples": [
-                    2000
-                  ]
+                  "default": null
                 },
                 "epaisseur_isolation": {
                   "title": "Epaisseur de l'isolation en mm",
@@ -945,10 +884,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    200
-                  ]
+                  "default": null
                 },
                 "resistance_thermique_isolation": {
                   "title": "Résistance thermique de l'isolation en m².K/W",
@@ -957,10 +893,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    5.5
-                  ]
+                  "default": null
                 }
               },
               "required": [
@@ -998,17 +931,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "ecd4cd8f-7f2b-4427-9d94-b1ed5da33711"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un plancher bas"
-          ]
+          "type": "string"
         },
         "type_structure": {
           "title": "Type de plancher bas",
@@ -1030,10 +957,7 @@
             "plancher_entrevous_isolant",
             null
           ],
-          "default": null,
-          "examples": [
-            "dalle_beton"
-          ]
+          "default": null
         },
         "inertie": {
           "title": "État d'inertie",
@@ -1046,10 +970,7 @@
             "legere",
             null
           ],
-          "default": null,
-          "examples": [
-            "lourde"
-          ]
+          "default": null
         },
         "annee_construction": {
           "title": "Année de construction",
@@ -1057,10 +978,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         },
         "annee_renovation": {
           "title": "Année de dernière rénovation connue et justifiée",
@@ -1068,10 +986,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2010
-          ]
+          "default": null
         },
         "u0": {
           "title": "Coefficient de transmission thermique connu et justifié du plancher bas non isolé en W/m²K",
@@ -1080,10 +995,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            3.8
-          ]
+          "default": null
         },
         "u": {
           "title": "Coefficient de transmission thermique connu et justifié en W/m²K",
@@ -1092,10 +1004,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            1.4
-          ]
+          "default": null
         },
         "position": {
           "$ref": "#/$defs/position"
@@ -1124,18 +1033,12 @@
             "surface": {
               "title": "Surface totale exprimée en m²",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                100
-              ]
+              "exclusiveMinimum": 0
             },
             "perimetre": {
               "title": "Périmètre en m",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                40
-              ]
+              "exclusiveMinimum": 0
             },
             "mitoyennete": {
               "title": "Mitoyenneté",
@@ -1150,9 +1053,6 @@
                 "local_non_residentiel",
                 "local_residentiel",
                 "local_non_accessible"
-              ],
-              "examples": [
-                "local_non_chauffe"
               ]
             }
           },
@@ -1172,10 +1072,7 @@
                 "local_non_chauffe_id": {
                   "title": "Identifiant du local non chauffé associé au plancher bas",
                   "type": "string",
-                  "format": "uuid",
-                  "examples": [
-                    "30972a71-398f-4eb9-a902-0a6665d94a4f"
-                  ]
+                  "format": "uuid"
                 }
               },
               "required": [
@@ -1213,9 +1110,6 @@
                 "isole",
                 "non_isole",
                 null
-              ],
-              "examples": [
-                "isole"
               ]
             }
           },
@@ -1246,10 +1140,7 @@
                     "itr_iti_ite",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "iti"
-                  ]
+                  "default": null
                 },
                 "annee_isolation": {
                   "title": "Année d'isolation",
@@ -1257,10 +1148,7 @@
                     "integer",
                     "null"
                   ],
-                  "default": null,
-                  "examples": [
-                    2000
-                  ]
+                  "default": null
                 },
                 "epaisseur_isolation": {
                   "title": "Epaisseur de l'isolation en mm",
@@ -1269,10 +1157,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    200
-                  ]
+                  "default": null
                 },
                 "resistance_thermique_isolation": {
                   "title": "Résistance thermique de l'isolation en m².K/W",
@@ -1281,10 +1166,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    5.5
-                  ]
+                  "default": null
                 }
               },
               "required": [
@@ -1322,17 +1204,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "ecd4cd8f-7f2b-4427-9d94-b1ed5da33711"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un plancher haut"
-          ]
+          "type": "string"
         },
         "configuration": {
           "title": "Configuration",
@@ -1346,10 +1222,7 @@
             "terrasse",
             null
           ],
-          "default": null,
-          "examples": [
-            "combles_perdus"
-          ]
+          "default": null
         },
         "type_structure": {
           "title": "Type de plancher haut",
@@ -1374,10 +1247,7 @@
             "bac_acier",
             null
           ],
-          "default": null,
-          "examples": [
-            "dalle_beton"
-          ]
+          "default": null
         },
         "inertie": {
           "title": "État d'inertie",
@@ -1390,10 +1260,7 @@
             "legere",
             null
           ],
-          "default": null,
-          "examples": [
-            "lourde"
-          ]
+          "default": null
         },
         "annee_construction": {
           "title": "Année de construction",
@@ -1401,10 +1268,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         },
         "annee_renovation": {
           "title": "Année de dernière rénovation connue et justifiée",
@@ -1412,10 +1276,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2010
-          ]
+          "default": null
         },
         "u0": {
           "title": "Coefficient de transmission thermique connu et justifié du plancher haut non isolé en W/m²K",
@@ -1424,10 +1285,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            3.8
-          ]
+          "default": null
         },
         "u": {
           "title": "Coefficient de transmission thermique connu et justifié en W/m²K",
@@ -1436,10 +1294,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            1.4
-          ]
+          "default": null
         },
         "position": {
           "$ref": "#/$defs/position"
@@ -1469,10 +1324,7 @@
             "surface": {
               "title": "Surface totale exprimée en m²",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                100
-              ]
+              "exclusiveMinimum": 0
             },
             "mitoyennete": {
               "title": "Mitoyenneté",
@@ -1487,9 +1339,6 @@
                 "local_non_residentiel",
                 "local_residentiel",
                 "local_non_accessible"
-              ],
-              "examples": [
-                "local_non_chauffe"
               ]
             },
             "orientation": {
@@ -1500,10 +1349,7 @@
               ],
               "minimum": 0,
               "exclusiveMaximum": 360,
-              "default": null,
-              "examples": [
-                90
-              ]
+              "default": null
             }
           },
           "required": [
@@ -1522,10 +1368,7 @@
                 "local_non_chauffe_id": {
                   "title": "Identifiant du local non chauffé associé au plancher haut",
                   "type": "string",
-                  "format": "uuid",
-                  "examples": [
-                    "30972a71-398f-4eb9-a902-0a6665d94a4f"
-                  ]
+                  "format": "uuid"
                 }
               },
               "required": [
@@ -1563,9 +1406,6 @@
                 "isole",
                 "non_isole",
                 null
-              ],
-              "examples": [
-                "isole"
               ]
             }
           },
@@ -1596,10 +1436,7 @@
                     "itr_iti_ite",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "iti"
-                  ]
+                  "default": null
                 },
                 "annee_isolation": {
                   "title": "Année d'isolation",
@@ -1607,10 +1444,7 @@
                     "integer",
                     "null"
                   ],
-                  "default": null,
-                  "examples": [
-                    2000
-                  ]
+                  "default": null
                 },
                 "epaisseur_isolation": {
                   "title": "Epaisseur de l'isolation en mm",
@@ -1619,10 +1453,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    200
-                  ]
+                  "default": null
                 },
                 "resistance_thermique_isolation": {
                   "title": "Résistance thermique de l'isolation en m².K/W",
@@ -1631,10 +1462,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    5.5
-                  ]
+                  "default": null
                 }
               },
               "required": [
@@ -1669,28 +1497,21 @@
       "title": "Masque lointain",
       "type": "object",
       "properties": {
+        "id": {
+          "title": "Identifiant au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
         "description": {
           "title": "Description du masque lointain",
-          "type": "string",
-          "examples": [
-            "Masque lointain homogène"
-          ]
+          "type": "string"
         },
         "type_masque": {
-          "title": "Type de masque",
-          "type": "string",
-          "const": "masque_lointain",
-          "default": "masque_lointain"
-        },
-        "type_masque_lointain": {
           "title": "Type de masque lointain",
           "type": "string",
           "enum": [
             "homogene",
             "non_homogene"
-          ],
-          "examples": [
-            "homogene"
           ]
         },
         "hauteur": {
@@ -1707,9 +1528,9 @@
         }
       },
       "required": [
+        "id",
         "description",
         "type_masque",
-        "type_masque_lointain",
         "hauteur",
         "orientation"
       ]
@@ -1719,20 +1540,16 @@
       "title": "Masque proche",
       "type": "object",
       "properties": {
+        "id": {
+          "title": "Identifiant au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
         "description": {
           "title": "Description au format mardkown",
-          "type": "string",
-          "examples": [
-            "Un masque proche"
-          ]
+          "type": "string"
         },
         "type_masque": {
-          "title": "Type de masque",
-          "type": "string",
-          "const": "masque_proche",
-          "default": "masque_proche"
-        },
-        "type_masque_proche": {
           "title": "Type de masque proche",
           "type": "string",
           "enum": [
@@ -1741,23 +1558,20 @@
             "balcon_ou_auvent",
             "paroi_laterale_sans_obstacle_au_sud",
             "paroi_laterale_avec_obstacle_au_sud"
-          ],
-          "examples": [
-            "fond_balcon"
           ]
         }
       },
       "required": [
+        "id",
         "description",
-        "type_masque",
-        "type_masque_proche"
+        "type_masque"
       ],
       "oneOf": [
         {
           "title": "Paroi latérale",
           "type": "object",
           "properties": {
-            "type_masque_proche": {
+            "type_masque": {
               "enum": [
                 "paroi_laterale_sans_obstacle_au_sud",
                 "paroi_laterale_avec_obstacle_au_sud"
@@ -1765,14 +1579,14 @@
             }
           },
           "required": [
-            "type_masque_proche"
+            "type_masque"
           ]
         },
         {
           "title": "Autres masques proches",
           "type": "object",
           "properties": {
-            "type_masque_proche": {
+            "type_masque": {
               "enum": [
                 "fond_balcon",
                 "fond_et_flanc_loggias",
@@ -1782,14 +1596,11 @@
             "profondeur": {
               "title": "Profondeur du masque en m",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                1.5
-              ]
+              "exclusiveMinimum": 0
             }
           },
           "required": [
-            "type_masque_proche",
+            "type_masque",
             "profondeur"
           ]
         }
@@ -1803,27 +1614,18 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Une fenêtre en PVC simple vitrage"
-          ]
+          "type": "string"
         },
         "type_baie": {
           "$ref": "#/$defs/typeBaie"
         },
         "presence_protection_solaire": {
           "title": "Présence de protection solaire",
-          "type": "boolean",
-          "examples": [
-            false
-          ]
+          "type": "boolean"
         },
         "type_fermeture": {
           "title": "Type de fermeture",
@@ -1844,9 +1646,6 @@
             "volet_battant_pvc_bois_epaisseur_lte_22_mm",
             "volet_battant_pvc_bois_epaisseur_gt_22_mm",
             "fermeture_isolee_sans_ajours"
-          ],
-          "examples": [
-            "volet_battant_pvc_bois_epaisseur_lte_22_mm"
           ]
         },
         "annee_installation": {
@@ -1855,10 +1654,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         },
         "ug": {
           "$ref": "#/$defs/ug"
@@ -1890,18 +1686,18 @@
             }
           ]
         },
-        "masques": {
-          "title": "Liste des masques",
+        "masques_lointains": {
+          "title": "Liste des masques lointains",
           "type": "array",
           "items": {
-            "oneOf": [
-              {
-                "$ref": "/enveloppe/baie/masque_lointain"
-              },
-              {
-                "$ref": "/enveloppe/baie/masque_proche"
-              }
-            ]
+            "$ref": "/enveloppe/baie/masque_lointain"
+          }
+        },
+        "masques_proches": {
+          "title": "Liste des masques proches",
+          "type": "array",
+          "items": {
+            "$ref": "/enveloppe/baie/masque_proche"
           }
         }
       },
@@ -1918,7 +1714,8 @@
         "sw",
         "position",
         "double_fenetre",
-        "masques"
+        "masques_lointains",
+        "masques_proches"
       ],
       "oneOf": [
         {
@@ -1954,9 +1751,6 @@
                 "nu_exterieur",
                 "nu_interieur",
                 "tunnel"
-              ],
-              "examples": [
-                "nu_interieur"
               ]
             },
             "materiau": {
@@ -1972,10 +1766,7 @@
                 "metal",
                 null
               ],
-              "default": null,
-              "examples": [
-                "pvc"
-              ]
+              "default": null
             },
             "vitrage": {
               "$ref": "#/$defs/vitrage"
@@ -2009,9 +1800,6 @@
                 "nu_exterieur",
                 "nu_interieur",
                 "tunnel"
-              ],
-              "examples": [
-                "nu_interieur"
               ]
             },
             "materiau": {
@@ -2027,17 +1815,11 @@
                 "metal",
                 null
               ],
-              "default": null,
-              "examples": [
-                "pvc"
-              ]
+              "default": null
             },
             "presence_soubassement": {
               "title": "Présence d'un soubassement",
-              "type": "boolean",
-              "examples": [
-                false
-              ]
+              "type": "boolean"
             },
             "vitrage": {
               "$ref": "#/$defs/vitrage"
@@ -2068,9 +1850,6 @@
             "fenetre_coulissante",
             "porte_fenetre_coulissante",
             "porte_fenetre_battante"
-          ],
-          "examples": [
-            "fenetre_battante"
           ]
         },
         "ug": {
@@ -2080,10 +1859,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            2.5
-          ]
+          "default": null
         },
         "uw": {
           "title": "Coefficient de transmission thermique de la baie connu et justifié en W/m²K",
@@ -2092,10 +1868,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            2.5
-          ]
+          "default": null
         },
         "ujn": {
           "title": "Coefficient de transmission thermique de la baie avec fermeture connu et justifié en W/m²K",
@@ -2104,10 +1877,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            2.5
-          ]
+          "default": null
         },
         "sw": {
           "title": "Proportion d'énergie solaire transmise par la baie en %",
@@ -2117,10 +1887,7 @@
           ],
           "minimum": 0,
           "maximum": 100,
-          "default": null,
-          "examples": [
-            80
-          ]
+          "default": null
         },
         "position": {
           "title": "Position de la baie",
@@ -2133,18 +1900,12 @@
                 "null"
               ],
               "format": "uuid",
-              "default": null,
-              "examples": [
-                "6e2f8aea-2215-40c5-bb17-bf1c400ec2e9"
-              ]
+              "default": null
             },
             "surface": {
               "title": "Surface de la baie en m²",
               "type": "number",
-              "minimum": 0,
-              "examples": [
-                3
-              ]
+              "minimum": 0
             },
             "mitoyennete": {
               "title": "Mitoyenneté de la baie",
@@ -2159,19 +1920,13 @@
                 "local_non_residentiel",
                 "local_residentiel",
                 "local_non_accessible"
-              ],
-              "examples": [
-                "local_non_chauffe"
               ]
             },
             "inclinaison": {
               "title": "Inclinaison de la baie par rapport à l'horizontale en degré",
               "type": "number",
               "minimum": 0,
-              "maximum": 90,
-              "examples": [
-                90
-              ]
+              "maximum": 90
             },
             "orientation": {
               "title": "Orientation de la baie en degré par rapport au nord",
@@ -2180,10 +1935,7 @@
                 "null"
               ],
               "minimum": 0,
-              "exclusiveMaximum": 360,
-              "examples": [
-                0
-              ]
+              "exclusiveMaximum": 360
             }
           },
           "required": [
@@ -2206,10 +1958,7 @@
                     "local_non_chauffe_id": {
                       "title": "Identifiant du local non chauffé associé à la baie",
                       "type": "string",
-                      "format": "uuid",
-                      "examples": [
-                        "30972a71-398f-4eb9-a902-0a6665d94a4f"
-                      ]
+                      "format": "uuid"
                     }
                   },
                   "required": [
@@ -2263,10 +2012,7 @@
                       "title": "Orientation par rapport au nord en °",
                       "type": "number",
                       "minimum": 0,
-                      "exclusiveMaximum": 360,
-                      "examples": [
-                        0
-                      ]
+                      "exclusiveMaximum": 360
                     }
                   },
                   "required": [
@@ -2289,10 +2035,7 @@
                 "null"
               ],
               "exclusiveMinimum": 0,
-              "default": null,
-              "examples": [
-                60
-              ]
+              "default": null
             },
             "presence_joint": {
               "title": "Présence de joint d'étanchéité",
@@ -2300,10 +2043,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                true
-              ]
+              "default": null
             },
             "presence_retour_isolation": {
               "title": "Présence d'un retour d'isolation",
@@ -2311,10 +2051,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                true
-              ]
+              "default": null
             },
             "presence_rupteur_pont_thermique": {
               "title": "Présence d'un rupteur de pont thermique",
@@ -2322,10 +2059,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                true
-              ]
+              "default": null
             }
           },
           "required": [
@@ -2353,10 +2087,7 @@
                 "triple_vitrage_fe",
                 null
               ],
-              "default": null,
-              "examples": [
-                "simple_vitrage"
-              ]
+              "default": null
             },
             "survitrage": {
               "title": "Survitrage",
@@ -2410,10 +2141,7 @@
                     "krypton",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "argon"
-                  ]
+                  "default": null
                 },
                 "epaisseur_lame": {
                   "title": "Epaisseur de la lame d'air en mm",
@@ -2422,10 +2150,7 @@
                     "null"
                   ],
                   "exclusiveMinimum": 0,
-                  "default": null,
-                  "examples": [
-                    12
-                  ]
+                  "default": null
                 }
               },
               "required": [
@@ -2451,10 +2176,7 @@
                 "survitrage_fe",
                 null
               ],
-              "default": null,
-              "examples": [
-                "survitrage_simple"
-              ]
+              "default": null
             },
             "epaisseur_lame": {
               "title": "Epaisseur de la lame d'air en mm",
@@ -2463,10 +2185,7 @@
                 "null"
               ],
               "minimum": 0,
-              "default": null,
-              "examples": [
-                12
-              ]
+              "default": null
             }
           },
           "required": [
@@ -2531,9 +2250,6 @@
                     "nu_exterieur",
                     "nu_interieur",
                     "tunnel"
-                  ],
-                  "examples": [
-                    "nu_interieur"
                   ]
                 },
                 "materiau": {
@@ -2549,10 +2265,7 @@
                     "metal",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "pvc"
-                  ]
+                  "default": null
                 },
                 "vitrage": {
                   "$ref": "#/$defs/vitrage"
@@ -2586,9 +2299,6 @@
                     "nu_exterieur",
                     "nu_interieur",
                     "tunnel"
-                  ],
-                  "examples": [
-                    "nu_interieur"
                   ]
                 },
                 "materiau": {
@@ -2604,17 +2314,11 @@
                     "metal",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "pvc"
-                  ]
+                  "default": null
                 },
                 "presence_soubassement": {
                   "title": "Présence d'un soubassement",
-                  "type": "boolean",
-                  "examples": [
-                    false
-                  ]
+                  "type": "boolean"
                 },
                 "vitrage": {
                   "$ref": "#/$defs/vitrage"
@@ -2624,7 +2328,7 @@
                 }
               },
               "required": [
-                "type",
+                "type_baie",
                 "type_pose",
                 "materiau",
                 "presence_soubassement",
@@ -2644,17 +2348,11 @@
         "id": {
           "title": "Identifiant unique de la porte au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description de la porte au format markdown",
-          "type": "string",
-          "examples": [
-            "Porte d'entrée"
-          ]
+          "type": "string"
         },
         "type_pose": {
           "title": "Type de pose",
@@ -2663,9 +2361,6 @@
             "nu_exterieur",
             "nu_interieur",
             "tunnel"
-          ],
-          "examples": [
-            "nu_interieur"
           ]
         },
         "isolation": {
@@ -2679,10 +2374,7 @@
             "non_isole",
             null
           ],
-          "default": null,
-          "examples": [
-            "isole"
-          ]
+          "default": null
         },
         "materiau": {
           "title": "Matériau de la porte",
@@ -2697,17 +2389,11 @@
             "metal",
             null
           ],
-          "default": null,
-          "examples": [
-            "pvc"
-          ]
+          "default": null
         },
         "presence_sas": {
           "title": "Présence d'un sas devant la porte",
-          "type": "boolean",
-          "examples": [
-            false
-          ]
+          "type": "boolean"
         },
         "annee_installation": {
           "title": "Année d'installation",
@@ -2715,10 +2401,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         },
         "u": {
           "title": "Coefficient de transmission thermique de la porte connu et justifié en W/m²K",
@@ -2727,10 +2410,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            2.5
-          ]
+          "default": null
         },
         "position": {
           "$ref": "#/$defs/position"
@@ -2767,18 +2447,12 @@
                 "null"
               ],
               "format": "uuid",
-              "default": null,
-              "examples": [
-                "6e2f8aea-2215-40c5-bb17-bf1c400ec2e9"
-              ]
+              "default": null
             },
             "surface": {
               "title": "Surface totale de la porte en m²",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                3.2
-              ]
+              "exclusiveMinimum": 0
             },
             "mitoyennete": {
               "title": "Mitoyenneté de la porte",
@@ -2793,9 +2467,6 @@
                 "local_non_residentiel",
                 "local_residentiel",
                 "local_non_accessible"
-              ],
-              "examples": [
-                "local_non_chauffe"
               ]
             },
             "orientation": {
@@ -2806,10 +2477,7 @@
               ],
               "minimum": 0,
               "exclusiveMaximum": 360,
-              "default": null,
-              "examples": [
-                90
-              ]
+              "default": null
             }
           },
           "required": [
@@ -2829,10 +2497,7 @@
                 "local_non_chauffe_id": {
                   "title": "Identifiant du local non chauffé associé à la porte",
                   "type": "string",
-                  "format": "uuid",
-                  "examples": [
-                    "30972a71-398f-4eb9-a902-0a6665d94a4f"
-                  ]
+                  "format": "uuid"
                 }
               },
               "required": [
@@ -2862,12 +2527,10 @@
           "properties": {
             "taux_vitrage": {
               "title": "Taux de vitrage en %",
+              "description": "Une porte avec un taux de vitrage supérieur à 60% est à considérer comme une porte-fenêtre avec soubassement",
               "type": "number",
               "minimum": 0,
-              "maximum": 100,
-              "examples": [
-                0
-              ]
+              "maximum": 60
             }
           },
           "required": [
@@ -2906,10 +2569,7 @@
                     "triple_vitrage",
                     null
                   ],
-                  "default": null,
-                  "examples": [
-                    "simple_vitrage"
-                  ]
+                  "default": null
                 }
               },
               "required": [
@@ -2926,14 +2586,11 @@
             "largeur_dormant": {
               "title": "Largeur dormant en mm",
               "type": [
-                "integer",
+                "number",
                 "null"
               ],
               "minimum": 0,
-              "default": null,
-              "examples": [
-                60
-              ]
+              "default": null
             },
             "presence_joint": {
               "title": "Présence de joint d'étanchéité",
@@ -2941,10 +2598,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                true
-              ]
+              "default": null
             },
             "presence_retour_isolation": {
               "title": "Présence d'un retour d'isolation",
@@ -2952,10 +2606,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                true
-              ]
+              "default": null
             }
           },
           "required": [
@@ -2974,25 +2625,16 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "91ba046e-34e0-48ee-815a-b95f59f4056a"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un pont thermique"
-          ]
+          "type": "string"
         },
         "longueur": {
           "title": "Longueur du pont thermique en m",
           "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            10
-          ]
+          "exclusiveMinimum": 0
         },
         "kpt": {
           "title": "Valeur du pont thermique connue et justifiée",
@@ -3001,10 +2643,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            0.1
-          ]
+          "default": null
         },
         "liaison": {
           "$ref": "#/$defs/liaison"
@@ -3057,10 +2696,7 @@
                 "plancher_id": {
                   "title": "Identifiant du Plancher haut ou du Plancher bas associé au pont thermique",
                   "type": "string",
-                  "format": "uuid",
-                  "examples": [
-                    "91ba046e-34e0-48ee-815a-b95f59f4056a"
-                  ]
+                  "format": "uuid"
                 }
               },
               "required": [
@@ -3078,10 +2714,7 @@
                 "ouverture_id": {
                   "title": "Identifiant de la Baie ou de la Porte associée au pont thermique",
                   "type": "string",
-                  "format": "uuid",
-                  "examples": [
-                    "91ba046e-34e0-48ee-815a-b95f59f4056a"
-                  ]
+                  "format": "uuid"
                 }
               },
               "required": [
@@ -3124,10 +2757,6 @@
           "enum": [
             "exposition_simple",
             "exposition_multiple"
-          ],
-          "examples": [
-            "exposition_simple",
-            "exposition_multiple"
           ]
         },
         "q4pa_conv": {
@@ -3139,18 +2768,17 @@
           "exclusiveMinimum": 0,
           "default": null
         },
-        "planchers_intermedaires": {
-          "title": "Liste des planchers intermédiaires",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/plancherIntermediaire"
-          }
+        "presence_brasseurs_air": {
+          "title": "Présence de brasseurs d'air",
+          "type": "boolean",
+          "default": false
         },
-        "refends": {
-          "title": "Liste des refends",
+        "niveaux": {
+          "title": "Liste des niveaux",
           "type": "array",
+          "minItems": 1,
           "items": {
-            "$ref": "#/$defs/refend"
+            "$ref": "#/$defs/niveau"
           }
         },
         "locaux_non_chauffes": {
@@ -3206,8 +2834,8 @@
       "required": [
         "exposition",
         "q4pa_conv",
-        "planchers_intermedaires",
-        "refends",
+        "presence_brasseurs_air",
+        "niveaux",
         "locaux_non_chauffes",
         "murs",
         "planchers_bas",
@@ -3217,90 +2845,41 @@
         "ponts_thermiques"
       ],
       "$defs": {
-        "plancherIntermediaire": {
-          "title": "Plancher intermédiaire",
-          "type": "object",
-          "properties": {
-            "description": {
-              "title": "Description du plancher intermédiaire au format markdown",
-              "type": "string",
-              "examples": [
-                "Un plancher intermédiaire"
-              ]
-            },
-            "surface": {
-              "title": "Surface du plancher intermédiaire en m²",
-              "type": "number",
-              "minimumExclusive": 0,
-              "examples": [
-                10
-              ]
-            },
-            "inertie": {
-              "title": "Inertie",
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "lourde",
-                "legere",
-                null
-              ],
-              "default": null,
-              "examples": [
-                "lourde",
-                "legere"
-              ]
-            }
-          },
-          "required": [
-            "description",
-            "surface",
-            "inertie"
+        "inertie": {
+          "title": "Inertie",
+          "type": "string",
+          "enum": [
+            "lourde",
+            "legere"
           ]
         },
-        "refend": {
-          "title": "Refend",
+        "niveau": {
+          "title": "Niveau",
           "type": "object",
           "properties": {
-            "description": {
-              "title": "Description du refend au format markdown",
-              "type": "string",
-              "examples": [
-                "Un refend"
-              ]
-            },
             "surface": {
-              "title": "Surface du refend en m²",
+              "title": "Surface en m²",
               "type": "number",
-              "minimumExclusive": 0,
-              "examples": [
-                10
-              ]
+              "minimumExclusive": 0
             },
-            "inertie": {
-              "title": "Inertie",
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "lourde",
-                "legere",
-                null
-              ],
-              "default": null,
-              "examples": [
-                "lourde",
-                "legere"
-              ]
+            "inertie_paroi_verticale": {
+              "title": "Inertie des parois verticales",
+              "$ref": "#/$defs/inertie"
+            },
+            "inertie_plancher_bas": {
+              "title": "Inertie des planchers bas",
+              "$ref": "#/$defs/inertie"
+            },
+            "inertie_plancher_haut": {
+              "title": "Inertie des planchers hauts",
+              "$ref": "#/$defs/inertie"
             }
           },
           "required": [
-            "description",
             "surface",
-            "inertie"
+            "inertie_paroi_verticale",
+            "inertie_plancher_bas",
+            "inertie_plancher_haut"
           ]
         }
       }
@@ -3313,17 +2892,11 @@
         "id": {
           "title": "Identifiant unique du générateur de ventilation au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description du générateur de ventilation au format markdown",
-          "type": "string",
-          "examples": [
-            "Un générateur de ventilation"
-          ]
+          "type": "string"
         },
         "type": {
           "title": "Type de générateur",
@@ -3338,17 +2911,11 @@
             "puit_climatique",
             "vmi",
             "vmr"
-          ],
-          "examples": [
-            "vmc_simple_flux"
           ]
         },
         "generateur_collectif": {
           "title": "Générateur collectif de ventilation",
-          "type": "boolean",
-          "examples": [
-            false
-          ]
+          "type": "boolean"
         },
         "presence_echangeur_thermique": {
           "title": "Présence d'un échangeur thermique",
@@ -3356,10 +2923,7 @@
             "boolean",
             "null"
           ],
-          "default": null,
-          "examples": [
-            true
-          ]
+          "default": null
         },
         "annee_installation": {
           "title": "Année d'installation du générateur de ventilation",
@@ -3367,10 +2931,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         }
       },
       "required": [
@@ -3407,10 +2968,7 @@
                 "hygroreglable_type_b",
                 null
               ],
-              "default": null,
-              "examples": [
-                "autoreglable"
-              ]
+              "default": null
             }
           },
           "required": [
@@ -3437,6 +2995,32 @@
         }
       ]
     },
+    "https://schemas.dpe-audit.fr/ventilation/installation": {
+      "$id": "https://schemas.dpe-audit.fr/ventilation/installation",
+      "title": "Installation de ventilation",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "Identifiant unique au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": {
+          "title": "Description au format markdown",
+          "type": "string"
+        },
+        "surface": {
+          "title": "Surface couverte par l'installation en m²",
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "surface"
+      ]
+    },
     "https://schemas.dpe-audit.fr/ventilation/systeme": {
       "$id": "https://schemas.dpe-audit.fr/ventilation/systeme",
       "title": "Système de ventilation",
@@ -3445,10 +3029,12 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "9aec1555-e0fa-4b31-8978-6f7d1df394b6"
-          ]
+          "format": "uuid"
+        },
+        "installation_id": {
+          "title": "Identifiant unique de l'installation associée au système",
+          "type": "string",
+          "format": "uuid"
         },
         "type": {
           "title": "Type de système de ventilation",
@@ -3459,14 +3045,12 @@
             "ventilation_naturelle_entrees_air_hautes_basses",
             "ventilation_naturelle_conduit",
             "ventilation_naturelle_conduit_entrees_air_hygroreglables"
-          ],
-          "examples": [
-            "ventilation_mecanique"
           ]
         }
       },
       "required": [
         "id",
+        "installation_id",
         "type"
       ],
       "oneOf": [
@@ -3480,10 +3064,7 @@
             "generateur_id": {
               "title": "Identifiant du générateur de ventilation associé au système",
               "type": "string",
-              "format": "uuid",
-              "examples": [
-                "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-              ]
+              "format": "uuid"
             }
           },
           "required": [
@@ -3510,50 +3091,6 @@
         }
       ]
     },
-    "https://schemas.dpe-audit.fr/ventilation/installation": {
-      "$id": "https://schemas.dpe-audit.fr/ventilation/installation",
-      "title": "Installation de ventilation",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "Identifiant unique au format UUID",
-          "type": "string",
-          "format": "uuid",
-          "examples": [
-            "9aec1555-e0fa-4b31-8978-6f7d1df394b6"
-          ]
-        },
-        "description": {
-          "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Une installation de ventilation"
-          ]
-        },
-        "surface": {
-          "title": "Surface couverte par l'installation en m²",
-          "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            100
-          ]
-        },
-        "systemes": {
-          "title": "Liste des systèmes de ventilation associés à l'installation",
-          "type": "array",
-          "minContains": 1,
-          "items": {
-            "$ref": "/ventilation/systeme"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "description",
-        "surface",
-        "systemes"
-      ]
-    },
     "https://schemas.dpe-audit.fr/ventilation": {
       "$id": "https://schemas.dpe-audit.fr/ventilation",
       "title": "Ventilation",
@@ -3573,11 +3110,20 @@
           "items": {
             "$ref": "/ventilation/installation"
           }
+        },
+        "systemes": {
+          "title": "Liste des systèmes de ventilation",
+          "type": "array",
+          "minContains": 1,
+          "items": {
+            "$ref": "/ventilation/systeme"
+          }
         }
       },
       "required": [
         "generateurs",
-        "installations"
+        "installations",
+        "systemes"
       ]
     },
     "https://schemas.dpe-audit.fr/refroidissement/generateur": {
@@ -3588,17 +3134,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "a7396354-ba21-40d9-b50f-d35da67a70c1"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un générateur de refroidissement"
-          ]
+          "type": "string"
         },
         "type": {
           "title": "Type de générateur",
@@ -3612,9 +3152,6 @@
             "autre_systeme_thermodynamique",
             "autre",
             "reseau_froid"
-          ],
-          "examples": [
-            "pac_air_air"
           ]
         },
         "annee_installation": {
@@ -3623,10 +3160,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         }
       },
       "required": [
@@ -3663,10 +3197,7 @@
                 "null"
               ],
               "exclusiveMinimum": 0,
-              "default": null,
-              "examples": [
-                2.5
-              ]
+              "default": null
             }
           },
           "required": [
@@ -3698,10 +3229,7 @@
                 "null"
               ],
               "exclusiveMinimum": 0,
-              "default": null,
-              "examples": [
-                2.5
-              ]
+              "default": null
             }
           },
           "required": [
@@ -3745,41 +3273,49 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "5124d497-6458-45a9-a9b0-8c84d14139f6"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Une installation de refroidissement"
-          ]
+          "type": "string"
         },
         "surface": {
           "title": "Surface couverte par l'installation en m²",
           "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            100
-          ]
-        },
-        "generateurs": {
-          "title": "Liste des générateurs de refroidissement associés à l'installation",
-          "type": "array",
-          "minContains": 1,
-          "items": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "exclusiveMinimum": 0
         }
       },
       "required": [
         "id",
         "description",
-        "surface",
-        "generateurs"
+        "surface"
+      ]
+    },
+    "https://schemas.dpe-audit.fr/refroidissement/systeme": {
+      "$id": "https://schemas.dpe-audit.fr/refroidissement/systeme",
+      "title": "Système de refroidissement",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "Identifiant unique au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
+        "installation_id": {
+          "title": "Identifiant unique de l'installation associé",
+          "type": "string",
+          "format": "uuid"
+        },
+        "generateur_id": {
+          "title": "Identifiant unique du générateur associé",
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "id",
+        "installation_id",
+        "generateur_id"
       ]
     },
     "https://schemas.dpe-audit.fr/refroidissement": {
@@ -3800,11 +3336,19 @@
           "items": {
             "$ref": "/refroidissement/installation"
           }
+        },
+        "systemes": {
+          "title": "Liste des systèmes de refroidissement",
+          "type": "array",
+          "items": {
+            "$ref": "/refroidissement/systeme"
+          }
         }
       },
       "required": [
         "generateurs",
-        "installations"
+        "installations",
+        "systemes"
       ]
     },
     "https://schemas.dpe-audit.fr/chauffage/generateur": {
@@ -3815,24 +3359,17 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un générateur de chauffage"
-          ]
+          "type": "string"
         },
         "type": {
           "title": "Type de générateur",
           "type": "string",
           "enum": [
             "chaudiere",
-            "chaudiere_multi_batiment",
             "convecteur_bi_jonction",
             "convecteur_electrique",
             "cuisiniere",
@@ -3848,7 +3385,6 @@
             "pac_hybride_eau_eau",
             "pac_hybride_eau_glycolee_eau",
             "pac_hybride_geothermique",
-            "pac_multi_batiment",
             "panneau_rayonnant_electrique",
             "plafond_rayonnant_electrique",
             "plancher_rayonnant_electrique",
@@ -3858,9 +3394,6 @@
             "radiateur_electrique_accumulation",
             "radiateur_gaz",
             "reseau_chaleur"
-          ],
-          "examples": [
-            "chaudiere"
           ]
         },
         "energie": {
@@ -3876,24 +3409,19 @@
             "bois_plaquette",
             "bois_granule",
             "reseau_chaleur"
-          ],
-          "examples": [
-            "electricite"
           ]
         },
         "generateur_collectif": {
           "title": "Présence d'un générateur collectif de chauffage",
-          "type": "boolean",
-          "examples": [
-            false
-          ]
+          "type": "boolean"
+        },
+        "generateur_multi_batiment": {
+          "title": "Présence d'un générateur multi bâtiment",
+          "type": "boolean"
         },
         "position_volume_chauffe": {
           "title": "Position du générateur à l'intérieur du volume chauffé",
-          "type": "boolean",
-          "examples": [
-            true
-          ]
+          "type": "boolean"
         },
         "annee_installation": {
           "title": "Année d'installation",
@@ -3901,10 +3429,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         }
       },
       "required": [
@@ -3913,6 +3438,7 @@
         "type",
         "energie",
         "generateur_collectif",
+        "generateur_multi_batiment",
         "position_volume_chauffe",
         "annee_installation"
       ],
@@ -3927,7 +3453,7 @@
             "energie": {
               "$ref": "#/$defs/energieCombustion"
             },
-            "generateur_ecs_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurEcs"
             },
             "type_chaudiere": {
@@ -3940,44 +3466,14 @@
           "required": [
             "type",
             "energie",
-            "generateur_ecs_id",
+            "generateur_mixte_id",
             "type_chaudiere",
             "pn"
           ],
           "allOf": [
             {
-              "$ref": "#/$defs/combustion"
-            }
-          ]
-        },
-        {
-          "title": "Chaudière à combustion multi bâtiment",
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "chaudiere_multi_batiment"
+              "$ref": "#/$defs/chaudiere"
             },
-            "energie": {
-              "$ref": "#/$defs/energieCombustion"
-            },
-            "generateur_ecs_id": {
-              "$ref": "#/$defs/generateurEcs"
-            },
-            "type_chaudiere": {
-              "$ref": "#/$defs/typeChaudiere"
-            },
-            "pn": {
-              "$ref": "#/$defs/pn"
-            }
-          },
-          "required": [
-            "type",
-            "energie",
-            "generateur_ecs_id",
-            "type_chaudiere",
-            "pn"
-          ],
-          "allOf": [
             {
               "$ref": "#/$defs/combustion"
             }
@@ -3988,12 +3484,12 @@
           "type": "object",
           "properties": {
             "type": {
-              "const": "chaudiere"
+              "enum": "chaudiere"
             },
             "energie": {
               "const": "electricite"
             },
-            "generateur_ecs_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurEcs"
             },
             "type_chaudiere": {
@@ -4006,46 +3502,8 @@
           "required": [
             "type",
             "energie",
-            "generateur_ecs_id",
+            "generateur_mixte_id",
             "type_chaudiere",
-            "pn"
-          ]
-        },
-        {
-          "title": "Chaudière électrique multi bâtiment",
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "chaudiere_multi_batiment"
-            },
-            "energie": {
-              "const": "electricite"
-            },
-            "generateur_ecs_id": {
-              "$ref": "#/$defs/generateurEcs"
-            },
-            "type_chaudiere": {
-              "$ref": "#/$defs/typeChaudiere"
-            },
-            "generateur_collectif": {
-              "const": true,
-              "default": true
-            },
-            "position_volume_chauffe": {
-              "const": false,
-              "default": false
-            },
-            "pn": {
-              "$ref": "#/$defs/pn"
-            }
-          },
-          "required": [
-            "type",
-            "energie",
-            "generateur_ecs_id",
-            "type_chaudiere",
-            "generateur_collectif",
-            "position_volume_chauffe",
             "pn"
           ]
         },
@@ -4064,7 +3522,7 @@
             "energie": {
               "const": "electricite"
             },
-            "generateur_ecs_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurEcs"
             },
             "pn": {
@@ -4077,50 +3535,7 @@
           "required": [
             "type",
             "energie",
-            "generateur_ecs_id",
-            "pn",
-            "scop"
-          ]
-        },
-        {
-          "title": "Pompe à chaleur multi bâtiment",
-          "properties": {
-            "type": {
-              "enum": [
-                "pac_air_air",
-                "pac_air_eau",
-                "pac_eau_eau",
-                "pac_eau_glycolee_eau",
-                "pac_geothermique"
-              ]
-            },
-            "energie": {
-              "const": "electricite"
-            },
-            "generateur_ecs_id": {
-              "$ref": "#/$defs/generateurEcs"
-            },
-            "generateur_collectif": {
-              "const": true,
-              "default": true
-            },
-            "position_volume_chauffe": {
-              "const": false,
-              "default": false
-            },
-            "pn": {
-              "$ref": "#/$defs/pn"
-            },
-            "scop": {
-              "$ref": "#/$defs/scop"
-            }
-          },
-          "required": [
-            "type",
-            "energie",
-            "generateur_ecs_id",
-            "generateur_collectif",
-            "position_volume_chauffe",
+            "generateur_mixte_id",
             "pn",
             "scop"
           ]
@@ -4143,7 +3558,7 @@
             "energie_partie_chaudiere": {
               "$ref": "#/$defs/energieCombustion"
             },
-            "generateur_ecs_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurEcs"
             },
             "scop": {
@@ -4154,7 +3569,7 @@
             "type",
             "energie",
             "energie_partie_chaudiere",
-            "generateur_ecs_id",
+            "generateur_mixte_id",
             "scop"
           ],
           "allOf": [
@@ -4220,14 +3635,14 @@
                 "bois_granule"
               ]
             },
-            "generateur_ecs_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurEcs"
             }
           },
           "required": [
             "type",
             "energie",
-            "generateur_ecs_id"
+            "generateur_mixte_id"
           ],
           "allOf": [
             {
@@ -4254,6 +3669,10 @@
               "const": false,
               "default": false
             },
+            "generateur_multi_batiment": {
+              "const": false,
+              "default": false
+            },
             "label": {
               "$ref": "#/$defs/label",
               "enum": [
@@ -4269,6 +3688,7 @@
             "type",
             "energie",
             "generateur_collectif",
+            "generateur_multi_batiment",
             "label",
             "pn"
           ]
@@ -4290,6 +3710,10 @@
               "const": false,
               "default": false
             },
+            "generateur_multi_batiment": {
+              "const": false,
+              "default": false
+            },
             "label": {
               "$ref": "#/$defs/label",
               "enum": [
@@ -4302,6 +3726,7 @@
             "type",
             "energie",
             "generateur_collectif",
+            "generateur_multi_batiment",
             "label",
             "pn"
           ],
@@ -4334,6 +3759,10 @@
               "const": false,
               "default": false
             },
+            "generateur_multi_batiment": {
+              "const": false,
+              "default": false
+            },
             "pn": {
               "$ref": "#/$defs/pn"
             },
@@ -4349,6 +3778,7 @@
             "type",
             "energie",
             "generateur_collectif",
+            "generateur_multi_batiment",
             "pn",
             "label"
           ]
@@ -4369,15 +3799,16 @@
                 "string",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                "reseau-chaleur"
-              ]
+              "default": null
             },
-            "generateur_ecs_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurEcs"
             },
             "generateur_collectif": {
+              "const": true,
+              "default": true
+            },
+            "generateur_multi_batiment": {
               "const": true,
               "default": true
             },
@@ -4390,7 +3821,7 @@
             "type",
             "energie",
             "reseau_chaleur_id",
-            "generateur_ecs_id",
+            "generateur_mixte_id",
             "generateur_collectif",
             "position_volume_chauffe"
           ]
@@ -4404,10 +3835,7 @@
             "null"
           ],
           "format": "uuid",
-          "default": null,
-          "examples": [
-            "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-          ]
+          "default": null
         },
         "energie": {
           "title": "Energie du générateur",
@@ -4422,9 +3850,6 @@
             "bois_plaquette",
             "bois_granule",
             "reseau_chaleur"
-          ],
-          "examples": [
-            "electricite"
           ]
         },
         "energieCombustion": {
@@ -4437,9 +3862,6 @@
             "bois_buche",
             "bois_plaquette",
             "bois_granule"
-          ],
-          "examples": [
-            "gaz_naturel"
           ]
         },
         "label": {
@@ -4453,10 +3875,7 @@
             "nf_performance",
             null
           ],
-          "default": null,
-          "examples": [
-            "flamme_verte"
-          ]
+          "default": null
         },
         "typeChaudiere": {
           "title": "Type de chaudière",
@@ -4469,10 +3888,7 @@
             "chaudiere_sol",
             null
           ],
-          "default": null,
-          "examples": [
-            "chaudiere_murale"
-          ]
+          "default": null
         },
         "pn": {
           "title": "Puissance nominale en kW",
@@ -4481,10 +3897,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            10
-          ]
+          "default": null
         },
         "scop": {
           "title": "Coefficient de performance énergétique saisonnier",
@@ -4494,10 +3907,7 @@
           ],
           "exclusiveMinimum": 0,
           "maximum": 10,
-          "default": null,
-          "examples": [
-            5
-          ]
+          "default": null
         },
         "modeCombustion": {
           "title": "Mode de combustion",
@@ -4511,10 +3921,7 @@
             "condensation",
             null
           ],
-          "default": null,
-          "examples": [
-            "basse_temperature"
-          ]
+          "default": null
         },
         "presenceVentouse": {
           "title": "Présence d'une ventouse",
@@ -4522,10 +3929,7 @@
             "boolean",
             "null"
           ],
-          "default": null,
-          "examples": [
-            true
-          ]
+          "default": null
         },
         "presenceRegulationCombustion": {
           "title": "Présence d'une régulation de combustion",
@@ -4533,10 +3937,7 @@
             "boolean",
             "null"
           ],
-          "default": null,
-          "examples": [
-            true
-          ]
+          "default": null
         },
         "pveilleuse": {
           "title": "Puissance de la veilleuse en W",
@@ -4545,10 +3946,7 @@
             "null"
           ],
           "minimum": 0,
-          "default": null,
-          "examples": [
-            100
-          ]
+          "default": null
         },
         "qp0": {
           "title": "Pertes à l'arrêt en W",
@@ -4557,10 +3955,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            100
-          ]
+          "default": null
         },
         "rpn": {
           "title": "Rendement à puissance nominale sur PCI en %",
@@ -4570,10 +3965,7 @@
           ],
           "exclusiveMinimum": 0,
           "maximum": 150,
-          "default": null,
-          "examples": [
-            80
-          ]
+          "default": null
         },
         "rpint": {
           "title": "Rendement à puissance intermédiaire sur PCI en %",
@@ -4583,10 +3975,7 @@
           ],
           "exclusiveMinimum": 0,
           "maximum": 150,
-          "default": null,
-          "examples": [
-            80
-          ]
+          "default": null
         },
         "tfonc30": {
           "title": "Température de fonctionnement à 30% de la puissance nominale en °C",
@@ -4596,10 +3985,7 @@
           ],
           "minimumExlusive": 0,
           "maximum": 150,
-          "default": null,
-          "examples": [
-            70
-          ]
+          "default": null
         },
         "tfonc100": {
           "title": "Température de fonctionnement à 100% de la puissance nominale en °C",
@@ -4609,10 +3995,7 @@
           ],
           "minimumExlusive": 0,
           "maximum": 150,
-          "default": null,
-          "examples": [
-            70
-          ]
+          "default": null
         },
         "combustion": {
           "title": "Caractéristiques des générateurs à combustion",
@@ -4688,17 +4071,11 @@
         "id": {
           "title": "Identifiant unique de l'émetteur de chauffage au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "9aec1555-e0fa-4b31-8978-6f7d1df394b6"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description de l'émetteur de chauffage au format markdown",
-          "type": "string",
-          "examples": [
-            "Un émetteur de chauffage"
-          ]
+          "type": "string"
         },
         "type": {
           "title": "Type d'émetteur de chauffage",
@@ -4709,9 +4086,6 @@
             "radiateur_monotube",
             "radiateur_bitube",
             "radiateur"
-          ],
-          "examples": [
-            "radiateur_bitube"
           ]
         },
         "temperature_distribution": {
@@ -4721,17 +4095,11 @@
             "basse",
             "moyenne",
             "haute"
-          ],
-          "examples": [
-            "moyenne"
           ]
         },
         "presence_robinet_thermostatique": {
           "title": "Présence d'un robinet thermostatique",
-          "type": "boolean",
-          "examples": [
-            true
-          ]
+          "type": "boolean"
         },
         "annee_installation": {
           "title": "Année d'installation de l'émetteur de chaleur",
@@ -4739,10 +4107,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         }
       },
       "required": [
@@ -4754,18 +4119,167 @@
         "annee_installation"
       ]
     },
+    "https://schemas.dpe-audit.fr/chauffage/installation": {
+      "$id": "https://schemas.dpe-audit.fr/chauffage/installation",
+      "title": "Installation de chauffage",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "Identifiant unique de l'installation de chauffage au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": {
+          "title": "Description de l'installation de chauffage au format markdown",
+          "type": "string"
+        },
+        "surface": {
+          "title": "Surface couverte par l'installation de chauffage en m²",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "comptage_individuel": {
+          "title": "Comptage individuel",
+          "type": "boolean"
+        },
+        "solaire_thermique": {
+          "title": "Solaire thermique",
+          "type": [
+            "object",
+            "null"
+          ],
+          "oneOf": [
+            {
+              "const": null
+            },
+            {
+              "$ref": "#/$defs/solaire"
+            }
+          ]
+        },
+        "regulation_centrale": {
+          "$ref": "#/$defs/regulation",
+          "title": "Régulation centrale"
+        },
+        "regulation_terminale": {
+          "$ref": "#/$defs/regulation",
+          "title": "Régulation terminale"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "surface",
+        "comptage_individuel",
+        "solaire_thermique",
+        "regulation_centrale",
+        "regulation_terminale"
+      ],
+      "$defs": {
+        "solaire": {
+          "title": "Solaire thermique",
+          "type": "object",
+          "properties": {
+            "usage": {
+              "title": "Usages couverts par le solaire thermique",
+              "type": "string",
+              "enum": [
+                "chauffage",
+                "chauffage_ecs"
+              ],
+              "default": "chauffage"
+            },
+            "annee_installation": {
+              "title": "Année d'installation",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "fch": {
+              "title": "Facteur de couverture solaire connu et justifié en %",
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "usage",
+            "annee_installation",
+            "fch"
+          ]
+        },
+        "regulation": {
+          "title": "Régulation",
+          "type": "object",
+          "properties": {
+            "presence_regulation": {
+              "title": "Présence d'une régulation",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "presence_regulation"
+          ],
+          "oneOf": [
+            {
+              "title": "Régulation",
+              "type": "object",
+              "properties": {
+                "presence_regulation": {
+                  "const": true
+                },
+                "minimum_temperature": {
+                  "title": "Régulation avec minimum de température",
+                  "type": "boolean"
+                },
+                "detection_presence": {
+                  "title": "Détection de présence",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "presence_regulation",
+                "minimum_temperature",
+                "detection_presence"
+              ]
+            },
+            {
+              "title": "Pas de régulation",
+              "type": "object",
+              "properties": {
+                "presence_regulation": {
+                  "const": false
+                }
+              },
+              "required": [
+                "presence_regulation"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "https://schemas.dpe-audit.fr/chauffage/systeme": {
       "$id": "https://schemas.dpe-audit.fr/chauffage/systeme",
       "title": "Système de chauffage",
       "type": "object",
       "properties": {
+        "id": {
+          "title": "Identifiant unique au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
+        "installations_id": {
+          "title": "Identifiant unique de l'installation de chauffage au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
         "generateur_id": {
           "title": "Identifiant unique du générateur de chauffage au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "6a785019-8ce1-4768-b9c3-400b7bd2f1f3"
-          ]
+          "format": "uuid"
         },
         "type": {
           "title": "Type de système",
@@ -4773,13 +4287,12 @@
           "enum": [
             "chauffage_central",
             "chauffage_divise"
-          ],
-          "examples": [
-            "chauffage_central"
           ]
         }
       },
       "required": [
+        "id",
+        "installations_id",
         "generateur_id",
         "type"
       ],
@@ -4834,27 +4347,19 @@
               "type": "string",
               "enum": [
                 "hydraulique",
-                "aeraulique"
-              ],
-              "examples": [
-                "hydraulique"
+                "aeraulique",
+                "fluide_frigorigene"
               ]
             },
             "presence_circulateur_externe": {
               "title": "Présence d'un circulateur externe",
               "type": "boolean",
-              "examples": [
-                true
-              ],
               "default": false
             },
             "niveaux_desservis": {
               "title": "Nombre de niveaux desservis par le réseau",
               "type": "integer",
-              "minimum": 1,
-              "examples": [
-                2
-              ]
+              "minimum": 1
             },
             "isolation": {
               "title": "Isolation du réseau",
@@ -4867,10 +4372,7 @@
                 "non_isole",
                 null
               ],
-              "default": null,
-              "examples": [
-                "isole"
-              ]
+              "default": null
             }
           },
           "required": [
@@ -4878,187 +4380,6 @@
             "presence_circulateur_externe",
             "niveaux_desservis",
             "isolation"
-          ]
-        }
-      }
-    },
-    "https://schemas.dpe-audit.fr/chauffage/installation": {
-      "$id": "https://schemas.dpe-audit.fr/chauffage/installation",
-      "title": "Installation de chauffage",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "Identifiant unique de l'installation de chauffage au format UUID",
-          "type": "string",
-          "format": "uuid",
-          "examples": [
-            "9d615f30-c6f8-406f-8a1f-899617c472db"
-          ]
-        },
-        "description": {
-          "title": "Description de l'installation de chauffage au format markdown",
-          "type": "string",
-          "examples": [
-            "Une installation de chauffage"
-          ]
-        },
-        "surface": {
-          "title": "Surface couverte par l'installation de chauffage en m²",
-          "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            100
-          ]
-        },
-        "comptage_individuel": {
-          "title": "Comptage individuel",
-          "type": "boolean",
-          "examples": [
-            true
-          ]
-        },
-        "solaire_thermique": {
-          "title": "Solaire thermique",
-          "type": [
-            "object",
-            "null"
-          ],
-          "oneOf": [
-            {
-              "const": null
-            },
-            {
-              "$ref": "#/$defs/solaire"
-            }
-          ]
-        },
-        "regulation_centrale": {
-          "$ref": "#/$defs/regulation",
-          "title": "Régulation centrale"
-        },
-        "regulation_terminale": {
-          "$ref": "#/$defs/regulation",
-          "title": "Régulation terminale"
-        },
-        "systemes": {
-          "title": "Liste des systèmes de chauffage associés à l'installation",
-          "type": "array",
-          "minContains": 1,
-          "items": {
-            "$ref": "/chauffage/systeme"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "description",
-        "surface",
-        "comptage_individuel",
-        "solaire_thermique",
-        "regulation_centrale",
-        "regulation_terminale",
-        "systemes"
-      ],
-      "$defs": {
-        "solaire": {
-          "title": "Solaire thermique",
-          "type": "object",
-          "properties": {
-            "usage": {
-              "title": "Usages couverts par le solaire thermique",
-              "type": "string",
-              "enum": [
-                "chauffage",
-                "chauffage_ecs"
-              ],
-              "default": "chauffage",
-              "examples": [
-                "chauffage"
-              ]
-            },
-            "annee_installation": {
-              "title": "Année d'installation",
-              "type": [
-                "integer",
-                "null"
-              ],
-              "default": null,
-              "examples": [
-                2000
-              ]
-            },
-            "fch": {
-              "title": "Facteur de couverture solaire connu et justifié en %",
-              "type": "number",
-              "minimum": 0,
-              "maximum": 100,
-              "examples": [
-                50
-              ]
-            }
-          },
-          "required": [
-            "usage",
-            "annee_installation",
-            "fch"
-          ]
-        },
-        "regulation": {
-          "title": "Régulation",
-          "type": "object",
-          "properties": {
-            "presence_regulation": {
-              "title": "Présence d'une régulation",
-              "type": "boolean",
-              "examples": [
-                true
-              ]
-            }
-          },
-          "required": [
-            "presence_regulation"
-          ],
-          "oneOf": [
-            {
-              "title": "Régulation",
-              "type": "object",
-              "properties": {
-                "presence_regulation": {
-                  "const": true
-                },
-                "minimum_temperature": {
-                  "title": "Régulation avec minimum de température",
-                  "type": "boolean",
-                  "examples": [
-                    true
-                  ]
-                },
-                "detection_presence": {
-                  "title": "Détection de présence",
-                  "type": "boolean",
-                  "examples": [
-                    true
-                  ]
-                }
-              },
-              "required": [
-                "presence_regulation",
-                "minimum_temperature",
-                "detection_presence"
-              ]
-            },
-            {
-              "title": "Pas de régulation",
-              "type": "object",
-              "properties": {
-                "presence_regulation": {
-                  "const": false
-                }
-              },
-              "required": [
-                "presence_regulation"
-              ]
-            }
           ]
         }
       }
@@ -5090,12 +4411,21 @@
           "items": {
             "$ref": "/chauffage/installation"
           }
+        },
+        "systemes": {
+          "title": "Liste des systèmes de chauffage",
+          "type": "array",
+          "minContains": 1,
+          "items": {
+            "$ref": "/chauffage/systeme"
+          }
         }
       },
       "required": [
         "generateurs",
         "emetteurs",
-        "installations"
+        "installations",
+        "systemes"
       ]
     },
     "https://schemas.dpe-audit.fr/ecs/generateur": {
@@ -5106,17 +4436,11 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un générateur d'eau chaude sanitaire"
-          ]
+          "type": "string"
         },
         "type": {
           "title": "Type de générateur d'eau chaude sanitaire",
@@ -5127,17 +4451,12 @@
             "chauffe_eau_vertical",
             "chauffe_eau_horizontal",
             "chaudiere",
-            "chaudiere_multi_batiment",
             "cet_air_ambiant",
             "cet_air_exterieur",
             "cet_air_extrait",
             "pac_double_service",
-            "pac_multi_batiment",
             "poele_bouilleur",
             "reseau_chaleur"
-          ],
-          "examples": [
-            "accumulateur"
           ]
         },
         "energie": {
@@ -5146,24 +4465,19 @@
         "volume_stockage": {
           "title": "Volume de stockage en l",
           "type": "number",
-          "minimum": 0,
-          "examples": [
-            200
-          ]
+          "minimum": 0
         },
         "generateur_collectif": {
           "title": "Présence d'un générateur collectif d'eau chaude sanitaire",
-          "type": "boolean",
-          "examples": [
-            false
-          ]
+          "type": "boolean"
+        },
+        "generateur_multi_batiment": {
+          "title": "Présence d'un générateur multi bâtiment",
+          "type": "boolean"
         },
         "position_volume_chauffe": {
           "title": "Position du générateur à l'intérieur du volume chauffé",
-          "type": "boolean",
-          "examples": [
-            true
-          ]
+          "type": "boolean"
         },
         "annee_installation": {
           "title": "Année d'installation connue et justifiée",
@@ -5171,10 +4485,7 @@
             "integer",
             "null"
           ],
-          "default": null,
-          "examples": [
-            2000
-          ]
+          "default": null
         }
       },
       "required": [
@@ -5184,6 +4495,7 @@
         "energie",
         "volume_stockage",
         "generateur_collectif",
+        "generateur_multi_batiment",
         "position_volume_chauffe",
         "annee_installation"
       ],
@@ -5266,13 +4578,18 @@
             },
             "label": {
               "$ref": "#/$defs/label"
+            },
+            "generateur_multi_batiment": {
+              "const": false,
+              "default": false
             }
           },
           "required": [
             "type",
             "energie",
             "pn",
-            "label"
+            "label",
+            "generateur_multi_batiment"
           ]
         },
         {
@@ -5288,7 +4605,7 @@
             "pn": {
               "$ref": "#/$defs/pn"
             },
-            "generateur_chauffage_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurChauffage"
             }
           },
@@ -5296,7 +4613,7 @@
             "type",
             "energie",
             "pn",
-            "generateur_chauffage_id"
+            "generateur_mixte_id"
           ]
         },
         {
@@ -5312,7 +4629,7 @@
             "type_chaudiere": {
               "$ref": "#/$defs/typeChaudiere"
             },
-            "generateur_chauffage_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurChauffage"
             }
           },
@@ -5320,66 +4637,7 @@
             "type",
             "energie",
             "type_chaudiere",
-            "generateur_chauffage_id"
-          ],
-          "allOf": [
-            {
-              "$ref": "#/$defs/combustion"
-            }
-          ]
-        },
-        {
-          "title": "Chaudière multi-bâtiment",
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "chaudiere_multi_batiment électrique"
-            },
-            "energie": {
-              "const": "electricite"
-            },
-            "generateur_collectif": {
-              "const": true,
-              "default": true
-            },
-            "pn": {
-              "$ref": "#/$defs/pn"
-            },
-            "generateur_chauffage_id": {
-              "$ref": "#/$defs/generateurChauffage"
-            }
-          },
-          "required": [
-            "type",
-            "energie",
-            "generateur_collectif",
-            "pn",
-            "generateur_chauffage_id"
-          ]
-        },
-        {
-          "title": "Chaudière multi-bâtiment à combustion",
-          "type": "object",
-          "properties": {
-            "type": {
-              "const": "chaudiere_multi_batiment"
-            },
-            "energie": {
-              "$ref": "#/$defs/energieCombustion"
-            },
-            "generateur_collectif": {
-              "const": true,
-              "default": true
-            },
-            "generateur_chauffage_id": {
-              "$ref": "#/$defs/generateurChauffage"
-            }
-          },
-          "required": [
-            "type",
-            "energie",
-            "generateur_collectif",
-            "generateur_chauffage_id"
+            "generateur_mixte_id"
           ],
           "allOf": [
             {
@@ -5421,10 +4679,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "enum": [
-                "pac_double_service",
-                "pac_multi_batiment"
-              ]
+              "const": "pac_double_service"
             },
             "energie": {
               "$ref": "#/$defs/energie",
@@ -5436,7 +4691,7 @@
             "pn": {
               "$ref": "#/$defs/pn"
             },
-            "generateur_chauffage_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurChauffage"
             }
           },
@@ -5445,7 +4700,7 @@
             "energie",
             "cop",
             "pn",
-            "generateur_chauffage_id"
+            "generateur_mixte_id"
           ]
         },
         {
@@ -5463,14 +4718,14 @@
                 "bois_granule"
               ]
             },
-            "generateur_chauffage_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurChauffage"
             }
           },
           "required": [
             "type",
             "energie",
-            "generateur_chauffage_id"
+            "generateur_mixte_id"
           ],
           "allOf": [
             {
@@ -5495,12 +4750,9 @@
                 "string",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-              ]
+              "default": null
             },
-            "generateur_chauffage_id": {
+            "generateur_mixte_id": {
               "$ref": "#/$defs/generateurChauffage"
             }
           },
@@ -5508,7 +4760,7 @@
             "type",
             "energie",
             "reseau_chaleur_id",
-            "generateur_chauffage_id"
+            "generateur_mixte_id"
           ]
         }
       ],
@@ -5520,10 +4772,7 @@
             "null"
           ],
           "format": "uuid",
-          "default": null,
-          "examples": [
-            "6a785019-8ce1-4768-b9c3-400b7bd2f1f3"
-          ]
+          "default": null
         },
         "energie": {
           "title": "Energie",
@@ -5538,9 +4787,6 @@
             "bois_plaquette",
             "bois_granule",
             "reseau_chaleur"
-          ],
-          "examples": [
-            "electricite"
           ]
         },
         "energieCombustion": {
@@ -5553,9 +4799,6 @@
             "bois_buche",
             "bois_plaquette",
             "bois_granule"
-          ],
-          "examples": [
-            "gaz_naturel"
           ]
         },
         "typeChaudiere": {
@@ -5569,10 +4812,7 @@
             "chaudiere_sol",
             null
           ],
-          "default": null,
-          "examples": [
-            "chaudiere_murale"
-          ]
+          "default": null
         },
         "label": {
           "title": "Label du générateur",
@@ -5586,10 +4826,7 @@
             "ne_performance_c",
             null
           ],
-          "default": null,
-          "examples": [
-            "ne_performance_a"
-          ]
+          "default": null
         },
         "pn": {
           "title": "Puissance nominale en kW",
@@ -5598,10 +4835,7 @@
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            10
-          ]
+          "default": null
         },
         "cop": {
           "title": "Coefficient de performance énergétique",
@@ -5611,10 +4845,7 @@
           ],
           "exclusiveMinimum": 0,
           "maximum": 10,
-          "default": null,
-          "examples": [
-            5
-          ]
+          "default": null
         },
         "combustion": {
           "title": "Caractéristiques des générateurs à combustion",
@@ -5632,10 +4863,7 @@
                 "condensation",
                 null
               ],
-              "default": null,
-              "examples": [
-                "basse_temperature"
-              ]
+              "default": null
             },
             "presence_ventouse": {
               "title": "Présence d'une ventouse",
@@ -5643,10 +4871,7 @@
                 "boolean",
                 "null"
               ],
-              "default": null,
-              "examples": [
-                true
-              ]
+              "default": null
             },
             "pn": {
               "$ref": "#/$defs/pn"
@@ -5658,10 +4883,7 @@
                 "null"
               ],
               "minimum": 0,
-              "default": null,
-              "examples": [
-                100
-              ]
+              "default": null
             },
             "qp0": {
               "title": "Pertes à l'arrêt en W",
@@ -5670,10 +4892,7 @@
                 "null"
               ],
               "exclusiveMinimum": 0,
-              "default": null,
-              "examples": [
-                100
-              ]
+              "default": null
             },
             "rpn": {
               "title": "Rendement à puissance nominale sur PCI en %",
@@ -5683,10 +4902,7 @@
               ],
               "exclusiveMinimum": 0,
               "maximum": 150,
-              "default": null,
-              "examples": [
-                80
-              ]
+              "default": null
             }
           },
           "required": [
@@ -5700,6 +4916,88 @@
         }
       }
     },
+    "https://schemas.dpe-audit.fr/ecs/installation": {
+      "$id": "https://schemas.dpe-audit.fr/ecs/installation",
+      "title": "Installation d'eau chaude sanitaire",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "Identifiant unique sanitaire au format UUID",
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": {
+          "title": "Description sanitaire au format markdown",
+          "type": "string"
+        },
+        "surface": {
+          "title": "Surface couverte par l'installation en m²",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "solaire_thermique": {
+          "title": "Solaire thermique",
+          "type": [
+            "object",
+            "null"
+          ],
+          "default": null,
+          "oneOf": [
+            {
+              "$ref": "#/$defs/solaire"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "surface",
+        "solaire_thermique"
+      ],
+      "$defs": {
+        "solaire": {
+          "title": "Solaire thermique",
+          "type": "object",
+          "properties": {
+            "usage": {
+              "title": "Usages couverts par le solaire thermique",
+              "type": "string",
+              "enum": [
+                "ecs",
+                "chauffage_ecs"
+              ]
+            },
+            "annee_installation": {
+              "title": "Année d'installation",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "default": null
+            },
+            "fecs": {
+              "title": "Facteur de couverture solaire connue et justifié en %",
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100,
+              "default": null
+            }
+          },
+          "required": [
+            "usage",
+            "annee_installation",
+            "fecs"
+          ]
+        }
+      }
+    },
     "https://schemas.dpe-audit.fr/ecs/systeme": {
       "$id": "https://schemas.dpe-audit.fr/ecs/systeme",
       "title": "Système d'eau chaude sanitaire",
@@ -5708,18 +5006,17 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "570c8e85-524f-4279-81ad-87f2014f9205"
-          ]
+          "format": "uuid"
         },
         "generateur_id": {
           "title": "Identifiant du générateur d'eau chaude sanitaire associé au système",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "fbc4f0ac-7d7c-4464-adb3-5617b81896c2"
-          ]
+          "format": "uuid"
+        },
+        "installation_id": {
+          "title": "Identifiant de l'installation d'eau chaude sanitaire associée au système",
+          "type": "string",
+          "format": "uuid"
         },
         "reseau": {
           "$ref": "#/$defs/reseau"
@@ -5744,6 +5041,7 @@
       "required": [
         "id",
         "generateur_id",
+        "installation_id",
         "reseau",
         "stockage"
       ],
@@ -5752,22 +5050,16 @@
           "title": "Réseau de distribution d'eau chaude sanitaire",
           "type": "object",
           "properties": {
-            "alimentation_contigues": {
+            "alimentation_contigue": {
               "title": "Alimentation contigüe",
-              "type": "boolean",
-              "examples": [
-                true
-              ]
+              "type": "boolean"
             },
             "niveaux_desservis": {
               "title": "Nombre de niveaux desservis",
               "type": "integer",
-              "minimum": 1,
-              "examples": [
-                1
-              ]
+              "minimum": 1
             },
-            "isolation_reseau": {
+            "isolation": {
               "title": "Isolation du réseau",
               "type": [
                 "string",
@@ -5778,164 +5070,46 @@
                 "non_isole",
                 null
               ],
-              "default": null,
-              "examples": [
-                "isole"
-              ]
+              "default": null
             },
-            "type_bouclage": {
+            "bouclage": {
               "title": "Type de bouclage",
               "type": [
                 "string",
                 "null"
               ],
               "enum": [
-                "reseau_non_boucle",
-                "reseau_boucle",
-                "reseau_trace",
+                "non_boucle",
+                "boucle",
+                "trace",
                 null
               ]
             }
           },
           "required": [
-            "alimentation_contigues",
+            "alimentation_contigue",
             "niveaux_desservis",
-            "isolation_reseau",
-            "type_bouclage"
+            "isolation",
+            "bouclage"
           ]
         },
         "stockage": {
           "title": "Stockage",
           "type": "object",
           "properties": {
-            "volume_stockage": {
+            "volume": {
               "title": "Volume de stockage en l",
               "type": "number",
-              "exclusiveMinimum": 0,
-              "examples": [
-                200
-              ]
+              "exclusiveMinimum": 0
             },
             "position_volume_chauffe": {
               "title": "Position à l'intérieur volume chauffé",
-              "type": "boolean",
-              "examples": [
-                true
-              ]
+              "type": "boolean"
             }
           },
           "required": [
-            "volume_stockage",
+            "volume",
             "position_volume_chauffe"
-          ]
-        }
-      }
-    },
-    "https://schemas.dpe-audit.fr/ecs/installation": {
-      "$id": "https://schemas.dpe-audit.fr/ecs/installation",
-      "title": "Installation d'eau chaude sanitaire",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "Identifiant unique sanitaire au format UUID",
-          "type": "string",
-          "format": "uuid",
-          "examples": [
-            "9aec1555-e0fa-4b31-8978-6f7d1df394b6"
-          ]
-        },
-        "description": {
-          "title": "Description sanitaire au format markdown",
-          "type": "string",
-          "examples": [
-            "Une installation d'eau chaude sanitaire"
-          ]
-        },
-        "surface": {
-          "title": "Surface couverte par l'installation en m²",
-          "type": "number",
-          "exclusiveMinimum": 0,
-          "examples": [
-            100
-          ]
-        },
-        "solaire_thermique": {
-          "title": "Solaire thermique",
-          "type": [
-            "object",
-            "null"
-          ],
-          "default": null,
-          "oneOf": [
-            {
-              "$ref": "#/$defs/solaire"
-            },
-            {
-              "const": null
-            }
-          ]
-        },
-        "systemes": {
-          "title": "Liste des systèmes d'eau chaude sanitaire associés à l'installation",
-          "type": "array",
-          "minContains": 1,
-          "items": {
-            "$ref": "/ecs/systeme"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "description",
-        "surface",
-        "solaire_thermique",
-        "systemes"
-      ],
-      "$defs": {
-        "solaire": {
-          "title": "Solaire thermique",
-          "type": "object",
-          "properties": {
-            "usage": {
-              "title": "Usages couverts par le solaire thermique",
-              "type": "string",
-              "enum": [
-                "ecs",
-                "chauffage_ecs"
-              ],
-              "examples": [
-                "ecs"
-              ]
-            },
-            "annee_installation": {
-              "title": "Année d'installation",
-              "type": [
-                "integer",
-                "null"
-              ],
-              "default": null,
-              "examples": [
-                2000
-              ]
-            },
-            "fecs": {
-              "title": "Facteur de couverture solaire connue et justifié en %",
-              "type": [
-                "number",
-                "null"
-              ],
-              "minimum": 0,
-              "maximum": 100,
-              "default": null,
-              "examples": [
-                20
-              ]
-            }
-          },
-          "required": [
-            "usage",
-            "annee_installation",
-            "fecs"
           ]
         }
       }
@@ -5960,11 +5134,20 @@
           "items": {
             "$ref": "/ecs/installation"
           }
+        },
+        "systemes": {
+          "title": "Liste des systèmes d'eau chaude sanitaire",
+          "type": "array",
+          "minContains": 1,
+          "items": {
+            "$ref": "/ecs/systeme"
+          }
         }
       },
       "required": [
         "generateurs",
-        "installations"
+        "installations",
+        "systemes"
       ]
     },
     "https://schemas.dpe-audit.fr/production/panneau_photovoltaique": {
@@ -5975,55 +5158,37 @@
         "id": {
           "title": "Identifiant unique au format UUID",
           "type": "string",
-          "format": "uuid",
-          "examples": [
-            "4634c0b5-a515-4aa7-abc2-c6d6d81af75c"
-          ]
+          "format": "uuid"
         },
         "description": {
           "title": "Description au format markdown",
-          "type": "string",
-          "examples": [
-            "Un panneau photovoltaïque"
-          ]
+          "type": "string"
         },
         "orientation": {
           "title": "Orientation en degrés",
           "type": "number",
           "minimum": 0,
-          "exclusiveMaximum": 360,
-          "examples": [
-            180
-          ]
+          "exclusiveMaximum": 360
         },
         "inclinaison": {
           "title": "Inclinaison en degrés",
           "type": "number",
           "minimum": 0,
-          "maximum": 90,
-          "examples": [
-            30
-          ]
+          "maximum": 90
         },
         "modules": {
           "title": "Nombre de modules",
           "type": "integer",
-          "minimum": 1,
-          "examples": [
-            6
-          ]
+          "minimum": 1
         },
-        "surface_capteurs": {
+        "surface": {
           "title": "Surface totale des capteurs en m²",
           "type": [
             "number",
             "null"
           ],
           "exclusiveMinimum": 0,
-          "default": null,
-          "examples": [
-            10
-          ]
+          "default": null
         }
       },
       "required": [
@@ -6032,7 +5197,7 @@
         "orientation",
         "inclinaison",
         "modules",
-        "surface_capteurs"
+        "surface"
       ]
     },
     "https://schemas.dpe-audit.fr/production": {

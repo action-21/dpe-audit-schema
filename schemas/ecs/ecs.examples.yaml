@@ -27,7 +27,7 @@
         alimentation_contigue: true
         niveaux_desservis: 1
         isolation: isole
-        bouclage: reseau_non_boucle
+        bouclage: non_boucle
       stockage:
         volume: 200
         position_volume_chauffe: true
