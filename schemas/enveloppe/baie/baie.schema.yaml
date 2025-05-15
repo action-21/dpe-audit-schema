@@ -7,17 +7,14 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5]
   description:
     title: Description au format markdown
     type: string
-    examples: [Une fenêtre en PVC simple vitrage]
   type_baie:
     $ref: "#/$defs/typeBaie"
   presence_protection_solaire:
     title: Présence de protection solaire
     type: boolean
-    examples: [false]
   type_fermeture:
     title: Type de fermeture
     type: string
@@ -37,12 +34,10 @@ properties:
       - volet_battant_pvc_bois_epaisseur_lte_22_mm
       - volet_battant_pvc_bois_epaisseur_gt_22_mm
       - fermeture_isolee_sans_ajours
-    examples: [volet_battant_pvc_bois_epaisseur_lte_22_mm]
   annee_installation:
     title: Année d'installation
     type: ["integer", "null"]
     default: null
-    examples: [2000]
   ug:
     $ref: "#/$defs/ug"
   uw:
@@ -101,13 +96,11 @@ oneOf:
         title: Type de pose
         type: string
         enum: [nu_exterieur, nu_interieur, tunnel]
-        examples: [nu_interieur]
       materiau:
         title: Matériau
         type: ["string", "null"]
         enum: [pvc, bois, bois_metal, metal, null]
         default: null
-        examples: [pvc]
       vitrage:
         $ref: "#/$defs/vitrage"
       menuiserie:
@@ -127,17 +120,14 @@ oneOf:
         title: Type de pose
         type: string
         enum: [nu_exterieur, nu_interieur, tunnel]
-        examples: [nu_interieur]
       materiau:
         title: Matériau
         type: ["string", "null"]
         enum: [pvc, bois, bois_metal, metal, null]
         default: null
-        examples: [pvc]
       presence_soubassement:
         title: Présence d'un soubassement
         type: boolean
-        examples: [false]
       vitrage:
         $ref: "#/$defs/vitrage"
       menuiserie:
@@ -161,32 +151,27 @@ $defs:
       - fenetre_coulissante
       - porte_fenetre_coulissante
       - porte_fenetre_battante
-    examples: [fenetre_battante]
   ug:
     title: Coefficient de transmission thermique du vitrage connu et justifié en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [2.5]
   uw:
     title: Coefficient de transmission thermique de la baie connu et justifié en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [2.5]
   ujn:
     title: Coefficient de transmission thermique de la baie avec fermeture connu et justifié en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [2.5]
   sw:
     title: Proportion d'énergie solaire transmise par la baie en %
     type: ["number", "null"]
     minimum: 0
     maximum: 100
     default: null
-    examples: [80]
   position:
     title: Position de la baie
     type: object
@@ -196,12 +181,10 @@ $defs:
         type: ["string", "null"]
         format: uuid
         default: null
-        examples: [6e2f8aea-2215-40c5-bb17-bf1c400ec2e9]
       surface:
         title: Surface de la baie en m²
         type: number
         minimum: 0
-        examples: [3]
       mitoyennete:
         title: Mitoyenneté de la baie
         type: string
@@ -215,19 +198,16 @@ $defs:
           - local_non_residentiel
           - local_residentiel
           - local_non_accessible
-        examples: [local_non_chauffe]
       inclinaison:
         title: Inclinaison de la baie par rapport à l'horizontale en degré
         type: number
         minimum: 0
         maximum: 90
-        examples: [90]
       orientation:
         title: Orientation de la baie en degré par rapport au nord
         type: [number, "null"]
         minimum: 0
         exclusiveMaximum: 360
-        examples: [0]
     required:
       - paroi_id
       - surface
@@ -245,7 +225,6 @@ $defs:
                 title: Identifiant du local non chauffé associé à la baie
                 type: string
                 format: uuid
-                examples: [30972a71-398f-4eb9-a902-0a6665d94a4f]
             required:
               - local_non_chauffe_id
               - mitoyennete
@@ -279,7 +258,6 @@ $defs:
                 type: number
                 minimum: 0
                 exclusiveMaximum: 360
-                examples: [0]
             required:
               - inclinaison
               - orientation
@@ -292,22 +270,18 @@ $defs:
         type: ["number", "null"]
         exclusiveMinimum: 0
         default: null
-        examples: [60]
       presence_joint:
         title: Présence de joint d'étanchéité
         type: ["boolean", "null"]
         default: null
-        examples: [true]
       presence_retour_isolation:
         title: Présence d'un retour d'isolation
         type: ["boolean", "null"]
         default: null
-        examples: [true]
       presence_rupteur_pont_thermique:
         title: Présence d'un rupteur de pont thermique
         type: ["boolean", "null"]
         default: null
-        examples: [true]
     required:
       - largeur_dormant
       - presence_joint
@@ -328,7 +302,6 @@ $defs:
           - triple_vitrage_fe
           - null
         default: null
-        examples: [simple_vitrage]
       survitrage:
         title: Survitrage
         type: ["object", "null"]
@@ -359,13 +332,11 @@ $defs:
               - krypton
               - null
             default: null
-            examples: [argon]
           epaisseur_lame:
             title: Epaisseur de la lame d'air en mm
             type: ["number", "null"]
             exclusiveMinimum: 0
             default: null
-            examples: [12]
         required:
           - type_vitrage
           - nature_lame
@@ -382,13 +353,11 @@ $defs:
           - survitrage_fe
           - null
         default: null
-        examples: [survitrage_simple]
       epaisseur_lame:
         title: Epaisseur de la lame d'air en mm
         type: ["number", "null"]
         minimum: 0
         default: null
-        examples: [12]
     required:
       - type_survitrage
       - epaisseur_lame
@@ -426,13 +395,11 @@ $defs:
             title: Type de pose
             type: string
             enum: [nu_exterieur, nu_interieur, tunnel]
-            examples: [nu_interieur]
           materiau:
             title: Matériau
             type: ["string", "null"]
             enum: [pvc, bois, bois_metal, metal, null]
             default: null
-            examples: [pvc]
           vitrage:
             $ref: "#/$defs/vitrage"
           menuiserie:
@@ -452,17 +419,14 @@ $defs:
             title: Type de pose
             type: string
             enum: [nu_exterieur, nu_interieur, tunnel]
-            examples: [nu_interieur]
           materiau:
             title: Matériau
             type: ["string", "null"]
             enum: [pvc, bois, bois_metal, metal, null]
             default: null
-            examples: [pvc]
           presence_soubassement:
             title: Présence d'un soubassement
             type: boolean
-            examples: [false]
           vitrage:
             $ref: "#/$defs/vitrage"
           menuiserie:

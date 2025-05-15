@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dpe_audit.baie;
+DROP TABLE IF EXISTS dpe_audit.enveloppe_baie;
 
 CREATE TYPE type_baie as ENUM(
     'brique_verre_pleine',
@@ -63,9 +63,9 @@ CREATE TYPE mitoyennete as ENUM(
     'local_non_accessible'
 );
 
-CREATE TABLE dpe_audit.baie (
+CREATE TABLE dpe_audit.enveloppe_baie (
     id UUID PRIMARY KEY,
-    dpe_audit_id UUID NOT NULL,
+    enveloppe_id UUID NOT NULL,
     description VARCHAR(255) NOT NULL,
     type_pose type_pose NOT NULL,
     type_baie type_baie NOT NULL,
@@ -116,5 +116,6 @@ CREATE TABLE dpe_audit.baie (
     double_fenetre_presence_retour_isolation BOOLEAN,
     double_fenetre_presence_rupteur_pont_thermique BOOLEAN,
     -- Reference
-    --FOREIGN KEY (dpe_audit_id) REFERENCES dpe_audit.audit(id)
+    --FOREIGN KEY (enveloppe_id) REFERENCES dpe_audit.enveloppe(id)
+    --FOREIGN KEY (local_non_chauffe_id) REFERENCES dpe_audit.enveloppe_local_non_chauffe(id)
 );

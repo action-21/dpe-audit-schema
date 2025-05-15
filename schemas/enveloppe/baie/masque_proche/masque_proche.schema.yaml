@@ -10,7 +10,6 @@ properties:
   description:
     title: Description au format mardkown
     type: string
-    examples: [Un masque proche]
   type_masque:
     title: Type de masque proche
     type: string
@@ -20,7 +19,6 @@ properties:
       - balcon_ou_auvent
       - paroi_laterale_sans_obstacle_au_sud
       - paroi_laterale_avec_obstacle_au_sud
-    examples: [fond_balcon]
 required:
   - id
   - description
@@ -47,7 +45,6 @@ oneOf:
         title: Profondeur du masque en m
         type: number
         exclusiveMinimum: 0
-        examples: [1.5]
     required:
       - type_masque
       - profondeur

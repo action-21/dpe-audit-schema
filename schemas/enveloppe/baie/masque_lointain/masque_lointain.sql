@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dpe_audit.baie_masque_lointain;
+DROP TABLE IF EXISTS dpe_audit.enveloppe_baie_masque_lointain;
 
 CREATE TYPE type_masque as ENUM(
     'masque_lointain',
@@ -9,7 +9,7 @@ CREATE TYPE type_masque_lointain as ENUM(
     'non_homogene',
 );
 
-CREATE TABLE dpe_audit.baie_masque_lointain (
+CREATE TABLE dpe_audit.enveloppe_baie_masque_lointain (
     id UUID PRIMARY KEY NOT NULL,
     baie_id UUID NOT NULL,
     description TEXT NOT NULL,
@@ -18,5 +18,5 @@ CREATE TABLE dpe_audit.baie_masque_lointain (
     hauteur FLOAT NOT NULL,
     orientation FLOAT NOT NULL,
     -- Reference
-    --FOREIGN KEY (baie_id) REFERENCES dpe_audit.baie(id)
+    --FOREIGN KEY (baie_id) REFERENCES dpe_audit.enveloppe_baie(id)
 );

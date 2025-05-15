@@ -10,14 +10,12 @@ properties:
   description:
     title: Description du masque lointain
     type: string
-    examples: [Masque lointain homogène]
   type_masque:
     title: Type de masque lointain
     type: string
     enum:
       - homogene
       - non_homogene
-    examples: [homogene]
   hauteur:
     title: Hauteur du masque lointain en angle
     type: number
