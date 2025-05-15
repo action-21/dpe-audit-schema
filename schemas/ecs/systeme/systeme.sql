@@ -14,8 +14,7 @@ CREATE TYPE bouclage as ENUM(
 CREATE TABLE dpe_audit.ecs_systeme (
     id UUID PRIMARY KEY,
     installation_id UUID NOT NULL,
-    generateur_id UUID,
-    type type_systeme NOT NULL,
+    generateur_id UUID NOT NULL,
     -- Réseau
     alimentation_contigue BOOLEAN NOT NULL,
     niveaux_desservis INTEGER NOT NULL,

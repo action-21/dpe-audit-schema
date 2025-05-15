@@ -42,7 +42,7 @@ CREATE TABLE dpe_audit.ecs_generateur (
     volume_stockage FLOAT NOT NULL,
     generateur_collectif BOOLEAN NOT NULL,
     generateur_multi_batiment BOOLEAN NOT NULL,
-    position_volume_chauffe_stockage BOOLEAN NOT NULL,
+    position_volume_chauffe BOOLEAN NOT NULL,
     annee_installation INTEGER,
     -- Signalétique
     pn FLOAT,

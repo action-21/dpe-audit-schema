@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
   description:
     title: Description au format markdown
     type: string
-    examples: [Un générateur de chauffage]
   type:
     title: Type de générateur
     type: string
@@ -41,8 +39,6 @@ properties:
       - radiateur_electrique_accumulation
       - radiateur_gaz
       - reseau_chaleur
-    examples:
-      - chaudiere
   energie:
     title: Energie
     type: string
@@ -56,24 +52,19 @@ properties:
       - bois_plaquette
       - bois_granule
       - reseau_chaleur
-    examples: [electricite]
   generateur_collectif:
     title: Présence d'un générateur collectif de chauffage
     type: boolean
-    examples: [false]
   generateur_multi_batiment:
     title: Présence d'un générateur multi bâtiment
     type: boolean
-    examples: [false]
   position_volume_chauffe:
     title: Position du générateur à l'intérieur du volume chauffé
     type: boolean
-    examples: [true]
   annee_installation:
     title: Année d'installation
     type: ["integer", "null"]
     default: null
-    examples: [2000]
 required:
   - id
   - description
@@ -311,7 +302,6 @@ oneOf:
         title: Identifiant du réseau de chaleur
         type: ["string", "null"]
         default: null
-        examples: [reseau-chaleur]
       generateur_mixte_id:
         $ref: "#/$defs/generateurEcs"
       generateur_collectif:
@@ -337,7 +327,6 @@ $defs:
     type: ["string", "null"]
     format: uuid
     default: null
-    examples: [fbc4f0ac-7d7c-4464-adb3-5617b81896c2]
   energie:
     title: Energie du générateur
     type: string
@@ -351,7 +340,6 @@ $defs:
       - bois_plaquette
       - bois_granule
       - reseau_chaleur
-    examples: [electricite]
   energieCombustion:
     $ref: "#/$defs/energie"
     enum:
@@ -362,13 +350,11 @@ $defs:
       - bois_buche
       - bois_plaquette
       - bois_granule
-    examples: [gaz_naturel]
   label:
     title: Label du générateur
     type: ["string", "null"]
     enum: [flamme_verte, nf_performance, null]
     default: null
-    examples: [flamme_verte]
   typeChaudiere:
     title: Type de chaudière
     type: ["string", "null"]
@@ -377,20 +363,17 @@ $defs:
       - chaudiere_sol
       - null
     default: null
-    examples: [chaudiere_murale]
   pn:
     title: Puissance nominale en kW
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [10]
   scop:
     title: Coefficient de performance énergétique saisonnier
     type: ["number", "null"]
     exclusiveMinimum: 0
     maximum: 10
     default: null
-    examples: [5]
   modeCombustion:
     title: Mode de combustion
     type: ["string", "null"]
@@ -400,57 +383,48 @@ $defs:
       - condensation
       - null
     default: null
-    examples: [basse_temperature]
   presenceVentouse:
     title: Présence d'une ventouse
     type: ["boolean", "null"]
     default: null
-    examples: [true]
   presenceRegulationCombustion:
     title: Présence d'une régulation de combustion
     type: ["boolean", "null"]
     default: null
-    examples: [true]
   pveilleuse:
     title: Puissance de la veilleuse en W
     type: ["number", "null"]
     minimum: 0
     default: null
-    examples: [100]
   qp0:
     title: Pertes à l'arrêt en W
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [100]
   rpn:
     title: Rendement à puissance nominale sur PCI en %
     type: ["number", "null"]
     exclusiveMinimum: 0
     maximum: 150
     default: null
-    examples: [80]
   rpint:
     title: Rendement à puissance intermédiaire sur PCI en %
     type: ["number", "null"]
     exclusiveMinimum: 0
     maximum: 150
     default: null
-    examples: [80]
   tfonc30:
     title: Température de fonctionnement à 30% de la puissance nominale en °C
     type: ["number", "null"]
     minimumExlusive: 0
     maximum: 150
     default: null
-    examples: [70]
   tfonc100:
     title: Température de fonctionnement à 100% de la puissance nominale en °C
     type: ["number", "null"]
     minimumExlusive: 0
     maximum: 150
     default: null
-    examples: [70]
   combustion:
     title: Caractéristiques des générateurs à combustion
     type: object

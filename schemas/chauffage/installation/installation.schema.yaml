@@ -7,20 +7,16 @@ properties:
     title: Identifiant unique de l'installation de chauffage au format UUID
     type: string
     format: uuid
-    examples: [9d615f30-c6f8-406f-8a1f-899617c472db]
   description:
     title: Description de l'installation de chauffage au format markdown
     type: string
-    examples: [Une installation de chauffage]
   surface:
     title: Surface couverte par l'installation de chauffage en m²
     type: number
     exclusiveMinimum: 0
-    examples: [100]
   comptage_individuel:
     title: Comptage individuel
     type: boolean
-    examples: [true]
   solaire_thermique:
     title: Solaire thermique
     type: ["object", "null"]
@@ -53,18 +49,15 @@ $defs:
           - chauffage
           - chauffage_ecs
         default: chauffage
-        examples: [chauffage]
       annee_installation:
         title: Année d'installation
         type: ["integer", "null"]
         default: null
-        examples: [2000]
       fch:
         title: Facteur de couverture solaire connu et justifié en %
         type: number
         minimum: 0
         maximum: 100
-        examples: [50]
     required:
       - usage
       - annee_installation
@@ -76,7 +69,6 @@ $defs:
       presence_regulation:
         title: Présence d'une régulation
         type: boolean
-        examples: [true]
     required:
       - presence_regulation
     oneOf:
@@ -88,11 +80,9 @@ $defs:
           minimum_temperature:
             title: Régulation avec minimum de température
             type: boolean
-            examples: [true]
           detection_presence:
             title: Détection de présence
             type: boolean
-            examples: [true]
         required:
           - presence_regulation
           - minimum_temperature

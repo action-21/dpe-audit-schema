@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique de l'émetteur de chauffage au format UUID
     type: string
     format: uuid
-    examples: [9aec1555-e0fa-4b31-8978-6f7d1df394b6]
   description:
     title: Description de l'émetteur de chauffage au format markdown
     type: string
-    examples: [Un émetteur de chauffage]
   type:
     title: Type d'émetteur de chauffage
     type: string
@@ -21,7 +19,6 @@ properties:
       - radiateur_monotube
       - radiateur_bitube
       - radiateur
-    examples: [radiateur_bitube]
   temperature_distribution:
     title: Température de distribution de l'émetteur de chaleur
     type: string
@@ -29,16 +26,13 @@ properties:
       - basse
       - moyenne
       - haute
-    examples: [moyenne]
   presence_robinet_thermostatique:
     title: Présence d'un robinet thermostatique
     type: boolean
-    examples: [true]
   annee_installation:
     title: Année d'installation de l'émetteur de chaleur
     type: ["integer", "null"]
     default: null
-    examples: [2000]
 required:
   - id
   - description
