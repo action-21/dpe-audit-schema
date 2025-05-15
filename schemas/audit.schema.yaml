@@ -7,12 +7,10 @@ properties:
     title: Identifiant unique de l'audit au format UUID
     type: string
     format: uuid
-    examples: [4634c0b5-a515-4aa7-abc2-c6d6d81af75c]
   date_etablissement:
     title: Date d'établissement
     type: string
     format: date
-    examples: ["2025-01-01"]
   adresse:
     $ref: "#/$defs/adresse"
   batiment:
@@ -87,23 +85,18 @@ $defs:
         title: Numéro avec indice de répétition éventuel (bis, ter, A, B)
         type: ["string", "null"]
         default: null
-        examples: ["1"]
       nom:
         title: Numéro éventuel et nom de voie ou lieu dit
         type: string
-        examples: ["rue de la Paix"]
       code_postal:
         title: Code postal de la commune
         type: string
-        examples: ["75000"]
       code_commune:
         title: Code INSEE de la commune
         type: string
-        examples: ["75000"]
       commune:
         title: Commune
         type: string
-        examples: ["Paris"]
       ban_id:
         title: Identifiant BAN
         type: ["string", "null"]
@@ -125,30 +118,24 @@ $defs:
         enum:
           - maison
           - immeuble
-        examples: [maison]
       annee_construction:
         title: Année de construction
         type: integer
-        examples: [1975]
       altitude:
         title: Altitude du bâtiment en m
         type: number
-        examples: [500]
       logements:
         title: Nombre de logements
         type: integer
         exclusiveMinimum: 0
-        examples: [1]
       surface_habitable:
         title: Surface habitable en m²
         type: number
         exclusiveMinimum: 0
-        examples: [150]
       hauteur_sous_plafond:
         title: Hauteur moyenne sous plafond en m
         type: number
         exclusiveMinimum: 0
-        examples: [2.8]
       materiaux_anciens:
         title: Bâtiment majoritairement composé de matériaux anciens
         type: boolean
@@ -173,19 +160,15 @@ $defs:
         title: Identifiant unique au format UUID
         type: string
         format: uuid
-        examples: [fe60b38b-674f-4e1d-9cc6-4123b7475353]
       description:
         title: Description au format markdown
         type: string
-        examples: [Un logement]
       surface_habitable:
         title: Surface habitable en m²
         type: number
-        examples: [100]
       hauteur_sous_plafond:
         title: Hauteur sous plafond moyenne en m
         type: number
-        examples: [2.5]
       position:
         title: Position du logement
         type: string
@@ -193,19 +176,17 @@ $defs:
           - rdc
           - etage_intermediaire
           - dernier_etage
-        examples: [rdc]
       typologoie:
         title: Typologie du logement
         type: string
         enum:
-          - t1
-          - t2
-          - t3
-          - t4
-          - t5
-          - t6
-          - t7
-        examples: [t3]
+          - T1
+          - T2
+          - T3
+          - T4
+          - T5
+          - T6
+          - T7
     required:
       - id
       - description
