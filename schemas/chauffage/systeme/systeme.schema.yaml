@@ -7,7 +7,7 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-  installations_id:
+  installation_id:
     title: Identifiant unique de l'installation de chauffage au format UUID
     type: string
     format: uuid
