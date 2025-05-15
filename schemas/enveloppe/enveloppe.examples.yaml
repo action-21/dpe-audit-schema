@@ -3,9 +3,14 @@
   presence_brasseurs_air: false
   niveaux:
     - surface: 100
-      inertie: lourde
+      inertie_paroi_verticale: lourde
+      inertie_plancher_bas: lourde
+      inertie_plancher_haut: lourde
     - surface: 100
-      inertie: legere
+      inertie_paroi_verticale: lourde
+      inertie_plancher_bas: lourde
+      inertie_plancher_haut: lourde
+
   locaux_non_chauffes:
     - id: 30972a71-398f-4eb9-a902-0a6665d94a4f
       description: Un local non chauffé
@@ -29,6 +34,7 @@
             mitoyennete: exterieur
             inclinaison: 90
             orientation: 0
+
   murs:
     - id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
       description: Mur en brique pleine simple de 20 cm d'épaisseur avec doublage en laine de verre de 100 mm.
@@ -53,6 +59,7 @@
         annee_isolation: 2010
         epaisseur_isolation: 100
         resistance_thermique_isolation: 4.0
+
   planchers_bas:
     - id: ecd4cd8f-7f2b-4427-9d94-b1ed5da33711
       description: Un plancher bas
@@ -69,6 +76,7 @@
         mitoyennete: local_non_chauffe
       isolation:
         etat_isolation: null
+
   planchers_hauts:
     - id: ecd4cd8f-7f2b-4427-9d94-b1ed5da33711
       description: Un plancher haut
@@ -86,6 +94,7 @@
         orientation: null
       isolation:
         etat_isolation: null
+
   baies:
     - id: 6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5
       description: Une fenêtre
@@ -149,6 +158,7 @@
           type_masque: masque_proche
           type_masque_proche: fond_balcon
           profondeur: 2.5
+
   portes:
     - id: 6bc71c8d-11fa-4f36-b40b-b75ddbedf5d5
       description: Porte d'entrée
@@ -171,6 +181,7 @@
         largeur_dormant: 60
         presence_joint: true
         presence_retour_isolation: true
+
   ponts_thermiques:
     - id: 91ba046e-34e0-48ee-815a-b95f59f4056a
       description: Un pont thermique

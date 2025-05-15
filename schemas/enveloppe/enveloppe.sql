@@ -8,22 +8,14 @@ CREATE TABLE dpe_audit.enveloppe (
     id UUID PRIMARY KEY,
     exposition exposition NOT NULL,
     q4pa_conv FLOAT
+    presence_brasseurs_air BOOLEAN NOT NULL,
 );
 
-CREATE TABLE dpe_audit.enveloppe_refend (
-    id UUID PRIMARY KEY,
+CREATE TABLE dpe_audit.enveloppe_niveau (
     enveloppe_id UUID NOT NULL,
-    description TEXT NOT NULL,
     surface FLOAT NOT NULL,
-    inertie inertie
-    --FOREIGN KEY (enveloppe_id) REFERENCES dpe_audit.enveloppe(id)
-);
-
-CREATE TABLE dpe_audit.enveloppe_plancher_intermediaire (
-    id UUID PRIMARY KEY,
-    enveloppe_id UUID NOT NULL,
-    description TEXT NOT NULL,
-    surface FLOAT NOT NULL,
-    inertie inertie
+    inertie_paroi_verticale inertie NOT NULL,
+    inertie_plancher_bas inertie NOT NULL,
+    inertie_plancher_haut inertie NOT NULL,
     --FOREIGN KEY (enveloppe_id) REFERENCES dpe_audit.enveloppe(id)
 );
