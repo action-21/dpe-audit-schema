@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS dpe_audit.refroidissement_systeme;
 
-CREATE TABLE dpe_audit.enveloppe (
+CREATE TABLE dpe_audit.refroidissement_systeme (
     id UUID PRIMARY KEY,
     installation_id UUID NOT NULL,
     generateur_id UUID NOT NULL,
