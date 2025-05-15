@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dpe_audit.local_non_chauffe_baie;
+DROP TABLE IF EXISTS dpe_audit.enveloppe_local_non_chauffe_baie;
 
 CREATE TYPE type_baie as ENUM(
     'polycarbonate',
@@ -35,7 +35,7 @@ CREATE TYPE mitoyennete as ENUM(
     'local_non_accessible'
 );
 
-CREATE TABLE dpe_audit.local_non_chauffe_baie (
+CREATE TABLE dpe_audit.enveloppe_local_non_chauffe_baie (
     id UUID PRIMARY KEY NOT NULL,
     local_non_chauffe_id UUID NOT NULL,
     description TEXT NOT NULL,
@@ -50,6 +50,6 @@ CREATE TABLE dpe_audit.local_non_chauffe_baie (
     inclinaison FLOAT NOT NULL,
     paroi_id UUID,
     -- Reference
-    --FOREIGN KEY (paroi_id) REFERENCES dpe_audit.local_non_chauffe_paroi(id)
-    --FOREIGN KEY (local_non_chauffe_id) REFERENCES dpe_audit.local_non_chauffe(id)
+    --FOREIGN KEY (paroi_id) REFERENCES dpe_audit.enveloppe_local_non_chauffe_paroi(id)
+    --FOREIGN KEY (local_non_chauffe_id) REFERENCES dpe_audit.enveloppe_local_non_chauffe(id)
 );

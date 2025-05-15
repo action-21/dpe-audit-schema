@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [30972a71-398f-4eb9-a902-0a6665d94a4f]
   description:
     title: Description au format markdown
     type: string
-    examples: [Un local non chauffé]
   type:
     title: Type
     type: string
@@ -29,7 +27,6 @@ properties:
       - hall_entree_sans_fermeture_automatique
       - garage_collectif
       - autres
-    examples: [espace_tampon_solarise]
   parois_opaques:
     title: Liste des parois opaques
     type: array

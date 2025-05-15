@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique format UUID
     type: string
     format: uuid
-    examples: [e5177740-3927-478a-ab69-8f673ec4d073]
   description:
     title: Description au format markdown
     type: string
-    examples: [Baie d'un local non chauffé donnant sur l'extérieur]
   type_baie:
     title: Type de baie
     type: string
@@ -52,7 +50,6 @@ oneOf:
           - metal
           - null
         default: null
-        examples: [pvc]
       type_vitrage:
         title: Type de vitrage
         type: ["string", "null"]
@@ -64,12 +61,10 @@ oneOf:
           - triple_vitrage_fe
           - null
         default: null
-        examples: [simple_vitrage]
       presence_rupteur_pont_thermique:
         title: Présence d'un rupteur de pont thermique
         type: ["boolean", "null"]
         default: null
-        examples: [false]
     required:
       - type_baie
       - materiau
@@ -85,12 +80,10 @@ $defs:
         type: [string, "null"]
         format: uuid
         default: null
-        examples: [ff9008dc-f03e-4c1e-b523-5184ba1e63c6]
       surface:
         title: Surface totale en m²
         type: number
         exclusiveMinimum: 0
-        examples: [10]
       mitoyennete:
         title: Mitoyenneté
         type: string
@@ -104,13 +97,11 @@ $defs:
           - local_non_residentiel
           - local_residentiel
           - local_non_accessible
-        examples: [exterieur]
       inclinaison:
         title: Inclinaison par rapport à l'horizontal en °
         type: number
         minimum: 0
         maximum: 90
-        examples: [90]
     required:
       - surface
       - mitoyennete
@@ -138,7 +129,6 @@ $defs:
             type: number
             minimum: 0
             exclusiveMaximum: 360
-            examples: [0]
         required:
           - inclinaison
           - orientation

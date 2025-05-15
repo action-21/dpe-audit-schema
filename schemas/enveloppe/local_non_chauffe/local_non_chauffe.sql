@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dpe_audit.local_non_chauffe;
+DROP TABLE IF EXISTS dpe_audit.enveloppe_local_non_chauffe;
 
 CREATE TYPE type_lnc as ENUM(
     'garage',
@@ -16,11 +16,11 @@ CREATE TYPE type_lnc as ENUM(
     'autres'
 );
 
-CREATE TABLE dpe_audit.local_non_chauffe (
+CREATE TABLE dpe_audit.enveloppe_local_non_chauffe (
     id UUID PRIMARY KEY NOT NULL,
-    dpe_audit_id UUID NOT NULL,
+    enveloppe_id UUID NOT NULL,
     description TEXT NOT NULL,
     type type_lnc NOT NULL,
     -- Reference
-    --FOREIGN KEY (dpe_audit_id) REFERENCES dpe_audit.dpe_audit(id)
+    --FOREIGN KEY (enveloppe_id) REFERENCES dpe_audit.enveloppe(id)
 );
