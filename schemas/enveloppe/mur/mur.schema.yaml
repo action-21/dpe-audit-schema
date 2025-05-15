@@ -7,11 +7,9 @@ properties:
     title: Identifiant unique au format UUID
     type: string
     format: uuid
-    examples: [3fa85f64-5717-4562-b3fc-2c963f66afa6]
   description:
     title: Description au format markdown
     type: string
-    examples: [Un mur]
   type_structure:
     title: Type de mur
     type: ["string", "null"]
@@ -37,13 +35,11 @@ properties:
       - ossature_bois_avec_remplissage_isolant
       - null
     default: null
-    examples: [brique_pleine_simple]
   epaisseur_structure:
     title: Epaisseur du mur non isolé en mm
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [200]
   type_doublage:
     title: Type de doublage
     type: ["string", "null"]
@@ -55,45 +51,37 @@ properties:
       - materiaux_connu
       - null
     default: null
-    examples: [indetermine]
   presence_enduit_isolant:
     title: Présence d'un enduit isolant
     type: ["boolean", "null"]
     default: null
-    examples: [false]
   paroi_ancienne:
     title: Mur constitué de matériaux anciens
     type: ["boolean", "null"]
     default: null
-    examples: [false]
   inertie:
     title: État d'inertie
     type: ["string", "null"]
     enum: [lourde, legere, null]
     default: null
-    examples: [lourde]
   annee_construction:
     title: Année de construction
     type: ["integer", "null"]
     default: null
-    examples: [2000]
   annee_renovation:
     title: Année de dernière rénovation connue et justifiée
     type: ["integer", "null"]
     default: null
-    examples: [2010]
   u0:
     title: Coefficient de transmission thermique connu et justifié du mur non isolé en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [3.8]
   u:
     title: Coefficient de transmission thermique connu et justifié en W/m²K
     type: ["number", "null"]
     exclusiveMinimum: 0
     default: null
-    examples: [1.4]
   position:
     $ref: "#/$defs/position"
   isolation:
@@ -122,7 +110,6 @@ $defs:
         title: Surface totale en m²
         type: number
         exclusiveMinimum: 0
-        examples: [100]
       mitoyennete:
         title: Mitoyenneté
         type: string
@@ -136,14 +123,12 @@ $defs:
           - local_non_residentiel
           - local_residentiel
           - local_non_accessible
-        examples: [local_non_chauffe]
       orientation:
         title: Orientation en degré par rapport au nord
         type: ["number", "null"]
         minimum: 0
         exclusiveMaximum: 360
         default: null
-        examples: [90]
     required:
       - surface
       - mitoyennete
@@ -158,7 +143,6 @@ $defs:
             title: Identifiant du local non chauffé associé au mur
             type: string
             format: uuid
-            examples: [30972a71-398f-4eb9-a902-0a6665d94a4f]
         required:
           - local_non_chauffe_id
           - mitoyennete
@@ -178,7 +162,6 @@ $defs:
         title: Etat d'isolation
         type: ["string", "null"]
         enum: [isole, non_isole, null]
-        examples: [isole]
     required:
       - etat_isolation
     oneOf:
@@ -200,24 +183,20 @@ $defs:
               - itr_iti_ite
               - null
             default: null
-            examples: [iti]
           annee_isolation:
             title: Année d'isolation
             type: ["integer", "null"]
             default: null
-            examples: [2000]
           epaisseur_isolation:
             title: Epaisseur de l'isolation en mm
             type: ["number", "null"]
             exclusiveMinimum: 0
             default: null
-            examples: [200]
           resistance_thermique_isolation:
             title: Résistance thermique de l'isolation en m².K/W
             type: ["number", "null"]
             exclusiveMinimum: 0
             default: null
-            examples: [5.5]
         required:
           - etat_isolation
           - type_isolation

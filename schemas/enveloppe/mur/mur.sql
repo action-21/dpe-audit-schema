@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS dpe_audit.mur;
+DROP TABLE IF EXISTS dpe_audit.enveloppe_mur;
 
 CREATE TYPE type_structure as ENUM(
     'pierre_moellons',
@@ -48,9 +48,9 @@ CREATE TYPE etat_isolation as ENUM('isole', 'non_isole');
 
 CREATE TYPE type_isolation as ENUM('iti', 'ite', 'itr', 'iti_ite', 'itr_iti', 'itr_ite', 'itr_iti_ite');
 
-CREATE TABLE dpe_audit.mur (
+CREATE TABLE dpe_audit.enveloppe_mur (
     id UUID PRIMARY KEY NOT NULL,
-    dpe_audit_id UUID NOT NULL,
+    enveloppe_id UUID NOT NULL,
     description TEXT NOT NULL,
     type_structure type_structure,
     epaisseur_structure FLOAT,
@@ -74,5 +74,6 @@ CREATE TABLE dpe_audit.mur (
     epaisseur_isolation FLOAT,
     resistance_thermique_isolation FLOAT
     -- Reference
-    --FOREIGN KEY (dpe_audit_id) REFERENCES dpe_audit.audit(id)
+    --FOREIGN KEY (enveloppe_id) REFERENCES dpe_audit.enveloppe(id)
+    --FOREIGN KEY (local_non_chauffe_id) REFERENCES dpe_audit.enveloppe_local_non_chauffe(id)
 );
